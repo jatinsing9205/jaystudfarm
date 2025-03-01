@@ -1,47 +1,58 @@
-.sidebar-search-results .list-group>.list-group-item{
+.sidebar-search-results .list-group>.list-group-item {
     background-color: burlywood !important;
 }
-.horse-report-tabs.nav-tabs .nav-item .nav-link{
+
+.horse-report-tabs.nav-tabs .nav-item .nav-link {
     color: #fff;
 }
-.horse-report-tabs.nav-tabs .nav-item.show .nav-link, .horse-report-tabs.nav-tabs .nav-link.active{
+
+.horse-report-tabs.nav-tabs .nav-item.show .nav-link,
+.horse-report-tabs.nav-tabs .nav-link.active {
     background: #fff;
     color: #6610F2;
 }
-.horse-report-tabs.nav-tabs .nav-link{
-    padding:8px 25px !important;
+
+.horse-report-tabs.nav-tabs .nav-link {
+    padding: 8px 25px !important;
 }
 
-.select2-selection.form-select{
+.select2-selection.form-select {
     padding-top: 0;
     padding-bottom: 0;
 }
-.accordion-item{
+
+.accordion-item {
     background: transparent;
 }
 
-table.table tr td, table.table tr th{
+table.table tr td,
+table.table tr th {
     padding: .25rem .45rem;
     font-size: 0.9rem;
 }
 
-table.dataTable > tbody > tr.child ul.dtr-details{
+table.dataTable>tbody>tr.child ul.dtr-details {
     background: #d3d3d3;
     padding: 10px;
 }
-table.dataTable > thead{
+
+table.dataTable>thead {
     background: #d3d3d3;
 }
-table.dataTable > tbody > tr.child ul.dtr-details > li{
+
+table.dataTable>tbody>tr.child ul.dtr-details>li {
     display: flex;
     justify-content: space-between;
 }
-table.dataTable > tbody > tr.child span.dtr-title{
+
+table.dataTable>tbody>tr.child span.dtr-title {
     width: 50%;
 }
-table.dataTable > tbody > tr.child span.dtr-data{
+
+table.dataTable>tbody>tr.child span.dtr-data {
     width: 50%;
 }
+
 #lightSlider ul {
     list-style: none outside none;
     padding-left: 0;
@@ -53,12 +64,13 @@ table.dataTable > tbody > tr.child span.dtr-data{
     float: left;
     margin-right: 6px;
     cursor: pointer;
-    height:320px;
+    height: 320px;
     background: #d5d5d5;
     text-align: center;
 }
 
-#lightSlider li img, #lightSlider li video{
+#lightSlider li img,
+#lightSlider li video {
     height: 100%;
     width: auto;
     margin: auto;
@@ -69,9 +81,11 @@ table.dataTable > tbody > tr.child span.dtr-data{
     height: auto;
     width: 100%
 }
-.callout{
+
+.callout {
     min-width: 200px;
 }
+
 .lSAction>.lSPrev,
 .lSAction>.lSNext {
     background: #fff;
@@ -81,7 +95,8 @@ table.dataTable > tbody > tr.child span.dtr-data{
     border-radius: 50%;
     color: #000;
 }
-.lSSlideOuter .lSPager.lSGallery{
+
+.lSSlideOuter .lSPager.lSGallery {
     max-height: 50px;
     overflow: hidden;
     display: flex;
@@ -89,34 +104,68 @@ table.dataTable > tbody > tr.child span.dtr-data{
     justify-content: center;
     position: relative;
 }
-.lSSlideOuter .lSPager.lSGallery li{
+
+.lSSlideOuter .lSPager.lSGallery li {
     max-height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #d5d5d5;
 }
-.lSSlideOuter .lSPager.lSGallery li a{
-    height: 50px; 
+
+.lSSlideOuter .lSPager.lSGallery li a {
+    height: 50px;
 }
-.lSSlideOuter .lSPager.lSGallery img, .lSSlideOuter .lSPager.lSGallery video{
+
+.lSSlideOuter .lSPager.lSGallery img,
+.lSSlideOuter .lSPager.lSGallery video {
     height: 100% !important;
     margin: auto;
     display: inline-block;
 }
 
-.form-control.form-control-sm.form-select{
+.form-control.form-control-sm.form-select {
     padding-right: 35px;
 }
-.error{
+
+.error {
     color: red;
 }
-.success{
+
+.success {
     color: green;
 }
-.success_msg{
+
+.success_msg {
     text-align: center;
 }
-.error_msg{
+
+.error_msg {
     text-align: center;
+}
+
+.product-image-box {
+    background: #fff;
+    min-height: 200px;
+    width: 100%;
+}
+
+#product-image-box img{
+    max-height: 200px;
+    object-fit: cover;
+}
+#product-gallery-box .preview-image{
+    display: inline-block;
+    object-fit: cover;
+    position: relative;
+}
+#product-gallery-box .preview-image img{
+    width: 100%;
+    max-height: 80px;
+    object-fit: cover;
+}
+#product-gallery-box .preview-image .delete-btn{
+    position: absolute;
+    right: 0;
+    font-size: 10px;
 }

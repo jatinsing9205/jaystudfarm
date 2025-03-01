@@ -15,7 +15,7 @@ class categoryController extends Controller
         $categories = DB::table('t_category')
             ->select('*')
             ->get();
-        return view("category.category");
+        return view("category.category", ['categories' => $categories]);
     }
 
 

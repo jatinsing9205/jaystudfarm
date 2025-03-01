@@ -12,21 +12,28 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="public/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
-    <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-    <link rel="stylesheet" href="public/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="public/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <link rel="stylesheet" href="public/dist/css/adminlte.min2167.css?v=3.2.0">
-    <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
-    <link rel="stylesheet" href="public/dist/css/dataTables.css">
-    <link rel="stylesheet" href="public/dist/css/responsive.bootstrap.css">
-    <link rel="stylesheet" href="public/dist/css/jquery.fancybox.min.css">
-    <link rel="stylesheet" href="public/dist/css/lightslider.css">
-    <link rel="stylesheet" href="public/dist/css/style.css">
+    <link rel="stylesheet"
+        href="{{url('public/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/summernote/summernote-bs4.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/adminlte.min2167.css?v=3.2.0')}}">
+    <link rel="stylesheet" href="{{url('public/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/dataTables.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/responsive.bootstrap.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/jquery.fancybox.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/lightslider.css')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/style.css')}}">
 
-    <script src="public/plugins/jquery/jquery.min.js"></script>
-    <script src="public/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <script src="{{url('public/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url('public/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.js"></script>
+
 
 </head>
 
@@ -35,8 +42,8 @@
     <div class="wrapper">
 
         <div class="preloader flex-column justify-content-center align-items-center" style="height: 0px;">
-            <img class="animation__shake" src="public/dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60"
-                width="60" style="display: none;">
+            <img class="animation__shake" src="{{url('public/dist/img/AdminLTELogo.png')}}" alt="AdminLTELogo"
+                height="60" width="60" style="display: none;">
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-dark bg-indigo">
@@ -73,7 +80,7 @@
 
         <aside class="main-sidebar elevation-4 sidebar-light-indigo">
             <a href="index.php" class="brand-link bg-indigo">
-                <img src="public/dist/img/AdminLTELogo.png" alt="AdminLTE Logo"
+                <img src="{{url('public/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Jay Stud Farm</span>
             </a>
@@ -82,7 +89,8 @@
 
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img src="public/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        <img src="{{url('public/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2"
+                            alt="User Image">
                     </div>
                     <div class="info">
                         <a href="#" class="d-block">Siddharth Gupta</a>
@@ -161,19 +169,20 @@
     </div>
 
 
-    
+
     <script>$.widget.bridge('uibutton', $.ui.button)
     </script>
-    <script src="public/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="public/plugins/select2/js/select2.full.min.js"></script>
-    <script src="public/dist/js/adminlte2167.js?v=3.2.0"></script>
-    <script src="public/dist/js/dataTables.js"></script>
-    <script src="public/dist/js/dataTables.responsive.js"></script>
-    <script src="public/dist/js/jquery.fancybox.min.js"></script>
-    <script src="public/dist/js/lightslider.js"></script>
-    <script src="public/dist/js/demo.js"></script>
-    <script src="public/dist/js/custom.js"></script>
+    <script src="{{url('public/dist/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url('public/plugins/summernote/summernote-bs4.min.js')}}"></script>
+    <script src="{{url('public/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="{{url('public/dist/js/adminlte2167.js?v=3.2.0')}}"></script>
+    <script src="{{url('public/dist/js/dataTables.js')}}"></script>
+    <script src="{{url('public/dist/js/dataTables.responsive.js')}}"></script>
+    <script src="{{url('public/dist/js/jquery.fancybox.min.js')}}"></script>
+    <script src="{{url('public/dist/js/lightslider.js')}}"></script>
+    <script src="{{url('public/dist/js/demo.js')}}"></script>
+    <script src="{{url('public/dist/js/custom.js')}}"></script>
     <script>
         new DataTable('.dataTable', {
             responsive: true

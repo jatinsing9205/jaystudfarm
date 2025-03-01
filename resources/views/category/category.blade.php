@@ -20,7 +20,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     @if(session('message'))
                         <div class="alert alert-{{ session('message_class') }}">
                             {{ session('message') }}
@@ -249,9 +249,15 @@
                         success: function (data) {
                             if (data.status == "success") {
                                 loadCategories()
-                                $("#success-alert").text('Category deleted successfully!').fadeIn().delay(3000).fadeOut();
+                                Swal.fire({
+                                    icon: data.status,
+                                    title: data.message
+                                })
                             } else {
-                                console.log(data);
+                                Swal.fire({
+                                    icon: data.status,
+                                    title: data.message
+                                })
                             }
                         },
                         error: function (error) {
@@ -281,19 +287,19 @@
                         var tableBody = table.find('tbody').html('');
                         data.forEach(function (category, index) {
                             var row = `<tr>
-                                                            <td>${index + 1}</td>
-                                                            <td>${category.category_name}</td>
-                                                            <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
-                                                            <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Draft' : category.status === '0' ? 'Inactive' : 'N/A'}</td>
-                                                            <td>
-                                                                <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
-                                                                    <i class="fa fa-edit"></i>
-                                                                </button>
-                                                                <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
-                                                                    <i class="fa fa-trash"></i>
-                                                                </button>
-                                                            </td>
-                                                        </tr>`;
+                                                                <td>${index + 1}</td>
+                                                                <td>${category.category_name}</td>
+                                                                <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
+                                                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Draft' : category.status === '0' ? 'Inactive' : 'N/A'}</td>
+                                                                <td>
+                                                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </button>
+                                                                    <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
+                                                                        <i class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>`;
                             tableBody.append(row);
                         });
                         table.DataTable();

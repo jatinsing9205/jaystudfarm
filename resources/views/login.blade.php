@@ -9,12 +9,12 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&amp;display=fallback">
 
-    <link rel="stylesheet" href="public/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="{{url('public/plugins/fontawesome-free/css/all.min.css')}}">
 
-    <link rel="stylesheet" href="public/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="{{url('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
 
-    <link rel="stylesheet" href="public/dist/css/adminlte.min2167.css?v=3.2.0">
-    <link rel="stylesheet" href="public/dist/css/style.css">
+    <link rel="stylesheet" href="{{url('public/dist/css/adminlte.min2167.css?v=3.2.0')}}">
+    <link rel="stylesheet" href="{{url('public/dist/css/style.css')}}">
 
 </head>
 

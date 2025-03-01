@@ -7,3 +7,6 @@ $(function () {
     });
 });
 
+$('#short_description').summernote()
+$('#description').summernote()
+
