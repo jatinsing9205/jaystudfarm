@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4 class="m-0">Category</h4>
+                    <h4 class="m-0">Nutrition List</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Category</li>
+                        <li class="breadcrumb-item active">Nutrition List</li>
                     </ol>
                 </div>
             </div>
@@ -23,28 +23,19 @@
                 <div class="col-lg-5">
                     <div class="card">
                         <!-- Add Category Form -->
-                        <form id="addCategoryForm">
+                        <form id="addNutritionForm">
                             @csrf
                             <div class="card-header">
-                                <p class="m-0 fw-bold">Add Category</p>
+                                <p class="m-0 fw-bold">Add Nutrition List</p>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Category Name</label>
-                                            <input type="text" name="category_name" id="category_name" class="form-control">
-                                            <div class="category_name_err error"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="parent_category">Parent Category</label>
-                                            <select name="parent_category" id="parent_category"
-                                                class="form-control form-select">
-                                                <option value="">Select Parent Category</option>
-                                            </select>
-                                            <div class="parent_category_err error"></div>
+                                            <label for="">Nutrition Name</label>
+                                            <input type="text" name="nutrition_name" id="nutrition_name"
+                                                class="form-control">
+                                            <div class="nutrition_name_err error"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -67,27 +58,18 @@
                         </form>
 
                         <!-- Update Category Form -->
-                        <form id="updateCategoryForm">
+                        <form id="updateNutritionForm">
                             @csrf
                             <div class="card-header">
-                                <p class="m-0 fw-bold">Update Category</p>
+                                <p class="m-0 fw-bold">Update Nutrition List</p>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Category Name</label>
-                                            <input type="text" name="category_name" class="form-control category_name">
-                                            <div class="category_name_err error"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label for="parent_category">Parent Category</label>
-                                            <select name="parent_category" class="form-control form-select parent_category">
-                                                <option value="">Select Parent Category</option>
-                                            </select>
-                                            <div class="parent_category_err error"></div>
+                                            <label for="">Nutrition Name</label>
+                                            <input type="text" name="nutrition_name" class="form-control nutrition_name">
+                                            <div class="nutrition_name_err error"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -113,15 +95,14 @@
                 <div class="col-lg-7">
                     <div class="card">
                         <div class="card-header">
-                            <p class="m-0 fw-bold">Category List</p>
+                            <p class="m-0 fw-bold">Nutrition List</p>
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered categoryList">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
-                                        <th>Category Name</th>
-                                        <th>Parent Category</th>
+                                        <th>Nutrition Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -138,13 +119,13 @@
     <script>
         $(document).ready(function () {
             // Hide the update form initially
-            $("#updateCategoryForm").hide();
-            $("#addCategoryForm").show();
+            $("#updateNutritionForm").hide();
+            $("#addNutritionForm").show();
 
             // Submit form for adding category
-            $("#addCategoryForm").submit(function (e) {
+            $("#addNutritionForm").submit(function (e) {
                 e.preventDefault();
-                var form = $("#addCategoryForm")[0];
+                var form = $("#addNutritionForm")[0];
                 var data = new FormData(form);
                 $("#submitBtn").prop("disabled", true);
                 var loader = $('.preloader');
@@ -153,7 +134,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{Route('addCategoryProcess')}}",
+                    url: "{{Route('addNutritionListProcess')}}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -166,10 +147,8 @@
                                 title: data.message
                             })
                             form.reset();
-                            loadCategories();
+                            loadNutrition();
                         } else {
-                            loader.height("0vh");
-                            loaderIMG.hide()
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message
@@ -189,40 +168,39 @@
 
             // Edit button click
             $(document).on('click', '.edit-btn', function () {
-                var categoryId = $(this).data('id');
+                var supplementId = $(this).data('id');
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
                 loader.height("100vh");
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{url('editCategory')}}/" + categoryId,
+                    url: "{{url('editNutrition')}}/" + supplementId,
                     success: function (data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         // Show update form and hide add form
-                        $("#updateCategoryForm").show();
-                        $("#addCategoryForm").hide();
+                        $("#updateNutritionForm").show();
+                        $("#addNutritionForm").hide();
 
-                        // Prefill the form with the category data
-                        $("#updateCategoryForm .category_name").val(data.category_name);
-                        $("#updateCategoryForm .parent_category").val(data.parent_id).trigger('change');
-                        $("#updateCategoryForm .status").val(data.status);
-                        $("#updateCategoryForm .category_id").val(data.id);
-                        $("#updateCategoryForm").attr('data-id', data.id);
+                        // Prefill the form with the supplement data
+                        $("#updateNutritionForm .nutrition_name").val(data.name);
+                        $("#updateNutritionForm .status").val(data.status);
+                        $("#updateNutritionForm .category_id").val(data.id);
+                        $("#updateNutritionForm").attr('data-id', data.id);
                     },
                     error: function (error) {
                         loader.height("0vh");
-                        loaderIMG.hide();
+                        loaderIMG.hide()
                         console.log(error.responseJSON);
                     }
                 });
             });
 
-            // Submit form for updating category
-            $("#updateCategoryForm").submit(function (e) {
+            // Submit form for updating supplement
+            $("#updateNutritionForm").submit(function (e) {
                 e.preventDefault();
-                var form = $("#updateCategoryForm")[0];
+                var form = $("#updateNutritionForm")[0];
                 var data = new FormData(form);
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
@@ -230,26 +208,24 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{url('updateCategory')}}/" + $(this).attr('data-id'),
+                    url: "{{url('updateNutritionListProcess')}}/" + $(this).attr('data-id'),
                     data: data,
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
+                        loader.height("0vh");
+                        loaderIMG.hide()
                         if (data.status == 'success') {
-                            loader.height("0vh");
-                            loaderIMG.hide();
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message
                             })
-                            loadCategories();
+                            loadNutrition();
                             // Hide update form and show add form again
-                            $("#updateCategoryForm").hide();
-                            $("#addCategoryForm").show();
+                            $("#updateNutritionForm").hide();
+                            $("#addNutritionForm").show();
                         } else {
-                            loader.height("0vh");
-                            loaderIMG.hide();
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message
@@ -259,22 +235,22 @@
                     },
                     error: function (error) {
                         loader.height("0vh");
-                        loaderIMG.hide();
+                        loaderIMG.hide()
                         console.log(error.responseJSON);
                     }
                 });
             });
 
             $(document).on('click', '.delete-btn', function () {
-                var categoryId = $(this).data('id');
-                var isConfirmed = confirm("Are you sure you want to delete this Category?");
+                var supplementId = $(this).data('id');
+                var isConfirmed = confirm("Are you sure you want to delete this Nutrition?");
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{url('deleteCategory')}}/" + categoryId,
+                        url: "{{url('deleteNutrition')}}/" + supplementId,
                         success: function (data) {
                             if (data.status == "success") {
-                                loadCategories()
+                                loadNutrition()
                                 Swal.fire({
                                     icon: data.status,
                                     title: data.message
@@ -295,33 +271,24 @@
                 }
             });
 
-            function loadCategories() {
+            function loadNutrition() {
                 $.ajax({
                     type: "GET",
-                    url: "{{Route('getAllCategory')}}",
+                    url: "{{Route('getAllNutritions')}}",
                     success: function (data) {
-                        var select = $('#parent_category');
-                        var selectUpdate = $('.parent_category');
-                        select.html('<option value="">Select Parent Category</option>');
-                        selectUpdate.html('<option value="">Select Parent Category</option>');
-                        data.forEach(function (category) {
-                            select.append(`<option value="${category.id}">${category.category_name}</option>`);
-                            selectUpdate.append(`<option value="${category.id}">${category.category_name}</option>`);
-                        });
 
                         var table = $('.categoryList');
                         var tableBody = table.find('tbody').html('');
-                        data.forEach(function (category, index) {
+                        data.forEach(function (supplement, index) {
                             var row = `<tr>
                                                                                 <td>${index + 1}</td>
-                                                                                <td>${category.category_name}</td>
-                                                                                <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
-                                                                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Draft' : category.status === '0' ? 'Inactive' : 'N/A'}</td>
+                                                                                <td>${supplement.name}</td>
+                                                                                <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Draft' : supplement.status === '0' ? 'Inactive' : 'N/A'}</td>
                                                                                 <td>
-                                                                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
+                                                                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
                                                                                         <i class="fa fa-edit"></i>
                                                                                     </button>
-                                                                                    <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
+                                                                                    <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
                                                                                         <i class="fa fa-trash"></i>
                                                                                     </button>
                                                                                 </td>
@@ -334,7 +301,7 @@
             }
 
 
-            loadCategories();
+            loadNutrition();
         });
 
         function printError(err) {

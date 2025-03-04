@@ -16,14 +16,22 @@
     <link rel="stylesheet" href="{{url('public/dist/css/adminlte.min2167.css?v=3.2.0')}}">
     <link rel="stylesheet" href="{{url('public/dist/css/style.css')}}">
 
+    <!-- SweetAlert2 -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.js"></script>
+
 </head>
 
 <body class="hold-transition login-page">
+    <div class="preloader flex-column justify-content-center align-items-center">
+        <img class="animation__shake" src="{{url('public/dist/img/horse-riding.gif')}}" alt="JSF loader" height="130">
+    </div>
+
     <div class="login-box">
 
-        <div class="card card-outline card-indigo">
-            <div class="card-header text-center bg-dark py-2">
-                <a href="index.php" class="h1"><img src="public/dist/img/logo.webp" width="120" alt="Logo"></a>
+        <div class="card border-top-cream">
+            <div class="card-header text-center bg-brown py-2">
+                <a href="{{url('')}}" class="h1"><img src="public/dist/img/logo.webp" width="120" alt="Logo"></a>
             </div>
             <div class="card-body">
                 <h1 class="text-center"><b>JSF </b>Dashboard</h1>
@@ -55,7 +63,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <button type="submit" class="btn bg-indigo btn-block">Sign In</button>
+                            <button type="submit" class="btn btn-brown btn-block">Sign In</button>
                         </div>
 
                     </div>
@@ -76,6 +84,10 @@
                 e.preventDefault();
                 var form = $("#login")[0];
                 var data = new FormData(form);
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show()
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
@@ -84,14 +96,18 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
+                        loader.height("0vh");
+                        loaderIMG.hide()
                         //alert(data.status);
                         //console.log(data)
+
                         if (data.status == 'success') {
-                            $(".success_msg").html(data.message);
-                            $(".error_msg").html('');
-                            setTimeout(function () {
+                            Swal.fire({
+                                icon: data.status,
+                                title: data.message
+                            }).then(() => {
                                 window.location.href = "{{Route('home')}}"
-                            }, 1000)
+                            })
                         } else {
                             $('.error').html('')
                             $(".success_msg").html('');

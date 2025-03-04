@@ -1,129 +1,62 @@
-.sidebar-search-results .list-group>.list-group-item {
-    background-color: burlywood !important;
+:root{
+    --color1:#D5C3A5;
+    --color2:#3A2415;
+    --color3:#A26F23;
+    --white:#fff;
+    --black:#181818;
+    --grey:#e7e7e7;
+}
+a{
+    color: var(--color3);
+}
+.btn-brown{
+    background: var(--color2) !important;
+    color: var(--white) !important;
+}
+.btn-brown:hover{
+    background: var(--color3) !important;
+    color: var(--white) !important;
+}
+.btn-cream{
+    background: var(--color1) !important;
+    color: var(--color2) !important;
+}
+.btn-cream:hover{
+    background: var(--color3) !important;
+    color: var(--white) !important;
+}
+.border-top-brown{
+    border-top: 2px solid var(--color2) !important;
+}
+.border-top-cream{
+    border-top: 2px solid var(--color1) !important;
+}
+.bg-cream{
+    background: var(--color1);
+}
+.bg-brown{
+    background: var(--color2) !important;
+    color: var(--white) !important;
+}
+.text-brown{
+    color: var(--color2);
+}
+.sidebar-dark-brown .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-brown .nav-sidebar>.nav-item>.nav-link.active{
+    background-color: var(--color2);
+    color: var(--white);
 }
 
-.horse-report-tabs.nav-tabs .nav-item .nav-link {
-    color: #fff;
+.card .card-header{
+    background-color: var(--color1);
 }
-
-.horse-report-tabs.nav-tabs .nav-item.show .nav-link,
-.horse-report-tabs.nav-tabs .nav-link.active {
-    background: #fff;
-    color: #6610F2;
+.card{
+    border-top: 2px solid var(--color2);
 }
-
-.horse-report-tabs.nav-tabs .nav-link {
-    padding: 8px 25px !important;
+.card-footer{
+    background: var(--grey);
+    padding-top: 8px;
+    padding-bottom: 8px;
 }
-
-.select2-selection.form-select {
-    padding-top: 0;
-    padding-bottom: 0;
-}
-
-.accordion-item {
-    background: transparent;
-}
-
-table.table tr td,
-table.table tr th {
-    padding: .25rem .45rem;
-    font-size: 0.9rem;
-}
-
-table.dataTable>tbody>tr.child ul.dtr-details {
-    background: #d3d3d3;
-    padding: 10px;
-}
-
-table.dataTable>thead {
-    background: #d3d3d3;
-}
-
-table.dataTable>tbody>tr.child ul.dtr-details>li {
-    display: flex;
-    justify-content: space-between;
-}
-
-table.dataTable>tbody>tr.child span.dtr-title {
-    width: 50%;
-}
-
-table.dataTable>tbody>tr.child span.dtr-data {
-    width: 50%;
-}
-
-#lightSlider ul {
-    list-style: none outside none;
-    padding-left: 0;
-    margin-bottom: 0
-}
-
-#lightSlider li {
-    display: block;
-    float: left;
-    margin-right: 6px;
-    cursor: pointer;
-    height: 320px;
-    background: #d5d5d5;
-    text-align: center;
-}
-
-#lightSlider li img,
-#lightSlider li video {
-    height: 100%;
-    width: auto;
-    margin: auto;
-}
-
-#lightSlider img {
-    display: block;
-    height: auto;
-    width: 100%
-}
-
-.callout {
-    min-width: 200px;
-}
-
-.lSAction>.lSPrev,
-.lSAction>.lSNext {
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    color: #000;
-}
-
-.lSSlideOuter .lSPager.lSGallery {
-    max-height: 50px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.lSSlideOuter .lSPager.lSGallery li {
-    max-height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #d5d5d5;
-}
-
-.lSSlideOuter .lSPager.lSGallery li a {
-    height: 50px;
-}
-
-.lSSlideOuter .lSPager.lSGallery img,
-.lSSlideOuter .lSPager.lSGallery video {
-    height: 100% !important;
-    margin: auto;
-    display: inline-block;
-}
-
 .form-control.form-control-sm.form-select {
     padding-right: 35px;
 }
@@ -168,4 +101,15 @@ table.dataTable>tbody>tr.child span.dtr-data {
     position: absolute;
     right: 0;
     font-size: 10px;
+}
+.nav-sidebar .nav-item>.nav-link{
+    display: flex;
+    align-items: center;
+}
+.text-sm .nav-compact .nav-link>.right, .text-sm .nav-compact .nav-link>p>.right{
+    top: .5rem;
+}
+.login-page{
+    background: url(../img/login_back.png);
+    background-size: cover;
 }

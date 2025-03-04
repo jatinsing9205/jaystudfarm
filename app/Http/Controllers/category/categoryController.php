@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\category\categoryModel;
 use DB;
 use Illuminate\Http\Request;
+use Session;
 use Validator;
 
 class categoryController extends Controller
@@ -39,7 +40,9 @@ class categoryController extends Controller
             $data = [
                 'category_name' => $request->input('category_name'),
                 'parent_id' => $request->input('parent_category'),
-                'status' => $request->input('status')
+                'status' => $request->input('status'),
+                'created_by'=>Session::get('user')->username,
+                'updated_by'=>Session::get('user')->username,
             ];
             if ($insert = DB::table('t_category')->insert($data)) {
                 $result = [
@@ -96,6 +99,7 @@ class categoryController extends Controller
             'category_name' => $request->input('category_name'),
             'parent_id' => $request->input('parent_category'),
             'status' => $request->input('status'),
+            'updated_by'=>Session::get('user')->username,
         ];
         $update = DB::table('t_category')->where('id', $cID)->update($data);
 

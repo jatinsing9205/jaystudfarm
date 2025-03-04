@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\category\categoryController;
+use App\Http\Controllers\exercise\exerciseListController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Controllers\login\loginController;
+use App\Http\Controllers\medical\medicalListController;
+use App\Http\Controllers\nutrition\nutritionListController;
 use App\Http\Controllers\product\productController;
+use App\Http\Controllers\supplements\supplementListController; 
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [loginController::class, "login"])->name("login");
@@ -14,7 +18,6 @@ Route::middleware(['login'])->group(function () {
 
     Route::get('/', [homeController::class, "index"])->name("home");
 
-
     //category
     Route::get('/getAllCategory', [categoryController::class, "getAllCategory"])->name("getAllCategory");
     Route::get('/category', [categoryController::class, "category"])->name("category");
@@ -24,13 +27,42 @@ Route::middleware(['login'])->group(function () {
     Route::get('/deleteCategory/{cID}', [categoryController::class, "deleteCategory"]);
 
     //products
-    Route::get('/products',[productController::class,"products"])->name('products');
-    Route::get('/addProduct',[productController::class,"addProduct"])->name('addProduct');
-    Route::post('/addProductProcess',[productController::class,"addProductProcess"])->name('addProductProcess');
-
-    Route::get('/updateProduct/{pID}',[productController::class,"updateProduct"])->name('updateProduct');
+    Route::get('/products', [productController::class, "products"])->name('products');
+    Route::get('/addProduct', [productController::class, "addProduct"])->name('addProduct');
+    Route::post('/addProductProcess', [productController::class, "addProductProcess"])->name('addProductProcess');
+    Route::get('/updateProduct/{pID}', [productController::class, "updateProduct"])->name('updateProduct');
     Route::get('/deleteGalleryImage/{gID}', [productController::class, "deleteGalleryImage"]);
 
+    //Supplement List
+    Route::get('/supplement', [supplementListController::class, "supplement"])->name("supplement");
+    Route::get('/getAllSupplements', [supplementListController::class, "getAllSupplements"])->name("getAllSupplements");
+    Route::post('/addSupplementListProcess', [supplementListController::class, "addSupplementListProcess"])->name("addSupplementListProcess");
+    Route::get('editSupplement/{id}', [supplementListController::class, 'editSupplement'])->name('editSupplement');
+    Route::post('/updateSupplementListProcess/{cID}', [supplementListController::class, "updateSupplementListProcess"]);
+    Route::get('/deleteSupplement/{cID}', [supplementListController::class, "deleteSupplement"]);
 
+    //Nutrition List
+    Route::get('/nutrition', [nutritionListController::class, "nutrition"])->name("nutrition");
+    Route::get('/getAllNutritions', [nutritionListController::class, "getAllNutritions"])->name("getAllNutritions");
+    Route::post('/addNutritionListProcess', [nutritionListController::class, "addNutritionListProcess"])->name("addNutritionListProcess");
+    Route::get('editNutrition/{id}', [nutritionListController::class, 'editNutrition'])->name('editNutrition');
+    Route::post('/updateNutritionListProcess/{cID}', [nutritionListController::class, "updateNutritionListProcess"]);
+    Route::get('/deleteNutrition/{cID}', [supplementListController::class, "deleteNutrition"]);
+
+    //Medical List
+    Route::get('/medical', [medicalListController::class, "medical"])->name("medical");
+    Route::get('/getAllMedicals', [medicalListController::class, "getAllMedicals"])->name("getAllMedicals");
+    Route::post('/addMedicalListProcess', [medicalListController::class, "addMedicalListProcess"])->name("addMedicalListProcess");
+    Route::get('editMedical/{id}', [medicalListController::class, 'editMedical'])->name('editMedical');
+    Route::post('/updateMedicalListProcess/{cID}', [medicalListController::class, "updateMedicalListProcess"]);
+    Route::get('/deleteMedical/{cID}', [medicalListController::class, "deleteMedical"]);
+
+    //Exercise List
+    Route::get('/exercise', [exerciseListController::class, "exercise"])->name("exercise");
+    Route::get('/getAllExercises', [exerciseListController::class, "getAllExercises"])->name("getAllExercises");
+    Route::post('/addExerciseListProcess', [exerciseListController::class, "addExerciseListProcess"])->name("addExerciseListProcess");
+    Route::get('editExercise/{id}', [exerciseListController::class, 'editExercise'])->name('editExercise');
+    Route::post('/updateExerciseListProcess/{cID}', [exerciseListController::class, "updateExerciseListProcess"]);
+    Route::get('/deleteExercise/{cID}', [exerciseListController::class, "deleteExercise"]);
 
 });

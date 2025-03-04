@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Models\category;
+namespace App\Models\supplements;
 
 use Illuminate\Database\Eloquent\Model;
 
-class categoryModel extends Model
+class supplementList extends Model
 {
-    protected $table = 't_category';
+    protected $table = 't_supplement_list';
     public $timestamps = true;
     protected $fillable = [
-        'category_name',
-        'parent_id',
+        'name',
         'status',
         'created_by',
         'updated_by',

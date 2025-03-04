@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Models\category;
+namespace App\Models\exercise;
 
 use Illuminate\Database\Eloquent\Model;
 
-class categoryModel extends Model
+class exerciseList extends Model
 {
-    protected $table = 't_category';
+    protected $table = 't_exercise_list';
     public $timestamps = true;
     protected $fillable = [
-        'category_name',
-        'parent_id',
+        'name',
         'status',
         'created_by',
         'updated_by',
