@@ -20,7 +20,9 @@
         <section class="container-fluid">
             <div class="card card-outline-brown">
                 <form id="addCompanionForm">
-                    @csrf
+
+                    {{-- @csrf --}}
+
                     <div class="card-header">
                         <p class="fw-bold mb-0">ADD COMPANION</p>
                     </div>
@@ -188,7 +190,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="status">Status</label>
+                                    <label for="status">Status <span class="text-danger">*</span></label>
                                     <select name="status" id="status" class="form-control form-select">
                                         <option value="">Select Status</option>
                                         <option value="3">Draft</option>
@@ -213,6 +215,13 @@
 
     <script>
         $(document).ready(function () {
+            // Add CSRF token to AJAX headers
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             $("#addCompanionForm").submit(function (e) {
                 e.preventDefault();
                 var form = $("#addCompanionForm")[0];
@@ -233,7 +242,7 @@
                 $.ajax({
                     type: "POST",
                     url: "{{route('addCompanionProcess')}}",
-                    data: JSON.stringify(parentData),
+                    data: data, // Send the data as FormData
                     processData: false,
                     contentType: false,
                     success: function (data) {
@@ -267,6 +276,7 @@
                 });
             }
 
+            // Add button functionality for the dam/sire section
             $(document).on("click", ".addBtn", function () {
                 var input = $(".dam_sire_info").html();
                 var newRow = $(`<div class="row mb-3 dam_sire_info">${input}

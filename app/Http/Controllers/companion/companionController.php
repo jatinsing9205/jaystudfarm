@@ -33,10 +33,21 @@ class companionController extends Controller
             'source' => "required",
             'companion_image' => "required",
             'companion_video.*' => 'mimes:mp4,avi,mkv,flv|max:10240',
+            'status' => "required",
         ]);
 
-        $companion_id = "PROD" . time() . rand(0, 9);
+        $old_companion = companions::select('id')->orderBy('id', 'DESC')->first();
+
+        if ($old_companion) {
+            $new_companion_id = $old_companion->id + 1;
+        } else {
+            $new_companion_id = 1;
+        }
+        $companion_id = "JSF0" . date("Y") . "0" . $new_companion_id;
+
+
         if ($validator->passes()) {
+
             if ($request->hasFile('companion_image')) {
                 $image = $request->file('companion_image');
 
@@ -45,6 +56,7 @@ class companionController extends Controller
                 $imageName = uniqid() . "_" . $originalName;
                 $path = $image->move('public/companions/' . $companion_id, $imageName);
             }
+
             $data = [
                 'companion_id' => $companion_id,
                 'name' => $request->input('companion_name'),
@@ -52,7 +64,7 @@ class companionController extends Controller
                 'dob' => $request->input('date_of_birth'),
                 'height' => $request->input('height'),
                 'category' => $request->input('category'),
-                'type' => $request->input('type'),
+                'type' => $request->input('companion_type'),
                 'source' => $request->input('source'),
                 'purchase_date' => $request->input('purchase_date'),
                 'purchase_amount' => $request->input('purchase_amount'),
@@ -64,6 +76,7 @@ class companionController extends Controller
                 'updated_by' => Session::get('user')->username,
                 'status' => $request->input('status'),
             ];
+
             if ($insert = DB::table('t_companions')->insertGetId($data)) {
                 $p_id = companions::where('id', $insert)->first()->companion_id;
                 if ($request->hasFile('companion_gallery')) {
@@ -84,6 +97,7 @@ class companionController extends Controller
                         ]);
                     }
                 }
+
                 if ($request->hasFile('companion_video')) {
                     $file = $request->file('companion_video');
                     $originalName = $file->getClientOriginalName();
@@ -115,11 +129,10 @@ class companionController extends Controller
                     }
                 }
 
-
                 $result = [
                     "status" => "success",
                     "message" => "Companion added successfully!",
-                    "companion_id" => $damSire,
+                    "companion_id" => $p_id,
                 ];
                 return response()->json($result);
             } else {
