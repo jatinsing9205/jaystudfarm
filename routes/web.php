@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\category\categoryController;
+use App\Http\Controllers\companion\companionController;
 use App\Http\Controllers\exercise\exerciseListController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Controllers\login\loginController;
@@ -10,13 +11,22 @@ use App\Http\Controllers\product\productController;
 use App\Http\Controllers\supplements\supplementListController; 
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/login', [loginController::class, "login"])->name("login");
 Route::get('/logout', [loginController::class, "logout"])->name("logout");
 Route::post('/VerifyLogin', [loginController::class, "VerifyLogin"])->name("VerifyLogin");
 
+
+
 Route::middleware(['login'])->group(function () {
 
     Route::get('/', [homeController::class, "index"])->name("home");
+    
+    //Companion 
+    Route::get("addCompanion",[companionController::class,"addCompanion"])->name('addCompanion');
+    Route::get("companions",[companionController::class,"companions"])->name('companions');
+    Route::post("addCompanionProcess",[companionController::class,"addCompanionProcess"])->name("addCompanionProcess");
 
     //category
     Route::get('/getAllCategory', [categoryController::class, "getAllCategory"])->name("getAllCategory");

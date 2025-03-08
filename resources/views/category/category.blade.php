@@ -52,9 +52,9 @@
                                             <label for="status">Status</label>
                                             <select name="status" id="status" class="form-control form-select">
                                                 <option value="">Select Status</option>
-                                                <option value="2">Draft</option>
+                                                <option value="3">Draft</option>
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                             </select>
                                             <div class="status_err error"></div>
                                         </div>
@@ -95,9 +95,9 @@
                                             <label for="status">Status</label>
                                             <select name="status" class="form-control form-select status">
                                                 <option value="">Select Status</option>
-                                                <option value="2">Draft</option>
+                                                <option value="3">Draft</option>
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                             </select>
                                             <div class="status_err error"></div>
                                         </div>
@@ -141,9 +141,14 @@
             $("#updateCategoryForm").hide();
             $("#addCategoryForm").show();
 
+            function clearError(){
+                $('.error').text('')
+            }
+
             // Submit form for adding category
             $("#addCategoryForm").submit(function (e) {
                 e.preventDefault();
+                clearError();
                 var form = $("#addCategoryForm")[0];
                 var data = new FormData(form);
                 $("#submitBtn").prop("disabled", true);
@@ -189,6 +194,7 @@
 
             // Edit button click
             $(document).on('click', '.edit-btn', function () {
+                clearError();
                 var categoryId = $(this).data('id');
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
@@ -222,6 +228,7 @@
             // Submit form for updating category
             $("#updateCategoryForm").submit(function (e) {
                 e.preventDefault();
+                clearError();
                 var form = $("#updateCategoryForm")[0];
                 var data = new FormData(form);
                 var loader = $('.preloader');
@@ -235,7 +242,7 @@
                     processData: false,
                     contentType: false,
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                         if (data.status == 'success') {
                             loader.height("0vh");
                             loaderIMG.hide();
@@ -244,7 +251,6 @@
                                 title: data.message
                             })
                             loadCategories();
-                            // Hide update form and show add form again
                             $("#updateCategoryForm").hide();
                             $("#addCategoryForm").show();
                         } else {
@@ -254,7 +260,7 @@
                                 icon: data.status,
                                 title: data.message
                             })
-                            printError(data.error);
+                            printError(data.errors);
                         }
                     },
                     error: function (error) {
@@ -274,11 +280,11 @@
                         url: "{{url('deleteCategory')}}/" + categoryId,
                         success: function (data) {
                             if (data.status == "success") {
-                                loadCategories()
                                 Swal.fire({
                                     icon: data.status,
                                     title: data.message
                                 })
+                                loadCategories()
                             } else {
                                 Swal.fire({
                                     icon: data.status,
@@ -316,7 +322,7 @@
                                                                                 <td>${index + 1}</td>
                                                                                 <td>${category.category_name}</td>
                                                                                 <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
-                                                                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Draft' : category.status === '0' ? 'Inactive' : 'N/A'}</td>
+                                                                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Inactive' : category.status === '3' ? 'Draft' : 'N/A'}</td>
                                                                                 <td>
                                                                                     <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
                                                                                         <i class="fa fa-edit"></i>

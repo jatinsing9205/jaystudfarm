@@ -19,6 +19,7 @@ class nutritionListController extends Controller
     public function getAllNutritions()
     {
         $nutritions = DB::table('t_nutrition_list')
+            ->where('status', '!=', 0)
             ->get();
         return response($nutritions);
 
@@ -28,6 +29,7 @@ class nutritionListController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nutrition_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
@@ -75,6 +77,7 @@ class nutritionListController extends Controller
 
         $validator = Validator::make($request->all(), [
             'nutrition_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -108,14 +111,14 @@ class nutritionListController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Nutrition could not be updated!'
+                'message' => 'No changes found!'
             ]);
         }
     }
 
     public function deleteNutrition(Request $request, $sID)
     {
-        $deleted = DB::table('t_nutrition_list')->where('id', '=', $sID)->delete();
+        $deleted = DB::table('t_nutrition_list')->where('id', '=', $sID)->update(['status' => 0]);
 
         if ($deleted) {
             return response()->json([

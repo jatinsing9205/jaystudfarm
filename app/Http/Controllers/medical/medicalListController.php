@@ -19,6 +19,7 @@ class medicalListController extends Controller
     public function getAllMedicals()
     {
         $medicals = DB::table('t_medical_list')
+            ->where('status', '!=', 0)
             ->get();
         return response($medicals);
 
@@ -28,6 +29,7 @@ class medicalListController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'medical_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
@@ -75,6 +77,7 @@ class medicalListController extends Controller
 
         $validator = Validator::make($request->all(), [
             'medical_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -108,14 +111,14 @@ class medicalListController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Medical could not be updated!'
+                'message' => 'No changes found!'
             ]);
         }
     }
 
     public function deleteMedical(Request $request, $sID)
     {
-        $deleted = DB::table('t_medical_list')->where('id', '=', $sID)->delete();
+        $deleted = DB::table('t_medical_list')->where('id', '=', $sID)->update(['status' => 0]);
 
         if ($deleted) {
             return response()->json([

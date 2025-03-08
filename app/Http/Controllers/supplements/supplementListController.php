@@ -20,6 +20,7 @@ class supplementListController extends Controller
     public function getAllSupplements()
     {
         $supplements = DB::table('t_supplement_list')
+            ->where('status', '!=', 0)
             ->get();
         return response($supplements);
 
@@ -29,6 +30,7 @@ class supplementListController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'supplement_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
@@ -76,6 +78,7 @@ class supplementListController extends Controller
 
         $validator = Validator::make($request->all(), [
             'supplement_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -109,14 +112,14 @@ class supplementListController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Supplement could not be updated!'
+                'message' => 'No changes found!'
             ]);
         }
     }
 
     public function deleteSupplement(Request $request, $sID)
     {
-        $deleted = DB::table('t_supplement_list')->where('id', '=', $sID)->delete();
+        $deleted = DB::table('t_supplement_list')->where('id', '=', $sID)->update(['status' => 0]);
 
         if ($deleted) {
             return response()->json([

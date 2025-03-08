@@ -24,9 +24,11 @@ class categoryController extends Controller
     {
         $categories = DB::table('t_category as c1')
             ->leftJoin('t_category as c2', 'c1.parent_id', '=', 'c2.id')
+            ->where('c1.status', '!=', 0)
             ->select('c1.*', 'c2.category_name as parent_name')
             ->get();
-        return response($categories);
+
+        return response()->json($categories);
 
     }
 
@@ -34,6 +36,7 @@ class categoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'category_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
@@ -41,8 +44,8 @@ class categoryController extends Controller
                 'category_name' => $request->input('category_name'),
                 'parent_id' => $request->input('parent_category'),
                 'status' => $request->input('status'),
-                'created_by'=>Session::get('user')->username,
-                'updated_by'=>Session::get('user')->username,
+                'created_by' => Session::get('user')->username,
+                'updated_by' => Session::get('user')->username,
             ];
             if ($insert = DB::table('t_category')->insert($data)) {
                 $result = [
@@ -77,6 +80,7 @@ class categoryController extends Controller
 
         $validator = Validator::make($request->all(), [
             'category_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -99,7 +103,7 @@ class categoryController extends Controller
             'category_name' => $request->input('category_name'),
             'parent_id' => $request->input('parent_category'),
             'status' => $request->input('status'),
-            'updated_by'=>Session::get('user')->username,
+            'updated_by' => Session::get('user')->username,
         ];
         $update = DB::table('t_category')->where('id', $cID)->update($data);
 
@@ -111,7 +115,7 @@ class categoryController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Category could not be updated!'
+                'message' => 'No changes found!'
             ]);
         }
     }
@@ -119,7 +123,7 @@ class categoryController extends Controller
 
     public function deleteCategory(Request $request, $cId)
     {
-        $deleted = DB::table('t_category')->where('id', '=', $cId)->delete();
+        $deleted = DB::table('t_category')->where('id', '=', $cId)->update(['status' => 0]);
 
         if ($deleted) {
             return response()->json([

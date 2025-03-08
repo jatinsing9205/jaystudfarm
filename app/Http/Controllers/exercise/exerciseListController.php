@@ -19,8 +19,10 @@ class exerciseListController extends Controller
     public function getAllExercises()
     {
         $exercises = DB::table('t_exercise_list')
+            ->where('status', '!=', 0)
             ->get();
-        return response($exercises);
+
+        return response()->json($exercises);
 
     }
 
@@ -28,6 +30,7 @@ class exerciseListController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'exercise_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
@@ -75,6 +78,7 @@ class exerciseListController extends Controller
 
         $validator = Validator::make($request->all(), [
             'exercise_name' => 'required|string',
+            'status' => 'required|string',
         ]);
 
         if ($validator->fails()) {
@@ -108,14 +112,14 @@ class exerciseListController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Exercise could not be updated!'
+                'message' => 'No changes found!'
             ]);
         }
     }
 
     public function deleteExercise(Request $request, $sID)
     {
-        $deleted = DB::table('t_exercise_list')->where('id', '=', $sID)->delete();
+        $deleted = DB::table('t_exercise_list')->where('id', '=', $sID)->update(["status" => 0]);
 
         if ($deleted) {
             return response()->json([

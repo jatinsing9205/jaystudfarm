@@ -42,9 +42,9 @@
                                             <label for="status">Status</label>
                                             <select name="status" id="status" class="form-control form-select">
                                                 <option value="">Select Status</option>
-                                                <option value="2">Draft</option>
+                                                <option value="3">Draft</option>
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                             </select>
                                             <div class="status_err error"></div>
                                         </div>
@@ -76,9 +76,9 @@
                                             <label for="status">Status</label>
                                             <select name="status" class="form-control form-select status">
                                                 <option value="">Select Status</option>
-                                                <option value="2">Draft</option>
+                                                <option value="3">Draft</option>
                                                 <option value="1">Active</option>
-                                                <option value="0">Inactive</option>
+                                                <option value="2">Inactive</option>
                                             </select>
                                             <div class="status_err error"></div>
                                         </div>
@@ -97,7 +97,7 @@
                             <p class="m-0 fw-bold">Supplement List</p>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered supplementTable">
+                            <table class="table table-bordered supplementTable dataTable">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
@@ -121,9 +121,14 @@
             $("#updateMedicalForm").hide();
             $("#addMedicalForm").show();
 
+            function clearError(){
+                $('.error').text('')
+            }
+
             // Submit form for adding category
             $("#addMedicalForm").submit(function (e) {
                 e.preventDefault();
+                clearError()
                 var form = $("#addMedicalForm")[0];
                 var data = new FormData(form);
                 $("#submitBtn").prop("disabled", true);
@@ -167,6 +172,7 @@
 
             // Edit button click
             $(document).on('click', '.edit-btn', function () {
+                clearError()
                 var supplementId = $(this).data('id');
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
@@ -197,6 +203,7 @@
             // Submit form for updating supplement
             $("#updateMedicalForm").submit(function (e) {
                 e.preventDefault();
+                clearError()
                 var form = $("#updateMedicalForm")[0];
                 var data = new FormData(form);
                 var loader = $('.preloader');
@@ -227,7 +234,7 @@
                                 icon: data.status,
                                 title: data.message
                             })
-                            printError(data.error);
+                            printError(data.errors);
                         }
                     },
                     error: function (error) {
@@ -280,7 +287,7 @@
                             var row = `<tr>
                                         <td>${index + 1}</td>
                                         <td>${supplement.name}</td>
-                                        <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Draft' : supplement.status === '0' ? 'Inactive' : 'N/A'}</td>
+                                        <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
                                         <td>
                                             <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
                                                 <i class="fa fa-edit"></i>

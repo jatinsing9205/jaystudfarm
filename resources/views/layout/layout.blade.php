@@ -41,9 +41,9 @@
     cz-shortcut-listen="true" style="height: auto;">
     <div class="wrapper">
 
-        <div class="preloader flex-column justify-content-center align-items-center" >
+        <div class="preloader flex-column justify-content-center align-items-center">
             <img class="animation__shake" src="{{url('public/dist/img/horse-riding.gif')}}" alt="JSF loader"
-                height="130">
+                height="150">
         </div>
 
         <nav class="main-header navbar navbar-expand navbar-white navbar-dark bg-brown">
@@ -81,7 +81,7 @@
         <aside class="main-sidebar elevation-4 sidebar-light-brown">
             <a href="{{url('')}}" class="brand-link bg-brown">
                 <img src="{{url('public/dist/img/HorseLogo.png')}}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3" style="opacity: .8">
+                    class="brand-image img-circle elevation-1">
                 <span class="brand-text font-weight-bold text-uppercase h6">Jay Stud Farm</span>
             </a>
 
@@ -89,8 +89,8 @@
 
                 <div class="user-panel py-1 my-1 d-flex align-items-center bg-cream">
                     <div class="image">
-                        <img src="{{url('public/dist/img/user.png')}}" class="img-circle elevation-1 brand-image bg-white"
-                            alt="User Image">
+                        <img src="{{url('public/dist/img/user.png')}}"
+                            class="img-circle elevation-1 brand-image bg-white" alt="User Image">
                     </div>
                     <div class="info fw-bold h6 mb-0 text-brown">
                         <a href="#" class="d-block">{{session('user')->name}}</a>
@@ -117,26 +117,61 @@
                             <a href="{{url('')}}" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Dashboard  
+                                    Dashboard
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="our-horses.php" class="nav-link">
+                            <a href="{{route("companions")}}" class="nav-link">
                                 <i class="nav-icon fa-regular fa-rectangle-list"></i>
                                 <p>
-                                    Our Horses
+                                    Our Companions
                                     <span class="right badge badge-danger">Explore</span>
                                 </p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="horse-report.php" class="nav-link">
+                            <a href="{{route('category')}}" class="nav-link">
                                 <i class="nav-icon fas fa-tag"></i>
                                 <p>
                                     Categories
                                 </p>
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-table"></i>
+                                <p>
+                                    List
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="pages/tables/simple.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nutrition</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/simple.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Supplement</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/simple.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Exercise</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="pages/tables/simple.html" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Medical</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -153,7 +188,7 @@
                 <script type="text/javascript">var year = new Date(); document.write(year.getFullYear());</script>
                 <a href="#">Jay Stud Farm</a>. All rights reserved.
             </strong>
-            
+
         </footer>
 
         <aside class="control-sidebar control-sidebar-dark"></aside>
