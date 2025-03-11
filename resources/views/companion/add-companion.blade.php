@@ -226,7 +226,7 @@
                 e.preventDefault();
                 var form = $("#addCompanionForm")[0];
                 var data = new FormData(form);
-
+                clearError();
                 let parentData = [];
                 $('.dam_sire_info').each(function () {
                     let parent = $(this).find('select[name="parent[]"]').val();
@@ -242,7 +242,7 @@
                 $.ajax({
                     type: "POST",
                     url: "{{route('addCompanionProcess')}}",
-                    data: data, // Send the data as FormData
+                    data: data,
                     processData: false,
                     contentType: false,
                     success: function (data) {
@@ -280,10 +280,10 @@
             $(document).on("click", ".addBtn", function () {
                 var input = $(".dam_sire_info").html();
                 var newRow = $(`<div class="row mb-3 dam_sire_info">${input}
-                                                        <div class="col-md-3 col-2">
-                                                            <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button>
-                                                        </div>
-                                                    </div>`);
+                                                                <div class="col-md-3 col-2">
+                                                                    <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button>
+                                                                </div>
+                                                            </div>`);
 
                 newRow.find(".addBtnDiv").hide();
                 $(".more_input").append(newRow);
@@ -311,23 +311,36 @@
             }
         });
 
-        document.getElementById("companion_gallery").addEventListener("change", function (event) {
-            const files = event.target.files;
-            const galleryBox = document.getElementById("product-gallery-box");
+        $("#companion_gallery").change(function (e) {
+            const dt = new DataTransfer();
+            const galleryBox = $("#product-gallery-box");
 
-            // Clear any existing previews
-            galleryBox.innerHTML = "";
-
-            Array.from(files).forEach(file => {
-                const img = document.createElement("img");
-                img.src = URL.createObjectURL(file);
-                img.classList.add("img-fluid", "preview-image", "m-1");
-                galleryBox.appendChild(img);
+            Array.from(e.target.files).forEach((file, i) => {
+                const imgContainer = $(`<div class="preview-image">
+                    <img src="${URL.createObjectURL(file)}" class="img-fluid">
+                    <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>`);
+                galleryBox.append(imgContainer);
+                dt.items.add(file);
             });
+
+            e.target.files = dt.files;
         });
 
+        $(document).on("click", ".remove-selected-image", function () {
+            const index = $(this).data("index");
+            const input = document.getElementById("companion_gallery");
+            const dt = new DataTransfer();
 
-        document.getElementById("companion_video").addEventListener("change", function (event) {
+            Array.from(input.files).forEach((file, i) => i !== index && dt.items.add(file));
+
+            input.files = dt.files;
+            $(this).closest(".preview-image").remove();
+        });
+
+        $("#companion_video").on("change", function (event) {
             const file = event.target.files[0];
             const imageBox = document.getElementById("product-video-box");
 

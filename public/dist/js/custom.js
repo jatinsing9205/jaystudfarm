@@ -10,3 +10,6 @@ $(function () {
 $('#short_description').summernote()
 $('#description').summernote()
 
+function clearError(){
+    $(".error").text('');
+}

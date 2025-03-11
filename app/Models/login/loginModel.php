@@ -21,4 +21,5 @@ class loginModel extends Model
         'updated_at',
     ];
 
+
 }

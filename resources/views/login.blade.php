@@ -31,7 +31,7 @@
 
         <div class="card border-top-cream">
             <div class="card-header text-center bg-brown py-2">
-                <a href="{{url('')}}" class="h1"><img src="public/dist/img/logo.webp" width="120" alt="Logo"></a>
+                <a href="{{url('')}}" class="h1"><img src="{{url('public/dist/img/logo.webp')}}" width="120" alt="Logo"></a>
             </div>
             <div class="card-body">
                 <h1 class="text-center"><b>JSF </b>Dashboard</h1>
@@ -75,9 +75,9 @@
     </div>
 
 
-    <script src="public/plugins/jquery/jquery.min.js"></script>
-    <script src="public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="public/dist/js/adminlte.min2167.js?v=3.2.0"></script>
+    <script src="{{url('public/plugins/jquery/jquery.min.js')}}"></script>
+    <script src="{{url('public/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{url('public/dist/js/adminlte.min2167.js?v=3.2.0')}}"></script>
     <script>
         $(document).ready(function () {
             $("#login").submit(function (e) {

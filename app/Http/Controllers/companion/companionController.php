@@ -7,16 +7,22 @@ use App\Models\category\categoryModel;
 use App\Models\companion\companionGallery;
 use App\Models\companion\companions;
 use App\Models\companion\dam_sireModel;
-use DB;
+
 use Illuminate\Http\Request;
-use Session;
 use Validator;
+use Session;
+use DB;
 
 class companionController extends Controller
 {
     public function companions()
     {
-        return view("companion.companions");
+        $companions = companions::select('t_companions.*', 'c.category_name')
+            ->leftJoin('t_category as c', 't_companions.category', '=', 'c.id')
+            ->where('t_companions.status', '!=', 0)
+            ->get();
+
+        return view("companion.companions", ['companions' => $companions]);
     }
     public function addCompanion()
     {
@@ -150,5 +156,13 @@ class companionController extends Controller
             ];
             return response()->json($result);
         }
+    }
+
+
+    public function updateCompanion($cID)
+    {
+        $categories = categoryModel::where('status', 1)->get();
+        $companion = companions::where('companion_id', '=', $cID)->first();
+        return view("companion.updateCompanion", ['companion' => $companion, 'categories' => $categories]);
     }
 }
