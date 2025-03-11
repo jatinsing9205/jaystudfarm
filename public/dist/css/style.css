@@ -6,7 +6,7 @@
     --black:#181818;
     --grey:#e7e7e7;
 }
-a{
+a:hover{
     color: var(--color3);
 }
 .nav-sidebar .nav-item:hover .nav.nav-treeview{
@@ -122,16 +122,31 @@ a{
 .text-sm .nav-compact .nav-link>.right, .text-sm .nav-compact .nav-link>p>.right{
     top: .5rem;
 }
-.login-page{
+/* .login-page{
     background: url(../img/login_back.png);
     background-size: cover;
+} */
+.login-page{
+    background: linear-gradient(rgba(0, 0, 0, 0.200),rgba(0, 0, 0, 0.200)),url(../img/jsf_admin_back.jpg);
+    background-size: cover;
 }
-
+.content-wrapper{
+    background: linear-gradient(rgba(0, 0, 0, 0.200),rgba(0, 0, 0, 0.200)),url(../img/admin_back.png);
+    background-size: cover;
+}
+table.dataTable tr td{
+    vertical-align: middle;
+}
 table .horse-image{
     width: 50px;
     height: 50px;
     object-fit:cover;
     /* border-radius: 50%; */
     border: 1px solid #fff;
-    box-shadow: 1px 2px 2px #3a24155b;
+    box-shadow: 1px 2px 2px #3a24157c;
+}
+div.dt-container .dt-paging .dt-paging-button{
+    padding:0.4em 0.9em;
+    background-color: #f7f7f7;
+    border-radius: 50%;
 }

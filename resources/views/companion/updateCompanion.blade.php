@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h4 class="m-0">Add Companion</h4>
+                    <h4 class="m-0">Update Companion</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Add Companion</li>
+                        <li class="breadcrumb-item active">Update Companion</li>
                     </ol>
                 </div>
             </div>
@@ -24,21 +24,21 @@
                     {{-- @csrf --}}
 
                     <div class="card-header">
-                        <p class="fw-bold mb-0">ADD COMPANION</p>
+                        <p class="fw-bold mb-0">Update COMPANION</p>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="companion_name">Name <span class="text-danger">*</span></label>
-                                    <input type="text" name="companion_name" id="companion_name" class="form-control">
+                                    <input type="text" name="companion_name" id="companion_name" class="form-control" value="{{$companion->name}}">
                                     <div class="companion_name_err error"></div>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="sex">SEX <span class="text-danger">*</span></label>
-                                    <input type="text" name="sex" id="sex" class="form-control">
+                                    <input type="text" name="sex" id="sex" class="form-control" value="{{$companion->sex}}">
                                     <div class="sex_err error"></div>
                                 </div>
                             </div>
@@ -57,7 +57,7 @@
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="date_of_birth">Date of Birth <span class="text-danger">*</span></label>
-                                    <input type="date" name="date_of_birth" id="date_of_birth" class="form-control">
+                                    <input type="date" name="date_of_birth" id="date_of_birth" class="form-control" value="{{$companion->dob}}">
                                     <div class="date_of_birth_err error"></div>
                                 </div>
                             </div>
@@ -279,12 +279,7 @@
             // Add button functionality for the dam/sire section
             $(document).on("click", ".addBtn", function () {
                 var input = $(".dam_sire_info").html();
-                var newRow = $(`<div class="row mb-3 dam_sire_info">${input}
-                                                                <div class="col-md-3 col-2">
-                                                                    <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button>
-                                                                </div>
-                                                            </div>`);
-
+                var newRow = $(`<div class="row mb-3 dam_sire_info">${input}<div class="col-md-3 col-2"> <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button></div></div>`);
                 newRow.find(".addBtnDiv").hide();
                 $(".more_input").append(newRow);
             });
@@ -317,11 +312,11 @@
 
             Array.from(e.target.files).forEach((file, i) => {
                 const imgContainer = $(`<div class="preview-image">
-                    <img src="${URL.createObjectURL(file)}" class="img-fluid">
-                    <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
-                        <i class="fa fa-trash"></i>
-                    </button>
-                </div>`);
+                            <img src="${URL.createObjectURL(file)}" class="img-fluid">
+                            <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </div>`);
                 galleryBox.append(imgContainer);
                 dt.items.add(file);
             });

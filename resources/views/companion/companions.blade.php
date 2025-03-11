@@ -48,8 +48,8 @@
                                 <tbody>
                                     @foreach ($companions as $companion)
                                                                     <tr>
-                                                                        <td>{{$companion->companion_id}}</td>
-                                                                        <td class="p-1">
+                                                                        <td><a href="" class="fw-bold"><i class="fa fa-link"></i> {{$companion->companion_id}}</a></td>
+                                                                        <td class="py-1">
                                                                             <img src="{{url('')}}/{{$companion->image}}" class="horse-image">
                                                                         </td>
                                                                         <td>{{$companion->name}}</td>
