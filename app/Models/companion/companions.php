@@ -2,6 +2,7 @@
 
 namespace App\Models\companion;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class companions extends Model
@@ -31,4 +32,35 @@ class companions extends Model
     //     'created_at',
     //     'updated_at',
     // ];
+
+    public function companionDetails($cID)
+    {
+        $companion = DB::table('t_companions')
+            ->leftJoin('t_category as c', 't_companions.category', '=', 'c.id')
+            ->select("t_companions.*", "c.category_name")
+            ->where([
+                't_companions.companion_id' => $cID
+            ])
+            ->get();
+
+        foreach ($companion as $com) {
+            $com->gallery_images = DB::table('t_companion_gallery')
+                ->where([
+                    'companion_id' => $com->companion_id,
+                    'status' => 1
+                ])
+                ->get()
+                ->toArray();
+        }
+        foreach ($companion as $product) {
+            $com->dam_sire_info = DB::table('t_companion_dam_sire')
+                ->where([
+                    'companion_id' => $com->companion_id,
+                    'status' => 1
+                ])
+                ->get()
+                ->toArray();
+        }
+        return $companion;
+    }
 }

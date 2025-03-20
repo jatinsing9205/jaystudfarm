@@ -17,4 +17,10 @@ class productGalleryModel extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(productModel::class, 'product_id'); // Foreign key 'product_id'
+    }
 }
+

@@ -24,10 +24,30 @@ Route::middleware(['login'])->group(function () {
     Route::get('/', [homeController::class, "index"])->name("home");
 
     //Companion 
-    Route::get("addCompanion", [companionController::class, "addCompanion"])->name('addCompanion');
     Route::get("companions", [companionController::class, "companions"])->name('companions');
+    Route::get("viewCompanion/{cID}", [companionController::class, "viewCompanion"])->name("viewCompanion");
+
+    Route::get("addCompanion", [companionController::class, "addCompanion"])->name('addCompanion');
     Route::post("addCompanionProcess", [companionController::class, "addCompanionProcess"])->name("addCompanionProcess");
-    Route::get("updateCompanion/{cID}", [companionController::class, "updateCompanion"]);
+
+    Route::get("deleteGalleryImage/{gId}", [companionController::class, "deleteGalleryImage"]);
+    Route::get("deleteGalleryVideo/{gId}", [companionController::class, "deleteGalleryVideo"]);
+    Route::get("deleteDamSire/{dsId}", [companionController::class, "deleteDamSire"]);
+
+    Route::get("updateCompanion/{cID}", [companionController::class, "updateCompanion"])->name("updateCompanion");
+    Route::post("updateCompanionProcess/{companion_id}", [companionController::class, "updateCompanionProcess"])->name("updateCompanionProcess");
+
+    
+
+
+
+
+
+
+
+
+
+
 
     //category
     Route::get('/getAllCategory', [categoryController::class, "getAllCategory"])->name("getAllCategory");

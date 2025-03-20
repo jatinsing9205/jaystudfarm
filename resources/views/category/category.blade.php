@@ -173,8 +173,6 @@
                             form.reset();
                             loadCategories();
                         } else {
-                            loader.height("0vh");
-                            loaderIMG.hide()
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message

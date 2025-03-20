@@ -172,7 +172,7 @@
                                         <div class="form-group">
                                             <label for="companion_video">Companion Video</label>
                                             <input type="file" class="form-control" id="companion_video"
-                                                name="companion_video" accept="video/*">
+                                                name="companion_video[]" multiple="" accept="video/*">
                                             <div class="companion_video_err error"></div>
                                         </div>
                                         <div class="product-image-box" id="product-video-box"></div>
@@ -248,11 +248,12 @@
                     success: function (data) {
                         console.log(data);
                         if (data.status == 'success') {
+                            form.reset()
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message
                             }).then(() => {
-                                //window.location.href = "{{route('companions')}}"
+                                window.location.href = "{{route('companions')}}"
                             })
                         } else {
                             Swal.fire({
@@ -316,7 +317,7 @@
             const galleryBox = $("#product-gallery-box");
 
             Array.from(e.target.files).forEach((file, i) => {
-                const imgContainer = $(`<div class="preview-image">
+                const imgContainer = $(`<div class="preview-image preimg">
                     <img src="${URL.createObjectURL(file)}" class="img-fluid">
                     <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
                         <i class="fa fa-trash"></i>
@@ -338,22 +339,51 @@
 
             input.files = dt.files;
             $(this).closest(".preview-image").remove();
+            $(".preimg").each(function (i) {
+                $(this).find(".remove-selected-image").data("index", i);
+            });
         });
 
         $("#companion_video").on("change", function (event) {
-            const file = event.target.files[0];
+            const files = event.target.files;
             const imageBox = document.getElementById("product-video-box");
 
-            // Clear any existing previews
-            imageBox.innerHTML = "";
+            // Loop through the selected files and create previews
+            Array.from(files).forEach((file, i) => {
+                const videoUrl = URL.createObjectURL(file);
 
-            if (file) {
-                const video = document.createElement("video");
-                video.src = URL.createObjectURL(file);
-                video.classList.add("img-fluid", "preview-image");
-                video.setAttribute("controls", true);
-                imageBox.appendChild(video);
-            }
+                const videoContainer = $(`
+                    <span class="preview-video prevdo m-1">
+                        <video src="${videoUrl}" alt="Video" controls></video>
+                        <button type="button" class="btn btn-danger btn-sm remove-video-btn" data-index="${i}">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </span>
+                `);
+
+                // Append the video preview to the imageBox
+                imageBox.appendChild(videoContainer[0]);
+            });
+        });
+
+        // Remove video and update file list
+        $(document).on("click", ".remove-video-btn", function () {
+            const index = $(this).data("index");
+            const input = document.getElementById("companion_video");
+            const dt = new DataTransfer();
+
+            Array.from(input.files).forEach((file, i) => {
+                if (i !== index) {
+                    dt.items.add(file);
+                }
+            });
+
+            input.files = dt.files;
+            $(this).closest(".preview-video").remove();
+
+            $(".prevdo").each(function (i) {
+                $(this).find(".remove-video-btn").data("index", i);
+            });
         });
 
         $(document).ready(function () {

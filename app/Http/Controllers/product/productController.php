@@ -15,8 +15,9 @@ class productController extends Controller
 {
     public function products()
     {
-        $products = productModel::get();
-        return view('product.product', $products);
+        $productModel = new productModel();
+        $products = $productModel->allProducts(); 
+        return view('product.product', ['products' => $products]);
     }
     public function addProduct()
     {
