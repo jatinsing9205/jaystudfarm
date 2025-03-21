@@ -316,3 +316,14 @@ hr.divider{
     justify-content: center;
     z-index: 9;
 }
+.nav-tabs .nav-link{
+    color: var(--color2);
+    padding: 0.6rem 1.2rem;
+}
+.nav-tabs .nav-link.active{
+    color: var(--color2);
+    font-weight: 600;
+}
+.btn-group-sm>.btn i, .btn-sm i, .text-sm .btn i{
+    font-size: 0.75rem !important;
+}

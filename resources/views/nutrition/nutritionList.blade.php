@@ -1,6 +1,5 @@
-@extends("layout.layout")
-@section("content")
-
+@extends('layout.layout')
+@section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -117,17 +116,17 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Hide the update form initially
             $("#updateNutritionForm").hide();
             $("#addNutritionForm").show();
 
-            function clearError(){
+            function clearError() {
                 $('.error').text('')
             }
 
             // Submit form for adding category
-            $("#addNutritionForm").submit(function (e) {
+            $("#addNutritionForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
                 var form = $("#addNutritionForm")[0];
@@ -139,11 +138,11 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{Route('addNutritionListProcess')}}",
+                    url: "{{ Route('addNutritionListProcess') }}",
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         if (data.status == 'success') {
@@ -162,7 +161,7 @@
                         }
                         $("#submitBtn").prop("disabled", false);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         console.log(error.responseJSON);
@@ -172,30 +171,30 @@
             });
 
             // Edit button click
-            $(document).on('click', '.edit-btn', function () {
+            $(document).on('click', '.edit-btn', function() {
                 clearError()
-                var supplementId = $(this).data('id');
+                var nutritionId = $(this).data('id');
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
                 loader.height("100vh");
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{url('editNutrition')}}/" + supplementId,
-                    success: function (data) {
+                    url: "{{ url('editNutrition') }}/" + nutritionId,
+                    success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         // Show update form and hide add form
                         $("#updateNutritionForm").show();
                         $("#addNutritionForm").hide();
 
-                        // Prefill the form with the supplement data
+                        // Prefill the form with the nutrition data
                         $("#updateNutritionForm .nutrition_name").val(data.name);
                         $("#updateNutritionForm .status").val(data.status);
                         $("#updateNutritionForm .category_id").val(data.id);
                         $("#updateNutritionForm").attr('data-id', data.id);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         console.log(error.responseJSON);
@@ -203,8 +202,8 @@
                 });
             });
 
-            // Submit form for updating supplement
-            $("#updateNutritionForm").submit(function (e) {
+            // Submit form for updating nutrition
+            $("#updateNutritionForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
                 var form = $("#updateNutritionForm")[0];
@@ -215,11 +214,11 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{url('updateNutritionListProcess')}}/" + $(this).attr('data-id'),
+                    url: "{{ url('updateNutritionListProcess') }}/" + $(this).attr('data-id'),
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         // console.log(data);
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -240,7 +239,7 @@
                             printError(data.errors);
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         console.log(error.responseJSON);
@@ -248,14 +247,20 @@
                 });
             });
 
-            $(document).on('click', '.delete-btn', function () {
-                var supplementId = $(this).data('id');
+            $(document).on('click', '.delete-btn', function() {
+                var nutritionId = $(this).data('id');
                 var isConfirmed = confirm("Are you sure you want to delete this Nutrition?");
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show()
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{url('deleteNutrition')}}/" + supplementId,
-                        success: function (data) {
+                        url: "{{ url('deleteNutrition') }}/" + nutritionId,
+                        success: function(data) {
+                            loader.height("0vh");
+                            loaderIMG.hide()
                             if (data.status == "success") {
                                 loadNutrition()
                                 Swal.fire({
@@ -269,7 +274,9 @@
                                 })
                             }
                         },
-                        error: function (error) {
+                        error: function(error) {
+                            loader.height("0vh");
+                            loaderIMG.hide()
                             console.log(error.responseJSON);
                         }
                     });
@@ -281,43 +288,43 @@
             function loadNutrition() {
                 $.ajax({
                     type: "GET",
-                    url: "{{Route('getAllNutritions')}}",
-                    success: function (data) {
-
+                    url: "{{ Route('getAllNutritions') }}",
+                    success: function(data) {
                         var table = $('.categoryList');
                         var tableBody = table.find('tbody').html('');
-                        data.forEach(function (supplement, index) {
-                            var row = `<tr>
-                                                                                <td>${index + 1}</td>
-                                                                                <td>${supplement.name}</td>
-                                                                                <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
-                                                                                <td>
-                                                                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
-                                                                                        <i class="fa fa-edit"></i>
-                                                                                    </button>
-                                                                                    <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
-                                                                                        <i class="fa fa-trash"></i>
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr>`;
+                        table.DataTable().clear().destroy();
+
+                        data.forEach(function(nutrition, index) {
+                            var row = `
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${nutrition.name}</td>
+                                    <td>${nutrition.status === '1' ? 'Active' : nutrition.status === '2' ? 'Inactive' : nutrition.status === '3' ? 'Draft' : 'N/A'}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm border edit-btn" data-id="${nutrition.id}">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                        <button data-id="${nutrition.id}" class="btn btn-danger btn-sm delete-btn">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
                             tableBody.append(row);
                         });
+
                         table.DataTable();
                     }
                 });
             }
 
-
             loadNutrition();
         });
 
         function printError(err) {
-            $.each(err, function (key, value) {
+            $.each(err, function(key, value) {
                 $("." + key + "_err").text(value)
             })
         }
-
-
     </script>
-
 @endsection

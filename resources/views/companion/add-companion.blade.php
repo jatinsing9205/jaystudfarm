@@ -38,7 +38,11 @@
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="sex">SEX <span class="text-danger">*</span></label>
-                                    <input type="text" name="sex" id="sex" class="form-control">
+                                    <select name="sex" id="sex" class="form-control form-select">
+                                        <option value="">Select Sex</option>
+                                        <option value="F">F</option>
+                                        <option value="M">M</option>
+                                    </select>
                                     <div class="sex_err error"></div>
                                 </div>
                             </div>
@@ -121,10 +125,12 @@
                             <div class="col-md-3 col-5">
                                 <select name="parent[]" id="parent" class="form-control form-select">
                                     <option value="">Select ( Dam / Sire )</option>
-                                    <option value="Sire">Sire</option>
                                     <option value="Dam">Dam</option>
-                                    <option value="Dam (Sire)">Dam (Sire)</option>
+                                    <option value="Sire">Sire</option>
+                                    <option value="Grand Sire">Grand Sire</option>
+                                    <option value="Great Grand Sire">Great Grand Sire</option>
                                     <option value="Dam (Dam)">Dam (Dam)</option>
+                                    <option value="Dam (Sire)">Dam (Sire)</option>
                                     <option value="Dam (Grand Sire)">Dam (Grand Sire)</option>
                                 </select>
                             </div>

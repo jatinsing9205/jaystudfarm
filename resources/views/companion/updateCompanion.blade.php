@@ -1,6 +1,5 @@
-@extends("layout.layout")
-@section("content")
-
+@extends('layout.layout')
+@section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -33,14 +32,18 @@
                                 <div class="form-group">
                                     <label for="companion_name">Name <span class="text-danger">*</span></label>
                                     <input type="text" name="companion_name" id="companion_name" class="form-control"
-                                        value="{{$companion->name}}">
+                                        value="{{ $companion->name }}">
                                     <div class="companion_name_err error"></div>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
-                                    <label for="sex">SEX <span class="text-danger">*</span></label>
-                                    <input type="text" name="sex" id="sex" class="form-control" value="{{$companion->sex}}">
+                                    <label for="sex">SEX <span class="text-danger">*</span></label> 
+                                    <select name="sex" id="sex" class="form-control form-select">
+                                        <option value="">Select Sex</option>
+                                        <option @if ($companion->sex == 'F') selected @endif value="F">F</option>
+                                        <option @if ($companion->sex == 'M') selected @endif  value="M">M</option>
+                                    </select>
                                     <div class="sex_err error"></div>
                                 </div>
                             </div>
@@ -50,9 +53,9 @@
                                     <select name="category" id="category" class="form-control form-select">
                                         <option value="">Select Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{$category->id}}" @if ($companion->category == $category->id) selected
-                                            @endif>
-                                                {{$category->category_name}}
+                                            <option value="{{ $category->id }}"
+                                                @if ($companion->category == $category->id) selected @endif>
+                                                {{ $category->category_name }}
                                             </option>
                                         @endforeach
                                     </select>
@@ -63,14 +66,14 @@
                                 <div class="form-group">
                                     <label for="date_of_birth">Date of Birth <span class="text-danger">*</span></label>
                                     <input type="date" name="date_of_birth" id="date_of_birth" class="form-control"
-                                        value="{{$companion->dob}}">
+                                        value="{{ $companion->dob }}">
                                     <div class="date_of_birth_err error"></div>
                                 </div>
                             </div>
                             <div class="col-md-3 col-sm-6">
                                 <div class="form-group">
                                     <label for="height">Height</label>
-                                    <input type="text" name="height" id="height" value="{{$companion->dob}}"
+                                    <input type="text" name="height" id="height" value="{{ $companion->dob }}"
                                         class="form-control">
                                     <div class="height_err error"></div>
                                 </div>
@@ -80,8 +83,9 @@
                                     <label for="companion_type">Type</label>
                                     <select name="companion_type" id="companion_type" class="form-control form-select">
                                         <option value="">Select Horse Type</option>
-                                        <option value="Show" @if ($companion->type == "Show") selected @endif>Show</option>
-                                        <option value="Breeding" @if ($companion->type == "Breeding") selected @endif>Breeding
+                                        <option value="Show" @if ($companion->type == 'Show') selected @endif>Show
+                                        </option>
+                                        <option value="Breeding" @if ($companion->type == 'Breeding') selected @endif>Breeding
                                         </option>
                                     </select>
 
@@ -92,7 +96,7 @@
                                 <div class="form-group">
                                     <label for="micro_chip_number">Micro Chip Number</label>
                                     <input type="text" name="micro_chip_number" id="micro_chip_number"
-                                        value="{{$companion->micro_chip_number}}" class="form-control">
+                                        value="{{ $companion->micro_chip_number }}" class="form-control">
                                     <div class="micro_chip_number_err error"></div>
                                 </div>
                             </div>
@@ -101,28 +105,29 @@
                                     <label for="source">Source <span class="text-danger">*</span></label>
                                     <select name="source" id="source" class="form-control form-select">
                                         <option value="">Select Source</option>
-                                        <option value="Purchased" @if ($companion->source == "Purchased") selected @endif>
+                                        <option value="Purchased" @if ($companion->source == 'Purchased') selected @endif>
                                             Purchased</option>
-                                        <option value="Born" @if ($companion->source == "Born") selected @endif>Born</option>
+                                        <option value="Born" @if ($companion->source == 'Born') selected @endif>Born
+                                        </option>
                                     </select>
                                     <div class="source_err error"></div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6" id="purchase_date_div" @if ($companion->source == "Born")
-                            style="display:none;" @else style="display:block;" @endif>
+                            <div class="col-md-3 col-sm-6" id="purchase_date_div"
+                                @if ($companion->source == 'Born') style="display:none;" @else style="display:block;" @endif>
                                 <div class="form-group">
                                     <label for="purchase_date">Purchase Date</label>
                                     <input type="date" id="purchase_date" name="purchase_date"
-                                        value="{{$companion->purchase_date}}" class="form-control">
+                                        value="{{ $companion->purchase_date }}" class="form-control">
                                     <div class="purchase_date_err error"></div>
                                 </div>
                             </div>
-                            <div class="col-md-3 col-sm-6" id="purchase_amount_div" @if ($companion->source == "Born")
-                            style="display:none;" @else style="display:block;" @endif>
+                            <div class="col-md-3 col-sm-6" id="purchase_amount_div"
+                                @if ($companion->source == 'Born') style="display:none;" @else style="display:block;" @endif>
                                 <div class="form-group">
                                     <label for="purchase_amount">Purchase Amount</label>
                                     <input type="text" id="purchase_amount" name="purchase_amount"
-                                        value="{{$companion->purchase_amount}}" class="form-control">
+                                        value="{{ $companion->purchase_amount }}" class="form-control">
                                     <div class="purchase_amount_err error"></div>
                                 </div>
                             </div>
@@ -141,13 +146,20 @@
                                 <div class="col-md-3 col-5">
                                     <select name="parent[]" class="form-control form-select">
                                         <option value="">Select ( Dam / Sire )</option>
-                                        <option value="Sire" {{ $dam_sire->identifier == 'Sire' ? 'selected' : '' }}>Sire</option>
-                                        <option value="Dam" {{ $dam_sire->identifier == 'Dam' ? 'selected' : '' }}>Dam</option>
-                                        <option value="Dam (Sire)" {{ $dam_sire->identifier == 'Dam (Sire)' ? 'selected' : '' }}>
-                                            Dam (Sire)</option>
-                                        <option value="Dam (Dam)" {{ $dam_sire->identifier == 'Dam (Dam)' ? 'selected' : '' }}>Dam
-                                            (Dam)</option>
-                                        <option value="Dam (Grand Sire)" {{ $dam_sire->identifier == 'Dam (Grand Sire)' ? 'selected' : '' }}>Dam (Grand Sire)</option>
+                                        <option {{ $dam_sire->identifier == 'Dam' ? 'selected' : '' }} value="Dam">Dam
+                                        </option>
+                                        <option {{ $dam_sire->identifier == 'Sire' ? 'selected' : '' }} value="Sire">
+                                            Sire</option>
+                                        <option {{ $dam_sire->identifier == 'Grand Sire' ? 'selected' : '' }}
+                                            value="Grand Sire">Grand Sire</option>
+                                        <option {{ $dam_sire->identifier == 'Great Grand Sire' ? 'selected' : '' }}
+                                            value="Great Grand Sire">Great Grand Sire</option>
+                                        <option {{ $dam_sire->identifier == 'Dam (Dam)' ? 'selected' : '' }}
+                                            value="Dam (Dam)">Dam (Dam)</option>
+                                        <option {{ $dam_sire->identifier == 'Dam (Sire)' ? 'selected' : '' }}
+                                            value="Dam (Sire)">Dam (Sire)</option>
+                                        <option {{ $dam_sire->identifier == 'Dam (Grand Sire)' ? 'selected' : '' }}
+                                            value="Dam (Grand Sire)">Dam (Grand Sire)</option>
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-5">
@@ -169,16 +181,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="short_description">Short Description</label>
-                                    <textarea class="form-control" id="short_description"
-                                        name="short_description">{{$companion->short_description}}</textarea>
+                                    <textarea class="form-control" id="short_description" name="short_description">{{ $companion->short_description }}</textarea>
                                     <div class="short_description_err error"></div>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" id="description"
-                                        name="description">{{$companion->description}}</textarea>
+                                    <textarea class="form-control" id="description" name="description">{{ $companion->description }}</textarea>
                                     <div class="description_err error"></div>
                                 </div>
                             </div>
@@ -193,7 +203,7 @@
                                             <div class="companion_image_err error"></div>
                                         </div>
                                         <div class="product-image-box" id="product-image-box">
-                                            <img src="{{url('')}}/{{$companion->image}}" alt="">
+                                            <img src="{{ url('') }}/{{ $companion->image }}" alt="">
                                         </div>
 
                                     </div>
@@ -206,15 +216,17 @@
                                         </div>
                                         <div class="product-image-box" id="product-video-box">
                                             @foreach ($companion->gallery_images as $video)
-                                                @if($video->type == 'video')
+                                                @if ($video->type == 'video')
                                                     <span class="preview-video m-1">
                                                         <a href="{{ url($video->file_path) }}" data-fancybox>
-                                                            <video src="{{ url($video->file_path) }}" controls alt="Video"></video>
+                                                            <video src="{{ url($video->file_path) }}" controls
+                                                                alt="Video"></video>
                                                             {{-- <div class="play-icon">
                                                                 <i class="fa fa-play"></i>
                                                             </div> --}}
                                                         </a>
-                                                        <button type="button" class="btn btn-danger btn-sm delete-video-btn"
+                                                        <button type="button"
+                                                            class="btn btn-danger btn-sm delete-video-btn"
                                                             data-image-id="{{ $video->id }}">
                                                             <i class="fa fa-trash"></i>
                                                         </button>
@@ -233,7 +245,7 @@
                                         <div class="product-image-box" id="product-gallery-box">
                                             @foreach ($companion->gallery_images as $img)
                                                 <span class="preview-image m-1">
-                                                    @if($img->type == 'image')
+                                                    @if ($img->type == 'image')
                                                         <img src="{{ url($img->file_path) }}" alt="image">
                                                         <button type="button" class="btn btn-danger btn-sm delete-btn"
                                                             data-image-id="{{ $img->id }}">
@@ -251,9 +263,12 @@
                                     <label for="status">Status <span class="text-danger">*</span></label>
                                     <select name="status" id="status" class="form-control form-select">
                                         <option value="">Select Status</option>
-                                        <option value="3" @if ($companion->status == '3') selected @endif>Draft</option>
-                                        <option value="1" @if ($companion->status == '1') selected @endif>Active</option>
-                                        <option value="2" @if ($companion->status == '2') selected @endif>Inactive</option>
+                                        <option value="3" @if ($companion->status == '3') selected @endif>Draft
+                                        </option>
+                                        <option value="1" @if ($companion->status == '1') selected @endif>Active
+                                        </option>
+                                        <option value="2" @if ($companion->status == '2') selected @endif>Inactive
+                                        </option>
                                     </select>
                                     <div class="status_err error"></div>
                                 </div>
@@ -272,7 +287,7 @@
 
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -280,7 +295,7 @@
             });
 
             //Submit Update Form
-            $("#updateCompanionForm").submit(function (e) {
+            $("#updateCompanionForm").submit(function(e) {
                 e.preventDefault();
                 var form = $("#updateCompanionForm")[0];
                 var data = new FormData(form);
@@ -292,13 +307,17 @@
 
                 clearError();
                 let parentData = [];
-                $('.dam_sire_info').each(function () {
+                $('.dam_sire_info').each(function() {
                     let parent = $(this).find('select[name="parent[]"]').val();
                     let parentName = $(this).find('input[name="parent_name[]"]').val();
                     let DamSireId = $(this).find('input[name="DamSireId[]"]').val();
 
                     if (parent && parentName) {
-                        parentData.push({ parent: parent, parentName: parentName, DamSireId: DamSireId });
+                        parentData.push({
+                            parent: parent,
+                            parentName: parentName,
+                            DamSireId: DamSireId
+                        });
                     }
                 });
                 data.append("parentData", JSON.stringify(parentData));
@@ -306,11 +325,11 @@
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
-                    url: "{{url('updateCompanionProcess')}}/{{$companion->companion_id}}",
+                    url: "{{ url('updateCompanionProcess') }}/{{ $companion->companion_id }}",
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         console.log(data);
@@ -318,8 +337,9 @@
                             Swal.fire({
                                 icon: data.status,
                                 title: data.message
-                            }).then(() => { 
-                                window.location.href = "{{route('viewCompanion', $companion->companion_id)}}"
+                            }).then(() => {
+                                window.location.href =
+                                    "{{ route('viewCompanion', $companion->companion_id) }}"
                             })
                         } else {
                             Swal.fire({
@@ -331,7 +351,7 @@
                         }
                         $("#submitBtn").prop("disabled", false);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error.responseJSON);
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -341,42 +361,44 @@
             });
 
             function printError(err) {
-                $.each(err, function (key, value) {
+                $.each(err, function(key, value) {
                     $("." + key + "_err").text(value);
                     $("input[name=" + key + "]").focus();
                 });
             }
 
             //Add Dam Sire info
-            $(document).on("click", ".addBtn", function () {
+            $(document).on("click", ".addBtn", function() {
                 var input = $(".dam_sire_info").html();
                 var newRow = $(`
-                                <div class="row mb-3 dam_sire_info"><div class="col-md-3 col-5">
-                                    <select name="parent[]" class="form-control form-select">
-                                        <option value="">Select ( Dam / Sire )</option>
-                                        <option value="Sire">Sire</option>
-                                        <option value="Dam">Dam</option>
-                                        <option value="Dam (Sire)">Dam (Sire)</option>
-                                        <option value="Dam (Dam)">Dam (Dam)</option>
-                                        <option value="Dam (Grand Sire)">Dam (Grand Sire)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3 col-5">
-                                    <input type="text" name="parent_name[]" class="form-control" placeholder="Name">
-                                </div><div class="col-md-3 col-2"> <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button></div></div>
-                            `);
+                                        <div class="row mb-3 dam_sire_info"><div class="col-md-3 col-5">
+                                            <select name="parent[]" class="form-control form-select">
+                                                <option value="">Select ( Dam / Sire )</option>
+                                                <option value="Dam">Dam</option>
+                                                <option value="Sire">Sire</option>
+                                                <option value="Grand Sire">Grand Sire</option>
+                                                <option value="Great Grand Sire">Great Grand Sire</option>
+                                                <option value="Dam (Dam)">Dam (Dam)</option>
+                                                <option value="Dam (Sire)">Dam (Sire)</option>
+                                                <option value="Dam (Grand Sire)">Dam (Grand Sire)</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3 col-5">
+                                            <input type="text" name="parent_name[]" class="form-control" placeholder="Name">
+                                        </div><div class="col-md-3 col-2"> <button class="btn btn-danger removeBtn"><i class="fa fa-trash"></i></button></div></div>
+                                    `);
                 newRow.find(".addBtnDiv").hide();
                 $(".more_input").append(newRow);
             });
 
             //Remove Dam Sire info
-            $(document).on("click", ".removeBtn", function () {
+            $(document).on("click", ".removeBtn", function() {
                 $(this).closest(".row").remove();
             });
         });
 
         //Companion image
-        document.getElementById("companion_image").addEventListener("change", function (event) {
+        document.getElementById("companion_image").addEventListener("change", function(event) {
             const file = event.target.files[0];
             const imageBox = document.getElementById("product-image-box");
 
@@ -391,19 +413,19 @@
         });
 
         //Companion Gallery Preview
-        $("#companion_gallery").change(function (e) {
+        $("#companion_gallery").change(function(e) {
             const dt = new DataTransfer();
             const galleryBox = $("#product-gallery-box");
 
             Array.from(e.target.files).forEach((file, i) => {
                 const imgContainer = $(`
-                                    <div class="preview-image preimg">
-                                        <img src="${URL.createObjectURL(file)}" class="img-fluid">
-                                        <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                `);
+                                            <div class="preview-image preimg">
+                                                <img src="${URL.createObjectURL(file)}" class="img-fluid">
+                                                <button class="btn btn-danger btn-sm position-absolute top-0 end-0 remove-selected-image" data-index="${i}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        `);
                 galleryBox.append(imgContainer);
                 dt.items.add(file);
             });
@@ -412,7 +434,7 @@
         });
 
         //Remove selected image from gallery
-        $(document).on("click", ".remove-selected-image", function () {
+        $(document).on("click", ".remove-selected-image", function() {
             const index = $(this).data("index");
             const input = document.getElementById("companion_gallery");
             const dt = new DataTransfer();
@@ -421,13 +443,13 @@
 
             input.files = dt.files;
             $(this).closest(".preview-image").remove();
-            $(".preimg").each(function (i) {
+            $(".preimg").each(function(i) {
                 $(this).find(".remove-selected-image").data("index", i);
             });
         });
 
         //Companion video gallery preview
-        $("#companion_video").on("change", function (event) {
+        $("#companion_video").on("change", function(event) {
             const files = event.target.files;
             const imageBox = document.getElementById("product-video-box");
 
@@ -435,20 +457,20 @@
                 const videoUrl = URL.createObjectURL(file);
 
                 const videoContainer = $(`
-                                    <span class="preview-video prevdo m-1">
-                                        <video src="${videoUrl}" alt="Video" controls></video>
-                                        <button type="button" class="btn btn-danger btn-sm remove-video-btn" data-index="${i}">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </span>
-                                `);
+                                            <span class="preview-video prevdo m-1">
+                                                <video src="${videoUrl}" alt="Video" controls></video>
+                                                <button type="button" class="btn btn-danger btn-sm remove-video-btn" data-index="${i}">
+                                                    <i class="fa fa-trash"></i>
+                                                </button>
+                                            </span>
+                                        `);
 
                 imageBox.appendChild(videoContainer[0]);
             });
         });
 
         //Companion remove video selected preview
-        $(document).on("click", ".remove-video-btn", function () {
+        $(document).on("click", ".remove-video-btn", function() {
             const index = $(this).data("index");
             const input = document.getElementById("companion_video");
             const dt = new DataTransfer();
@@ -462,16 +484,16 @@
             input.files = dt.files;
             $(this).closest(".preview-video").remove();
 
-            $(".prevdo").each(function (i) {
+            $(".prevdo").each(function(i) {
                 $(this).find(".remove-video-btn").data("index", i);
             });
         });
 
         //On change source payment date and amount
-        $(document).ready(function () {
+        $(document).ready(function() {
             $("#purchase_date_div").hide()
             $("#purchase_amount_div").hide()
-            $("#source").on("change", function () {
+            $("#source").on("change", function() {
                 var source = $("#source").val()
                 if (source == "Purchased") {
                     // console.log("Purchased")
@@ -488,15 +510,15 @@
         })
 
         //Delete Dam Sire Info
-        $(document).on('click', '.dam_sire_info .delete-dam-sire-info', function () {
+        $(document).on('click', '.dam_sire_info .delete-dam-sire-info', function() {
             var gId = $(this).data('ds-id');
             console.log(gId)
             var isConfirmed = confirm("Are you sure you want to delete this Dam/Sire Info?");
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{url('deleteDamSire')}}/" + gId,
-                    success: function (data) {
+                    url: "{{ url('deleteDamSire') }}/" + gId,
+                    success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({
                                 icon: data.status,
@@ -512,7 +534,7 @@
                             })
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error.responseJSON);
                     }
                 });
@@ -522,14 +544,14 @@
         });
 
         //Delete Gallery Image
-        $(document).on('click', '#product-gallery-box .delete-btn', function () {
+        $(document).on('click', '#product-gallery-box .delete-btn', function() {
             var gId = $(this).data('image-id');
             var isConfirmed = confirm("Are you sure you want to delete this Image?");
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{url('deleteGalleryImage')}}/" + gId,
-                    success: function (data) {
+                    url: "{{ url('deleteGalleryImage') }}/" + gId,
+                    success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({
                                 icon: data.status,
@@ -545,7 +567,7 @@
                             })
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error.responseJSON);
                     }
                 });
@@ -555,14 +577,14 @@
         });
 
         //Delete gallery video
-        $(document).on('click', '#product-video-box .delete-video-btn', function () {
+        $(document).on('click', '#product-video-box .delete-video-btn', function() {
             var gId = $(this).data('image-id');
             var isConfirmed = confirm("Are you sure you want to delete this Video?");
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{url('deleteGalleryVideo')}}/" + gId,
-                    success: function (data) {
+                    url: "{{ url('deleteGalleryVideo') }}/" + gId,
+                    success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({
                                 icon: data.status,
@@ -578,7 +600,7 @@
                             })
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.log(error.responseJSON);
                     }
                 });
@@ -586,7 +608,5 @@
                 return false;
             }
         });
-
     </script>
-
 @endsection

@@ -8,6 +8,8 @@ use App\Models\companion\companionGallery;
 use App\Models\companion\companions;
 use App\Models\companion\dam_sireModel;
 
+use App\Models\product\cartModel;
+use Cookie;
 use Illuminate\Http\Request;
 use Validator;
 use Session;
@@ -20,6 +22,7 @@ class companionController extends Controller
         $companions = companions::select('t_companions.*', 'c.category_name')
             ->leftJoin('t_category as c', 't_companions.category', '=', 'c.id')
             ->where('t_companions.status', '!=', 0)
+            ->orderBy("id", "DESC")
             ->get();
 
         return view("companion.companions", ['companions' => $companions]);
@@ -357,6 +360,7 @@ class companionController extends Controller
         $companionModel = new companions();
         $companion = $companionModel->companionDetails($companion_id);
         $companion = $companion[0];
-        return view("companion/viewCompanion", ['companion' => $companion]);
+        return view("companion.viewCompanion", ['companion' => $companion]);
     }
+
 }

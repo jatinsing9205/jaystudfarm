@@ -1,6 +1,5 @@
-@extends("layout.layout")
-@section("content")
-
+@extends('layout.layout')
+@section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -33,7 +32,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Category Name</label>
-                                            <input type="text" name="category_name" id="category_name" class="form-control">
+                                            <input type="text" name="category_name" id="category_name"
+                                                class="form-control">
                                             <div class="category_name_err error"></div>
                                         </div>
                                     </div>
@@ -136,17 +136,17 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Hide the update form initially
             $("#updateCategoryForm").hide();
             $("#addCategoryForm").show();
 
-            function clearError(){
+            function clearError() {
                 $('.error').text('')
             }
 
             // Submit form for adding category
-            $("#addCategoryForm").submit(function (e) {
+            $("#addCategoryForm").submit(function(e) {
                 e.preventDefault();
                 clearError();
                 var form = $("#addCategoryForm")[0];
@@ -158,11 +158,11 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{Route('addCategoryProcess')}}",
+                    url: "{{ Route('addCategoryProcess') }}",
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         if (data.status == 'success') {
@@ -181,7 +181,7 @@
                         }
                         $("#submitBtn").prop("disabled", false);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         console.log(error.responseJSON);
@@ -191,7 +191,7 @@
             });
 
             // Edit button click
-            $(document).on('click', '.edit-btn', function () {
+            $(document).on('click', '.edit-btn', function() {
                 clearError();
                 var categoryId = $(this).data('id');
                 var loader = $('.preloader');
@@ -200,8 +200,8 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{url('editCategory')}}/" + categoryId,
-                    success: function (data) {
+                    url: "{{ url('editCategory') }}/" + categoryId,
+                    success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         // Show update form and hide add form
@@ -210,12 +210,13 @@
 
                         // Prefill the form with the category data
                         $("#updateCategoryForm .category_name").val(data.category_name);
-                        $("#updateCategoryForm .parent_category").val(data.parent_id).trigger('change');
+                        $("#updateCategoryForm .parent_category").val(data.parent_id).trigger(
+                            'change');
                         $("#updateCategoryForm .status").val(data.status);
                         $("#updateCategoryForm .category_id").val(data.id);
                         $("#updateCategoryForm").attr('data-id', data.id);
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide();
                         console.log(error.responseJSON);
@@ -224,7 +225,7 @@
             });
 
             // Submit form for updating category
-            $("#updateCategoryForm").submit(function (e) {
+            $("#updateCategoryForm").submit(function(e) {
                 e.preventDefault();
                 clearError();
                 var form = $("#updateCategoryForm")[0];
@@ -235,11 +236,11 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{url('updateCategory')}}/" + $(this).attr('data-id'),
+                    url: "{{ url('updateCategory') }}/" + $(this).attr('data-id'),
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
                         // console.log(data);
                         if (data.status == 'success') {
                             loader.height("0vh");
@@ -261,7 +262,7 @@
                             printError(data.errors);
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
                         loader.height("0vh");
                         loaderIMG.hide();
                         console.log(error.responseJSON);
@@ -269,14 +270,20 @@
                 });
             });
 
-            $(document).on('click', '.delete-btn', function () {
+            $(document).on('click', '.delete-btn', function() {
                 var categoryId = $(this).data('id');
                 var isConfirmed = confirm("Are you sure you want to delete this Category?");
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show()
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{url('deleteCategory')}}/" + categoryId,
-                        success: function (data) {
+                        url: "{{ url('deleteCategory') }}/" + categoryId,
+                        success: function(data) {
+                            loader.height("0vh");
+                            loaderIMG.hide()
                             if (data.status == "success") {
                                 Swal.fire({
                                     icon: data.status,
@@ -290,7 +297,9 @@
                                 })
                             }
                         },
-                        error: function (error) {
+                        error: function(error) {
+                            loader.height("0vh");
+                            loaderIMG.hide()
                             console.log(error.responseJSON);
                         }
                     });
@@ -302,34 +311,40 @@
             function loadCategories() {
                 $.ajax({
                     type: "GET",
-                    url: "{{Route('getAllCategory')}}",
-                    success: function (data) {
+                    url: "{{ Route('getAllCategory') }}",
+                    success: function(data) {
                         var select = $('#parent_category');
                         var selectUpdate = $('.parent_category');
                         select.html('<option value="">Select Parent Category</option>');
                         selectUpdate.html('<option value="">Select Parent Category</option>');
-                        data.forEach(function (category) {
-                            select.append(`<option value="${category.id}">${category.category_name}</option>`);
-                            selectUpdate.append(`<option value="${category.id}">${category.category_name}</option>`);
+                        data.forEach(function(category) {
+                            select.append(
+                                `<option value="${category.id}">${category.category_name}</option>`
+                            );
+                            selectUpdate.append(
+                                `<option value="${category.id}">${category.category_name}</option>`
+                            );
                         });
 
                         var table = $('.categoryList');
                         var tableBody = table.find('tbody').html('');
-                        data.forEach(function (category, index) {
+                        table.DataTable().clear().destroy();
+
+                        data.forEach(function(category, index) {
                             var row = `<tr>
-                                                                                <td>${index + 1}</td>
-                                                                                <td>${category.category_name}</td>
-                                                                                <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
-                                                                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Inactive' : category.status === '3' ? 'Draft' : 'N/A'}</td>
-                                                                                <td>
-                                                                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
-                                                                                        <i class="fa fa-edit"></i>
-                                                                                    </button>
-                                                                                    <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
-                                                                                        <i class="fa fa-trash"></i>
-                                                                                    </button>
-                                                                                </td>
-                                                                            </tr>`;
+                                <td>${index + 1}</td>
+                                <td>${category.category_name}</td>
+                                <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
+                                <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Inactive' : category.status === '3' ? 'Draft' : 'N/A'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>`;
                             tableBody.append(row);
                         });
                         table.DataTable();
@@ -342,12 +357,9 @@
         });
 
         function printError(err) {
-            $.each(err, function (key, value) {
+            $.each(err, function(key, value) {
                 $("." + key + "_err").text(value)
             })
         }
-
-
     </script>
-
 @endsection

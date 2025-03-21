@@ -78,7 +78,7 @@ Route::middleware(['login'])->group(function () {
     Route::post('/addNutritionListProcess', [nutritionListController::class, "addNutritionListProcess"])->name("addNutritionListProcess");
     Route::get('editNutrition/{id}', [nutritionListController::class, 'editNutrition'])->name('editNutrition');
     Route::post('/updateNutritionListProcess/{cID}', [nutritionListController::class, "updateNutritionListProcess"]);
-    Route::get('/deleteNutrition/{cID}', [supplementListController::class, "deleteNutrition"]);
+    Route::get('/deleteNutrition/{cID}', [nutritionListController::class, "deleteNutrition"]);
 
     //Medical List
     Route::get('/medical', [medicalListController::class, "medical"])->name("medical");
