@@ -1,56 +1,53 @@
 <?php
 
-namespace App\Http\Controllers\supplements;
+namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use App\Models\category\categoryModel;
-use App\Models\supplements\supplementList;
-use DB;
+use App\Models\login\accessModel;
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
-class supplementListController extends Controller
+class accessController extends Controller
 {
-    public function supplement()
+    public function access()
     {
-        return view("supplements.supplementList");
+        return view("users.access");
     }
 
-    public function getAllSupplements()
+    public function getAllAccess()
     {
-        $supplements = DB::table('t_supplement_list')
+        $accesss = DB::table('t_access')
             ->where('status', '!=', 0)
             ->get();
-        return response($supplements);
+        return response($accesss);
 
     }
 
-    public function addSupplementListProcess(Request $request)
+    public function addAccessProcess(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'supplement_name' => 'required|string',
+            'access_name' => 'required|string',
             'status' => 'required|string',
         ]);
 
         if ($validator->passes()) {
             $data = [
-                'name' => $request->input('supplement_name'),
+                'access_name' => $request->input('access_name'),
                 'status' => $request->input('status'),
-                'created_by' => Session::get('user')->username,
-                'updated_by' => Session::get('user')->username,
             ];
-            if ($insert = DB::table('t_supplement_list')->insert($data)) {
+            if ($insert = DB::table('t_access')->insert($data)) {
                 $result = [
                     "status" => "success",
-                    "message" => "Supplement added successfully!",
+                    "message" => "Access  added successfully!",
                     "user" => $insert
                 ];
                 return response()->json($result);
             } else {
                 $result = [
                     "status" => "error",
-                    "message" => "Supplement could not be added!",
+                    "message" => "Access  could not be added!",
                     "user" => $insert
                 ];
                 return response()->json($result);
@@ -64,21 +61,20 @@ class supplementListController extends Controller
         }
     }
 
-    public function editSupplement($id)
+    public function editAccess($id)
     {
-        $supplement = supplementList::find($id);
-        // print_r($supplement);
-        return response()->json($supplement);
+        $access = accessModel::find($id);
+        return response()->json($access);
     }
 
-    public function updateSupplementListProcess(Request $request, $sID)
+    public function updateAccessProcess(Request $request, $aID)
     {
-        if (!$sID) {
-            return redirect()->route('supplement');
+        if (!$aID) {
+            return redirect()->route('access');
         }
 
         $validator = Validator::make($request->all(), [
-            'supplement_name' => 'required|string',
+            'access_name' => 'required|string',
             'status' => 'required|string',
         ]);
 
@@ -89,26 +85,25 @@ class supplementListController extends Controller
             ]);
         }
 
-        $category = DB::table('t_supplement_list')->where('id', $sID)->first();
+        $category = DB::table('t_access')->where('id', $aID)->first();
         if (!$category) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Supplement not found!',
-                'id' => $sID
-            ], 404);
+                'message' => 'access not found!',
+                'id' => $aID
+            ]);
         }
 
         $data = [
-            'name' => $request->input('supplement_name'),
+            'access_name' => $request->input('access_name'),
             'status' => $request->input('status'),
-            'updated_by' => Session::get('user')->username,
         ];
-        $update = DB::table('t_supplement_list')->where('id', $sID)->update($data);
+        $update = DB::table('t_access')->where('id', $aID)->update($data);
 
         if ($update) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Supplement updated successfully!'
+                'message' => 'Access updated successfully!'
             ]);
         } else {
             return response()->json([
@@ -118,21 +113,20 @@ class supplementListController extends Controller
         }
     }
 
-    public function deleteSupplement(Request $request, $sID)
+    public function deleteaccess(Request $request, $aID)
     {
-        $deleted = DB::table('t_supplement_list')->where('id', '=', $sID)->update(['status' => 0]);
+        $deleted = DB::table('t_access')->where('id', '=', $aID)->update(['status' => 0]);
 
         if ($deleted) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Supplement deleted successfully!'
+                'message' => 'Access deleted successfully!'
             ]);
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Supplement could not be deleted!'
+                'message' => 'Access could not be deleted!'
             ]);
         }
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\login;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class loginModel extends Model
@@ -21,5 +22,13 @@ class loginModel extends Model
         'updated_at',
     ];
 
+
+    public function getAllUsers()
+    {
+        return DB::table('t_user_login')
+            ->leftJoin('t_access', 't_user_login.access', '=', 't_access.id')
+            ->select('t_user_login.*', 't_access.access_name')
+            ->get();
+    }
 
 }

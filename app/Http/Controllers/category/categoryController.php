@@ -144,7 +144,5 @@ class categoryController extends Controller
         return response()->json($category);
     }
 
-
-
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\category;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class categoryModel extends Model
@@ -19,4 +20,11 @@ class categoryModel extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function countCategory()
+    {
+        return DB::table('t_category')
+            ->where('status', 1)
+            ->count();
+    }
 }

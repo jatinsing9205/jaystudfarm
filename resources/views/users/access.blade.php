@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="m-0">Medical List</h4>
+                    <h4 class="m-0">Access </h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                        <li class="breadcrumb-item active">Medical List</li>
+                        <li class="breadcrumb-item active">Access </li>
                     </ol>
                 </div>
             </div>
@@ -22,19 +22,19 @@
                 <div class="col-lg-5">
                     <div class="card">
                         <!-- Add Category Form -->
-                        <form id="addMedicalForm">
+                        <form id="addAccessForm">
                             @csrf
                             <div class="card-header">
-                                <p class="m-0 fw-bold">Add Medical List</p>
+                                <p class="m-0 fw-bold">Add Access </p>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Medical Name</label>
-                                            <input type="text" name="medical_name" id="medical_name"
+                                            <label for="">Access Name</label>
+                                            <input type="text" name="access_name" id="access_name"
                                                 class="form-control">
-                                            <div class="medical_name_err error"></div>
+                                            <div class="access_name_err error"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -57,18 +57,18 @@
                         </form>
 
                         <!-- Update Category Form -->
-                        <form id="updateMedicalForm">
+                        <form id="updateAccessForm">
                             @csrf
                             <div class="card-header">
-                                <p class="m-0 fw-bold">Update Medical List</p>
+                                <p class="m-0 fw-bold">Update Access </p>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label for="">Medical Name</label>
-                                            <input type="text" name="medical_name" class="form-control medical_name">
-                                            <div class="medical_name_err error"></div>
+                                            <label for="">Access Name</label>
+                                            <input type="text" name="access_name" class="form-control access_name">
+                                            <div class="access_name_err error"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -94,14 +94,14 @@
                 <div class="col-lg-7">
                     <div class="card">
                         <div class="card-header">
-                            <p class="m-0 fw-bold">Medical List</p>
+                            <p class="m-0 fw-bold">Access </p>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered MedicalTable dataTable">
+                            <table class="table table-bordered AccessTable dataTable">
                                 <thead>
                                     <tr>
                                         <th>S.No.</th>
-                                        <th>Medical Name</th>
+                                        <th>Access Name</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -118,18 +118,18 @@
     <script>
         $(document).ready(function() {
             // Hide the update form initially
-            $("#updateMedicalForm").hide();
-            $("#addMedicalForm").show();
+            $("#updateAccessForm").hide();
+            $("#addAccessForm").show();
 
             function clearError() {
                 $('.error').text('')
             }
 
             // Submit form for adding category
-            $("#addMedicalForm").submit(function(e) {
+            $("#addAccessForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
-                var form = $("#addMedicalForm")[0];
+                var form = $("#addAccessForm")[0];
                 var data = new FormData(form);
                 $("#submitBtn").prop("disabled", true);
                 var loader = $('.preloader');
@@ -138,7 +138,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addMedicalListProcess') }}",
+                    url: "{{ Route('addAccessProcess') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -151,7 +151,7 @@
                                 title: data.message
                             })
                             form.reset();
-                            loadMedicals();
+                            loadAccesss();
                         } else {
                             Swal.fire({
                                 icon: data.status,
@@ -173,26 +173,26 @@
             // Edit button click
             $(document).on('click', '.edit-btn', function() {
                 clearError()
-                var MedicalId = $(this).data('id');
+                var AccessId = $(this).data('id');
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
                 loader.height("100vh");
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editMedical') }}/" + MedicalId,
+                    url: "{{ url('editAccess') }}/" + AccessId,
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
                         // Show update form and hide add form
-                        $("#updateMedicalForm").show();
-                        $("#addMedicalForm").hide();
+                        $("#updateAccessForm").show();
+                        $("#addAccessForm").hide();
 
-                        // Prefill the form with the Medical data
-                        $("#updateMedicalForm .medical_name").val(data.name);
-                        $("#updateMedicalForm .status").val(data.status);
-                        $("#updateMedicalForm .category_id").val(data.id);
-                        $("#updateMedicalForm").attr('data-id', data.id);
+                        // Prefill the form with the Access data
+                        $("#updateAccessForm .access_name").val(data.access_name);
+                        $("#updateAccessForm .status").val(data.status);
+                        $("#updateAccessForm .category_id").val(data.id);
+                        $("#updateAccessForm").attr('data-id', data.id);
                     },
                     error: function(error) {
                         console.log(error.responseJSON);
@@ -200,11 +200,11 @@
                 });
             });
 
-            // Submit form for updating Medical
-            $("#updateMedicalForm").submit(function(e) {
+            // Submit form for updating Access
+            $("#updateAccessForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
-                var form = $("#updateMedicalForm")[0];
+                var form = $("#updateAccessForm")[0];
                 var data = new FormData(form);
                 var loader = $('.preloader');
                 var loaderIMG = $('.preloader img');
@@ -212,7 +212,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateMedicalListProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ url('updateAccessProcess') }}/" + $(this).attr('data-id'),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -225,9 +225,9 @@
                                 icon: data.status,
                                 title: data.message
                             })
-                            loadMedicals(); 
-                            $("#updateMedicalForm").hide();
-                            $("#addMedicalForm").show();
+                            loadAccesss(); 
+                            $("#updateAccessForm").hide();
+                            $("#addAccessForm").show();
                         } else {
                             Swal.fire({
                                 icon: data.status,
@@ -245,15 +245,15 @@
             });
 
             $(document).on('click', '.delete-btn', function() {
-                var MedicalId = $(this).data('id');
-                var isConfirmed = confirm("Are you sure you want to delete this medical?");
+                var AccessId = $(this).data('id');
+                var isConfirmed = confirm("Are you sure you want to delete this Access?");
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteMedical') }}/" + MedicalId,
+                        url: "{{ url('deleteAccess') }}/" + AccessId,
                         success: function(data) {
                             if (data.status == "success") {
-                                loadMedicals()
+                                loadAccesss()
                                 Swal.fire({
                                     icon: data.status,
                                     title: data.message
@@ -274,25 +274,25 @@
                 }
             });
 
-            function loadMedicals() {
+            function loadAccesss() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllMedicals') }}",
+                    url: "{{ Route('getAllAccess') }}",
                     success: function(data) {
 
-                        var table = $('.MedicalTable');
+                        var table = $('.AccessTable');
                         var tableBody = table.find('tbody').html('');
                         table.DataTable().clear().destroy();
-                        data.forEach(function(Medical, index) {
+                        data.forEach(function(Access, index) {
                             var row = `<tr>
                                         <td>${index + 1}</td>
-                                        <td>${Medical.name}</td>
-                                        <td>${Medical.status === '1' ? 'Active' : Medical.status === '2' ? 'Inactive' : Medical.status === '3' ? 'Draft' : 'N/A'}</td>
+                                        <td>${Access.access_name}</td>
+                                        <td>${Access.status === '1' ? 'Active' : Access.status === '2' ? 'Inactive' : Access.status === '3' ? 'Draft' : 'N/A'}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm border edit-btn" data-id="${Medical.id}">
+                                            <button class="btn btn-primary btn-sm border edit-btn" data-id="${Access.id}">
                                                 <i class="fa fa-edit"></i>
                                             </button>
-                                            <button data-id="${Medical.id}" class="btn btn-danger btn-sm delete-btn">
+                                            <button data-id="${Access.id}" class="btn btn-danger btn-sm delete-btn">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </td>
@@ -305,7 +305,7 @@
             }
 
 
-            loadMedicals();
+            loadAccesss();
         });
 
         function printError(err) {

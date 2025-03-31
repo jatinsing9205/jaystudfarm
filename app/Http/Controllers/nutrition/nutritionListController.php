@@ -72,7 +72,10 @@ class nutritionListController extends Controller
     public function updateNutritionListProcess(Request $request, $sID)
     {
         if (!$sID) {
-            return redirect()->route('nutrition');
+            return response()->json([
+                'status' => 'eror',
+                'message' => 'Nutrition id not found!'
+            ]);
         }
 
         $validator = Validator::make($request->all(), [
@@ -93,7 +96,7 @@ class nutritionListController extends Controller
                 'status' => 'error',
                 'message' => 'Nutrition not found!',
                 'id' => $sID
-            ], 404);
+            ]);
         }
 
         $data = [

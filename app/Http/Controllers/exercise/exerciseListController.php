@@ -29,108 +29,78 @@ class exerciseListController extends Controller
     public function addExerciseListProcess(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'exercise_name' => 'required|string',
-            'status' => 'required|string',
+            'exercise_name' => 'required',
+            'status' => 'required',
         ]);
-
-        if ($validator->passes()) {
-            $data = [
-                'name' => $request->input('exercise_name'),
-                'status' => $request->input('status'),
-                'created_by' => Session::get('user')->username,
-                'updated_by' => Session::get('user')->username,
-            ];
-            if ($insert = DB::table('t_exercise_list')->insert($data)) {
-                $result = [
-                    "status" => "success",
-                    "message" => "Exercise list added successfully!",
-                    "user" => $insert
-                ];
-                return response()->json($result);
-            } else {
-                $result = [
-                    "status" => "error",
-                    "message" => "Exercise list could not be added!",
-                    "user" => $insert
-                ];
-                return response()->json($result);
-            }
-        } else {
-            $result = [
-                "status" => "error",
-                "error" => $validator->errors()
-            ];
-            return response()->json($result);
-        }
-    }
-
-    public function editExercise($id)
-    {
-        $exercises = exerciseList::find($id);
-        return response()->json($exercises);
-    }
-
-    public function updateExerciseListProcess(Request $request, $eID)
-    {
-        if (!$eID) {
-            return redirect()->route('exercise');
-        }
-
-        $validator = Validator::make($request->all(), [
-            'exercise_name' => 'required|string',
-            'status' => 'required|string',
-        ]);
-
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'errors' => $validator->errors()
-            ]);
+            return response()->json(['status' => 'error', 'error' => $validator->errors()]);
         }
-
-        $category = DB::table('t_exercise_list')->where('id', $eID)->first();
-        if (!$category) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Medical not found!',
-                'id' => $eID
-            ], 404);
-        }
-
-        $data = [
+        $insert = DB::table('t_exercise_list')->insertGetId([
             'name' => $request->input('exercise_name'),
             'status' => $request->input('status'),
+            'created_by' => Session::get('user')->username,
             'updated_by' => Session::get('user')->username,
-        ];
-        $update = DB::table('t_exercise_list')->where('id', $eID)->update($data);
-
-        if ($update) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Exercise updated successfully!'
-            ]);
+        ]);
+        if ($insert) {
+            return response()->json(['status' => 'success', 'message' => 'Exercise Added Successfully']);
         } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'No changes found!'
-            ]);
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
         }
     }
 
-    public function deleteExercise(Request $request, $sID)
+    public function editExercise($eID)
     {
-        $deleted = DB::table('t_exercise_list')->where('id', '=', $sID)->update(["status" => 0]);
+        if (!$eID) {
+            return response()->json(['status' => 'success', 'message' => "Exercise not found!"]);
+        }
+        $exercise = DB::table('t_exercise_list')
+            ->where('id', $eID)
+            ->first();
+        if (!$exercise) {
+            return response()->json(['status' => 'success', 'message' => "Exercise not found!"]);
+        }
+        return response()->json($exercise);
 
-        if ($deleted) {
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Exercise deleted successfully!'
+    }
+
+    public function updateExerciseListProcess(Request $request,$eId){
+        $validator = Validator::make($request->all(), [
+            'exercise_name' => 'required',
+            'status' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['status' => 'error', 'error' => $validator->errors()]);
+        }
+        $update = DB::table('t_exercise_list')
+            ->where('id', $eId)
+            ->update([
+                'name' => $request->input('exercise_name'),
+                'status' => $request->input('status'),
+                'updated_by' => Session::get('user')->username,
             ]);
+        if ($update) {
+            return response()->json(['status' => 'success', 'message' => 'Exercise Updated Successfully']);
         } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Exercise could not be deleted!'
-            ]);
+            return response()->json(['status' => 'error', 'message' => 'No changes found!']);
         }
     }
+
+    public function deleteExercise(Request $request,$eId){
+        if (!$eId) {
+            return response()->json(['status' => 'success', 'message' => "Error id not found!"]);
+        }
+        $delete = DB::table('t_exercise_list')
+            ->where('id', $eId)
+            ->update([
+                'status' => 0,
+                'updated_by' => Session::get('user')->username,
+            ]);
+        if ($delete) {
+            return response()->json(['status' => 'success', 'message' => 'Exercise Deleted Successfully']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
+        }
+
+    }
+
 }

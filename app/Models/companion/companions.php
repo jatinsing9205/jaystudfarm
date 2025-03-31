@@ -63,4 +63,30 @@ class companions extends Model
         }
         return $companion;
     }
+
+    public function countCompanion()
+    {
+        return DB::table('t_companions')
+            ->where('status', 1)
+            ->count();
+    }
+
+    public function countHorses()
+    {
+        return DB::table('t_companions')
+            ->leftJoin('t_category as c', 't_companions.category', '=', 'c.id')
+            ->where('t_companions.status', 1)
+            ->whereIn('c.category_name', ['Mare', 'Filly', 'Stallion', 'Colt'])
+            ->count();
+    }
+
+    public function countDogs()
+    {
+        return DB::table('t_companions')
+            ->leftJoin('t_category as c', 't_companions.category', '=', 'c.id')
+            ->where('t_companions.status', 1)
+            ->whereIn('c.category_name', ['Dog'])
+            ->count();
+    }
+
 }

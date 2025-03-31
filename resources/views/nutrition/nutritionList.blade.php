@@ -1,14 +1,14 @@
 @extends('layout.layout')
 @section('content')
-    <div class="content-header">
+    <div class="content-header mb-2">
         <div class="container-fluid">
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-sm-6">
                     <h4 class="m-0">Nutrition List</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                         <li class="breadcrumb-item active">Nutrition List</li>
                     </ol>
                 </div>
@@ -106,7 +106,9 @@
                                         <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody></tbody>
+                                <tbody>
+                                    <!-- Nutrition List will be loaded here -->
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -143,6 +145,7 @@
                     processData: false,
                     contentType: false,
                     success: function(data) {
+                        // console.log(data);
                         loader.height("0vh");
                         loaderIMG.hide()
                         if (data.status == 'success') {
@@ -182,6 +185,7 @@
                     type: "GET",
                     url: "{{ url('editNutrition') }}/" + nutritionId,
                     success: function(data) {
+                        // console.log(data);
                         loader.height("0vh");
                         loaderIMG.hide()
                         // Show update form and hide add form
@@ -241,7 +245,7 @@
                     },
                     error: function(error) {
                         loader.height("0vh");
-                        loaderIMG.hide()
+                        loaderIMG.hide();
                         console.log(error.responseJSON);
                     }
                 });
@@ -259,6 +263,7 @@
                         type: "GET",
                         url: "{{ url('deleteNutrition') }}/" + nutritionId,
                         success: function(data) {
+                            // console.log(data);
                             loader.height("0vh");
                             loaderIMG.hide()
                             if (data.status == "success") {
@@ -290,6 +295,7 @@
                     type: "GET",
                     url: "{{ Route('getAllNutritions') }}",
                     success: function(data) {
+                        // console.log(data);
                         var table = $('.categoryList');
                         var tableBody = table.find('tbody').html('');
                         table.DataTable().clear().destroy();

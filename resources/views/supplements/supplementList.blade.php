@@ -1,6 +1,5 @@
-@extends("layout.layout")
-@section("content")
-
+@extends('layout.layout')
+@section('content')
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
@@ -9,7 +8,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
                         <li class="breadcrumb-item active">Supplement List</li>
                     </ol>
                 </div>
@@ -18,7 +17,7 @@
     </div>
 
     <div class="content">
-        <div class="container-fluid"> 
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-5">
                     <div class="card">
@@ -68,7 +67,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Supplement Name</label>
-                                            <input type="text" name="supplement_name" class="form-control supplement_name">
+                                            <input type="text" name="supplement_name"
+                                                class="form-control supplement_name">
                                             <div class="supplement_name_err error"></div>
                                         </div>
                                     </div>
@@ -117,30 +117,35 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Hide the update form initially
             $("#updateSupplementForm").hide();
             $("#addSupplementForm").show();
 
-            function clearError(){
+            function clearError() {
                 $('.error').text('')
             }
 
             // Submit form for adding category
-            $("#addSupplementForm").submit(function (e) {
+            $("#addSupplementForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
                 var form = $("#addSupplementForm")[0];
                 var data = new FormData(form);
                 $("#submitBtn").prop("disabled", true);
-
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show();
                 $.ajax({
                     type: "POST",
-                    url: "{{Route('addSupplementListProcess')}}",
+                    url: "{{ Route('addSupplementListProcess') }}",
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
+                    success: function(data) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
                         if (data.status == 'success') {
                             Swal.fire({
                                 icon: data.status,
@@ -157,7 +162,9 @@
                         }
                         $("#submitBtn").prop("disabled", false);
                     },
-                    error: function (error) {
+                    error: function(error) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
                         console.log(error.responseJSON);
                         $("#submitBtn").prop("disabled", false);
                     }
@@ -165,14 +172,19 @@
             });
 
             // Edit button click
-            $(document).on('click', '.edit-btn', function () {
+            $(document).on('click', '.edit-btn', function() {
                 clearError()
                 var supplementId = $(this).data('id');
-
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show();
                 $.ajax({
                     type: "GET",
-                    url: "{{url('editSupplement')}}/" + supplementId,
-                    success: function (data) {
+                    url: "{{ url('editSupplement') }}/" + supplementId,
+                    success: function(data) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
                         // Show update form and hide add form
                         $("#updateSupplementForm").show();
                         $("#addSupplementForm").hide();
@@ -183,27 +195,34 @@
                         $("#updateSupplementForm .category_id").val(data.id);
                         $("#updateSupplementForm").attr('data-id', data.id);
                     },
-                    error: function (error) {
+                    error: function(error) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
                         console.log(error.responseJSON);
                     }
                 });
             });
 
             // Submit form for updating supplement
-            $("#updateSupplementForm").submit(function (e) {
+            $("#updateSupplementForm").submit(function(e) {
                 e.preventDefault();
                 clearError()
                 var form = $("#updateSupplementForm")[0];
                 var data = new FormData(form);
-
+                var loader = $('.preloader');
+                var loaderIMG = $('.preloader img');
+                loader.height("100vh");
+                loaderIMG.show();
                 $.ajax({
                     type: "POST",
-                    url: "{{url('updateSupplementListProcess')}}/" + $(this).attr('data-id'),
+                    url: "{{ url('updateSupplementListProcess') }}/" + $(this).attr('data-id'),
                     data: data,
                     processData: false,
                     contentType: false,
-                    success: function (data) {
-                        console.log(data);
+                    success: function(data) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
+                        // console.log(data);
                         if (data.status == 'success') {
                             Swal.fire({
                                 icon: data.status,
@@ -221,20 +240,28 @@
                             printError(data.errors);
                         }
                     },
-                    error: function (error) {
+                    error: function(error) {
+                        loader.height("0vh");
+                        loaderIMG.hide();
                         console.log(error.responseJSON);
                     }
                 });
             });
 
-            $(document).on('click', '.delete-btn', function () {
+            $(document).on('click', '.delete-btn', function() {
                 var supplementId = $(this).data('id');
                 var isConfirmed = confirm("Are you sure you want to delete this Supplement?");
                 if (isConfirmed) {
+                    var loader = $('.preloader');
+                    var loaderIMG = $('.preloader img');
+                    loader.height("100vh");
+                    loaderIMG.show();
                     $.ajax({
                         type: "GET",
-                        url: "{{url('deleteSupplement')}}/" + supplementId,
-                        success: function (data) {
+                        url: "{{ url('deleteSupplement') }}/" + supplementId,
+                        success: function(data) {
+                            loader.height("0vh");
+                            loaderIMG.hide();
                             if (data.status == "success") {
                                 loadSupplements()
                                 Swal.fire({
@@ -248,7 +275,9 @@
                                 })
                             }
                         },
-                        error: function (error) {
+                        error: function(error) {
+                            loader.height("0vh");
+                            loaderIMG.hide();
                             console.log(error.responseJSON);
                         }
                     });
@@ -260,43 +289,39 @@
             function loadSupplements() {
                 $.ajax({
                     type: "GET",
-                    url: "{{Route('getAllSupplements')}}",
-                    success: function (data) {
+                    url: "{{ Route('getAllSupplements') }}",
+                    success: function(data) {
 
                         var table = $('.supplementList');
                         var tableBody = table.find('tbody').html('');
-                        data.forEach(function (supplement, index) {
+                        table.DataTable().clear().destroy();
+                        data.forEach(function(supplement, index) {
                             var row = `<tr>
-                                                                    <td>${index + 1}</td>
-                                                                    <td>${supplement.name}</td>
-                                                                    <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
-                                                                    <td>
-                                                                        <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
-                                                                            <i class="fa fa-edit"></i>
-                                                                        </button>
-                                                                        <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
-                                                                            <i class="fa fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>`;
+                                <td>${index + 1}</td>
+                                <td>${supplement.name}</td>
+                                <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>`;
                             tableBody.append(row);
                         });
                         table.DataTable();
                     }
                 });
             }
-
-
             loadSupplements();
         });
 
         function printError(err) {
-            $.each(err, function (key, value) {
+            $.each(err, function(key, value) {
                 $("." + key + "_err").text(value)
             })
         }
-
-
     </script>
-
 @endsection

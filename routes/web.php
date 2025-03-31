@@ -9,6 +9,8 @@ use App\Http\Controllers\medical\medicalListController;
 use App\Http\Controllers\nutrition\nutritionListController;
 use App\Http\Controllers\product\productController;
 use App\Http\Controllers\supplements\supplementListController;
+use App\Http\Controllers\user\userController;
+use App\Http\Controllers\user\accessController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -26,29 +28,15 @@ Route::middleware(['login'])->group(function () {
     //Companion 
     Route::get("companions", [companionController::class, "companions"])->name('companions');
     Route::get("viewCompanion/{cID}", [companionController::class, "viewCompanion"])->name("viewCompanion");
-
     Route::get("addCompanion", [companionController::class, "addCompanion"])->name('addCompanion');
     Route::post("addCompanionProcess", [companionController::class, "addCompanionProcess"])->name("addCompanionProcess");
-
+    Route::get("updateCompanion/{cID}", [companionController::class, "updateCompanion"])->name("updateCompanion");
+    Route::post("updateCompanionProcess/{companion_id}", [companionController::class, "updateCompanionProcess"])->name("updateCompanionProcess");
     Route::get("deleteGalleryImage/{gId}", [companionController::class, "deleteGalleryImage"]);
     Route::get("deleteGalleryVideo/{gId}", [companionController::class, "deleteGalleryVideo"]);
     Route::get("deleteDamSire/{dsId}", [companionController::class, "deleteDamSire"]);
 
-    Route::get("updateCompanion/{cID}", [companionController::class, "updateCompanion"])->name("updateCompanion");
-    Route::post("updateCompanionProcess/{companion_id}", [companionController::class, "updateCompanionProcess"])->name("updateCompanionProcess");
-
     
-
-
-
-
-
-
-
-
-
-
-
     //category
     Route::get('/getAllCategory', [categoryController::class, "getAllCategory"])->name("getAllCategory");
     Route::get('/category', [categoryController::class, "category"])->name("category");
@@ -95,5 +83,16 @@ Route::middleware(['login'])->group(function () {
     Route::get('editExercise/{id}', [exerciseListController::class, 'editExercise'])->name('editExercise');
     Route::post('/updateExerciseListProcess/{cID}', [exerciseListController::class, "updateExerciseListProcess"]);
     Route::get('/deleteExercise/{cID}', [exerciseListController::class, "deleteExercise"]);
+
+    //Access 
+    Route::get('/access', [accessController::class, "access"])->name("access");
+    Route::get('/getAllAccess', [accessController::class, "getAllAccess"])->name("getAllAccess");
+    Route::post('/addAccessProcess', [accessController::class, "addAccessProcess"])->name("addAccessProcess");
+    Route::get('editAccess/{id}', [accessController::class, 'editAccess'])->name('editAccess');
+    Route::post('/updateAccessProcess/{cID}', [accessController::class, "updateAccessProcess"]);
+    Route::get('/deleteAccess/{cID}', [accessController::class, "deleteAccess"]);
+
+    //Users
+    Route::get('/users', [userController::class, "users"])->name("users");
 
 });

@@ -36,10 +36,6 @@
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.8/dist/sweetalert2.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
-
-
 </head>
 
 <body class="sidebar-mini layout-fixed layout-navbar-fixed sidebar-collapse layout-footer-fixed text-sm"
@@ -86,20 +82,19 @@
 
         <aside class="main-sidebar elevation-4 sidebar-light-brown">
             <a href="{{ url(path: '') }}" class="brand-link bg-brown">
-                <img src="{{ url('public/dist/img/HorseLogo.png',) }}" alt="AdminLTE Logo"
+                <img src="{{ url('public/dist/img/HorseLogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-1">
                 <span class="brand-text font-weight-bold text-uppercase h6">Jay Stud Farm</span>
             </a>
 
-            <div class="sidebar bg-light">
-
+            <div class="sidebar bg-light"> 
                 <div class="user-panel py-1 my-1 d-flex align-items-center bg-cream">
                     <div class="image">
                         <img src="{{ url('public/dist/img/user.png') }}"
                             class="img-circle elevation-1 brand-image bg-white" alt="User Image">
                     </div>
-                    <div class="info fw-bold h6 mb-0 text-brown">
-                        <a href="#" class="d-block">Admin</a>
+                    <div class="info h6 mb-0 text-brown">
+                        <a href="#" class="d-block"><span class="fw-bold">{{Session::get('user')->name}}</span> ({{Session::get('user')->access_name}})</a>
                     </div>
                 </div>
 
@@ -127,6 +122,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('companions') }}" class="nav-link">
                                 <i class="nav-icon fa-regular fa-rectangle-list"></i>
@@ -136,6 +132,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('category') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tag"></i>
@@ -144,6 +141,7 @@
                                 </p>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-table"></i>
@@ -154,31 +152,54 @@
                             </a>
                             <ul class="nav nav-treeview" style="display: none;">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link">
+                                    <a href="{{ route('nutrition') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nutrition</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
+                                    <a href="{{route('supplement')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Supplement</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
+                                    <a href="{{route('exercise')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Exercise</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="pages/tables/simple.html" class="nav-link">
+                                    <a href="{{route('medical')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Medical</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+                        {{-- <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user"></i>
+                                <p>
+                                    Users
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview" style="display: none;">
+                                <li class="nav-item">
+                                    <a href="{{ route('users') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User List</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('nutrition') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Access</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li> --}}
                     </ul>
                 </nav>
 

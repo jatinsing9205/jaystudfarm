@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\login;
 
 use App\Http\Controllers\Controller;
-use App\Models\login\loginModel;
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class loginController extends Controller
 {
@@ -30,11 +30,13 @@ class loginController extends Controller
             $username = $request->input('username');
             $password = $request->input('password');
 
-            $user = \DB::table('t_user_login')
+            $user = DB::table('t_user_login')
+                ->leftJoin('t_access','t_user_login.access','=','t_access.id')
                 ->where(function ($query) use ($username) {
-                    $query->where('email', $username)
-                        ->orWhere('username', $username);
+                    $query->where('t_user_login.email', $username)
+                        ->orWhere('t_user_login.username', $username);
                 })
+                ->select('t_user_login.*','t_access.access_name')
                 ->first();
 
             if ($user) {
@@ -44,7 +46,7 @@ class loginController extends Controller
                         $result = [
                             "status" => "success",
                             "message" => "Login Successful!",
-                            "user" => $user->username
+                            "user" => $user
                         ];
                         return response()->json($result);
                     } else {
