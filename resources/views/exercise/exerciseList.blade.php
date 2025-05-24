@@ -151,7 +151,7 @@
                                 title: data.message
                             })
                             form.reset();
-                            loadSupplements();
+                            loadExercises();
                         } else {
                             Swal.fire({
                                 icon: data.status,
@@ -225,7 +225,7 @@
                                 icon: data.status,
                                 title: data.message
                             })
-                            loadSupplements();
+                            loadExercises();
                             // Hide update form and show add form again
                             $("#updateExerciseForm").hide();
                             $("#addExerciseForm").show();
@@ -261,7 +261,7 @@
                             loader.height("0vh");
                             loaderIMG.hide()
                             if (data.status == "success") {
-                                loadSupplements()
+                                loadExercises()
                                 Swal.fire({
                                     icon: data.status,
                                     title: data.message
@@ -284,7 +284,7 @@
                 }
             });
 
-            function loadSupplements() {
+            function loadExercises() {
                 $.ajax({
                     type: "GET",
                     url: "{{ Route('getAllExercises') }}",
@@ -314,7 +314,7 @@
                 });
             }
 
-            loadSupplements();
+            loadExercises();
         });
 
         function printError(err) {

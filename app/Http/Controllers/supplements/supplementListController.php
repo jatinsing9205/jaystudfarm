@@ -5,10 +5,10 @@ namespace App\Http\Controllers\supplements;
 use App\Http\Controllers\Controller;
 use App\Models\category\categoryModel;
 use App\Models\supplements\supplementList;
-use DB;
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class supplementListController extends Controller
 {

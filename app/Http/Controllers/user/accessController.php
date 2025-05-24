@@ -20,6 +20,7 @@ class accessController extends Controller
     {
         $accesss = DB::table('t_access')
             ->where('status', '!=', 0)
+            ->where('id', '!=', 1)
             ->get();
         return response($accesss);
 

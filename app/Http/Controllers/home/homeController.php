@@ -5,7 +5,8 @@ namespace App\Http\Controllers\home;
 use App\Http\Controllers\Controller;
 use App\Models\category\categoryModel;
 use App\Models\companion\companions;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\WelcomeMail;
 
 class homeController extends Controller
 {
@@ -21,4 +22,12 @@ class homeController extends Controller
 
         return view('index', ['companionCount' => $companionCount, 'categoryCount' => $categoryCount, "horsesCount" => $horsesCount, "dogsCount" => $dogsCount]);
     }
+
+    public function testMail()
+    {
+        $details = ['name' => 'John Doe'];
+        Mail::to('jatin@global-opportunities.net')->send(new WelcomeMail($details));
+        return 'Email sent successfully!';
+    }
+
 }

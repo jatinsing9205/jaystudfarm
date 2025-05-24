@@ -39,3 +39,9 @@ $(document).ready(function () {
     $(".lSPrev").html('<i class="fa fa-angle-down"></i>');
     $(".lSNext").html('<i class="fa fa-angle-up"></i>');
 })
+
+function printError(err) {
+    $.each(err, function(key, value) {
+        $("." + key + "_err").text(value)
+    })
+}

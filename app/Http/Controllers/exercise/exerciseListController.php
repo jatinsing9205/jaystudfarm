@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\exercise;
 
 use App\Http\Controllers\Controller;
-use App\Models\exercise\exerciseList;
-use DB;
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class exerciseListController extends Controller
 {
@@ -60,7 +59,6 @@ class exerciseListController extends Controller
             return response()->json(['status' => 'success', 'message' => "Exercise not found!"]);
         }
         return response()->json($exercise);
-
     }
 
     public function updateExerciseListProcess(Request $request,$eId){
@@ -100,7 +98,6 @@ class exerciseListController extends Controller
         } else {
             return response()->json(['status' => 'error', 'message' => 'Something went wrong']);
         }
-
     }
 
 }

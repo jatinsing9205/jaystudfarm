@@ -5,15 +5,15 @@ namespace App\Http\Controllers\companion;
 use App\Http\Controllers\Controller;
 use App\Models\category\categoryModel;
 use App\Models\companion\companionGallery;
+use App\Models\companion\companionLogModel;
 use App\Models\companion\companions;
 use App\Models\companion\dam_sireModel;
 
 use App\Models\product\cartModel;
-use Cookie;
 use Illuminate\Http\Request;
-use Validator;
-use Session;
-use DB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class companionController extends Controller
 {
@@ -345,7 +345,6 @@ class companionController extends Controller
                     "companion_id" => $companion_id,
                 ];
             }
-
         } else {
             $result = [
                 "status" => "error",
@@ -363,4 +362,9 @@ class companionController extends Controller
         return view("companion.viewCompanion", ['companion' => $companion]);
     }
 
+    public function companionLog($companion_id)
+    {
+        $companionsLog = companionLogModel::where('companion_id', "=", $companion_id)->orderBy('id','DESC')->get();
+        return $companionsLog;
+    }
 }

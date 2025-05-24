@@ -1,19 +1,28 @@
 <?php
 
+use App\Http\Controllers\admin\reviewsController;
 use App\Http\Controllers\category\categoryController;
 use App\Http\Controllers\companion\companionController;
+use App\Http\Controllers\exercise\exerciseController;
 use App\Http\Controllers\exercise\exerciseListController;
+use App\Http\Controllers\grooming\groomingController;
 use App\Http\Controllers\home\homeController;
 use App\Http\Controllers\login\loginController;
+use App\Http\Controllers\medical\medicalController;
 use App\Http\Controllers\medical\medicalListController;
+use App\Http\Controllers\nutrition\nutritionController;
 use App\Http\Controllers\nutrition\nutritionListController;
 use App\Http\Controllers\product\productController;
+use App\Http\Controllers\supplements\supplementController;
 use App\Http\Controllers\supplements\supplementListController;
 use App\Http\Controllers\user\userController;
 use App\Http\Controllers\user\accessController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('test-tailwind', function () {
+    return view('test-tailwind');
+});
 
 Route::get('/login', [loginController::class, "login"])->name("login");
 Route::get('/logout', [loginController::class, "logout"])->name("logout");
@@ -23,7 +32,18 @@ Route::post('/VerifyLogin', [loginController::class, "VerifyLogin"])->name("Veri
 
 Route::middleware(['login'])->group(function () {
 
+    Route::get('/addCompanionNutritionView/{companionID}', function ($companionID) {
+        return view('nutrition.addCompanionNutrition', compact('companionID'));
+    })->name('addCompanionNutrition');
+
     Route::get('/', [homeController::class, "index"])->name("home");
+    Route::get('testMail', [homeController::class, "testMail"])->name("testMail");
+
+    Route::get('reviews', [reviewsController::class, "reviews"])->name("reviews");
+    Route::get('loadPendingReviews', [reviewsController::class, "loadPendingReviews"])->name("loadPendingReviews");
+    Route::get('loadApprovedReviews', [reviewsController::class, "loadApprovedReviews"])->name("loadApprovedReviews");
+    Route::get('deleteReview/{gID}', [reviewsController::class, "deleteReview"])->name("deleteReview");
+    Route::get('approveReview/{gID}', [reviewsController::class, "approveReview"])->name("approveReview");
 
     //Companion 
     Route::get("companions", [companionController::class, "companions"])->name('companions');
@@ -35,8 +55,34 @@ Route::middleware(['login'])->group(function () {
     Route::get("deleteGalleryImage/{gId}", [companionController::class, "deleteGalleryImage"]);
     Route::get("deleteGalleryVideo/{gId}", [companionController::class, "deleteGalleryVideo"]);
     Route::get("deleteDamSire/{dsId}", [companionController::class, "deleteDamSire"]);
+    Route::get('companionLog/{companion_id}', [companionController::class, "companionLog"])->name("companionLog");
 
-    
+    //Add Companion Nutrition
+    Route::get('addCompanionNutritionView/{companionID}', [nutritionController::class, "addCompanionNutrition"])->name('addCompanionNutrition');
+    Route::post("addCompanionNutritionProcess", [nutritionController::class, "addCompanionNutritionProcess"])->name("addCompanionNutritionProcess");
+    Route::get("getCompanionNutrition/{companion_id}", [nutritionController::class, "getCompanionNutrition"])->name("getCompanionNutrition");
+
+    //Add Companion Supplements
+    Route::get('addCompanionSupplementView/{companionID}', [supplementController::class, "addCompanionSupplement"])->name('addCompanionSupplement');
+    Route::get("getCompanionSupplement/{companion_id}", [supplementController::class, "getCompanionSupplement"])->name("getCompanionSupplement");
+    Route::post("addCompanionSupplementProcess", [supplementController::class, "addCompanionSupplementProcess"])->name("addCompanionSupplementProcess");
+
+    //Add Companion Medicals
+    Route::get('addCompanionMedicalView/{companionID}', [medicalController::class, "addCompanionMedical"])->name('addCompanionMedical');
+    Route::get("getCompanionMedical/{companion_id}", [medicalController::class, "getCompanionMedical"])->name("getCompanionMedical");
+    Route::post("addCompanionMedicalProcess", [medicalController::class, "addCompanionMedicalProcess"])->name("addCompanionMedicalProcess");
+
+    //Add Companion Exercises
+    Route::get('addCompanionExerciseView/{companionID}', [exerciseController::class, "addCompanionExercise"])->name('addCompanionExercise');
+    Route::get("getCompanionExercise/{companion_id}", [exerciseController::class, "getCompanionExercise"])->name("getCompanionExercise");
+    Route::post("addCompanionExerciseProcess", [exerciseController::class, "addCompanionExerciseProcess"])->name("addCompanionExerciseProcess");
+
+    //Add Companion Grooming
+    Route::get('addCompanionGroomingView/{companionID}', [groomingController::class, "addCompanionGrooming"])->name('addCompanionGrooming');
+    Route::get("getCompanionGrooming/{companion_id}", [groomingController::class, "getCompanionGrooming"])->name("getCompanionGrooming");
+    Route::post("addCompanionGroomingProcess", [groomingController::class, "addCompanionGroomingProcess"])->name("addCompanionGroomingProcess");
+
+
     //category
     Route::get('/getAllCategory', [categoryController::class, "getAllCategory"])->name("getAllCategory");
     Route::get('/category', [categoryController::class, "category"])->name("category");
@@ -94,5 +140,10 @@ Route::middleware(['login'])->group(function () {
 
     //Users
     Route::get('/users', [userController::class, "users"])->name("users");
-
+    Route::get('/getAllUsers', [userController::class, "getAllUsers"])->name("getAllUsers");
+    Route::get('add-user', [userController::class, "addUser"])->name("add-user");
+    Route::post('addUserProcess', [userController::class, "addUserProcess"])->name("user.add");
+    Route::get('editUser/{user_id}', [userController::class, "editUser"])->name("editUser");
+    Route::post('updateUserProcess', [userController::class, "updateUserProcess"])->name("user.update");
+    Route::get('/deleteUser/{cID}', [userController::class, "deleteUser"])->name('user.delete');
 });

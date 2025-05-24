@@ -4,10 +4,10 @@ namespace App\Http\Controllers\nutrition;
 
 use App\Http\Controllers\Controller;
 use App\Models\nutrition\nutritionList;
-use DB;
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class nutritionListController extends Controller
 {
@@ -22,7 +22,6 @@ class nutritionListController extends Controller
             ->where('status', '!=', 0)
             ->get();
         return response($nutritions);
-
     }
 
     public function addNutritionListProcess(Request $request)
@@ -39,7 +38,7 @@ class nutritionListController extends Controller
                 'created_by' => Session::get('user')->username,
                 'updated_by' => Session::get('user')->username,
             ];
-            if ($insert = DB::table('t_nutrition_list')->insert($data)) {
+            if ($insert = DB::table('t_nutrition_list')->insertGetId($data)) {
                 $result = [
                     "status" => "success",
                     "message" => "Nutrition added successfully!",

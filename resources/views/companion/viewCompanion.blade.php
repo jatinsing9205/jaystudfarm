@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Horse Details</li>
                     </ol>
                 </div>
@@ -18,6 +18,12 @@
 
     <section>
         <div class="container-fluid">
+            <a href="{{route('companions')}}" class="mb-2">
+                <button class="backBtn">
+                    <i class="fa-solid fa-circle-left"></i>
+                    <span>Back</span>
+                </button>
+            </a>
             <div class="card">
                 <div class="card-header">
                     <span class=""><b>Last Updated :</b>
@@ -199,75 +205,20 @@
                             <div class="text-center">
                                 <button id="addNutritionsBtn" class="btn btn-warning">Add Nutritions</button>
                             </div>
-                            <table class="table table-bordered bg-light dataTable">
+                            <table class="table table-bordered bg-light dataTable" id="companionNutritionTable">
                                 <thead class="bg-warning">
                                     <tr>
+                                        <th>S.No.</th>
                                         <th>Date</th>
                                         <th>Food</th>
                                         <th>Quantity</th>
                                         <th>Time of first feed</th>
                                         <th>Time of second feed</th>
+                                        <th>Expected Date</th>
                                         <th>Administered by</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Nera</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Lussan</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Javi</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Feed</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Meetha Soda</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Gur</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Etc</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -276,17 +227,19 @@
                             <div class="text-center">
                                 <button id="addSupplementsBtn" class="btn bg-orange">Add Supplements</button>
                             </div>
-                            <table class="table table-bordered bg-light dataTable">
+                            <table class="table table-bordered bg-light dataTable" id="companionSupplementTable">
                                 <thead class="bg-orange">
                                     <tr>
+                                        <th>S.No.</th>
                                         <th>Date</th>
                                         <th>Supplements</th>
                                         <th>Quantity</th>
                                         <th>Time Given</th>
+                                        <th>Expected Date</th>
                                         <th>Administered by</th>
                                     </tr>
                                 </thead>
-
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -295,10 +248,11 @@
                             <div class="text-center">
                                 <button id="addMedicalBtn" class="btn btn-success">Add Medical</button>
                             </div>
-                            <table class="table table-bordered bg-light dataTable">
+                            <table class="table table-bordered bg-light dataTable" id="companionMedicalTable">
                                 <thead class="bg-success">
                                     <tr>
-                                        <th>Deworming</th>
+                                        <th>S.No.</th>
+                                        <th>Treated For</th>
                                         <th>Date of treatment</th>
                                         <th>Medication Given </th>
                                         <th>Next follow up treatment (Remarks) </th>
@@ -306,88 +260,7 @@
                                         <th>Doctor's remarks</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Deworming</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Tetnus</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Pregnancy</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Chrolic</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Laminitus</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Hoove Ring</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Body Injury</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Sara</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Rodococus</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Running Nose and Cold</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -396,53 +269,19 @@
                             <div class="text-center">
                                 <button id="addExerciseBtn" class="btn btn-primary">Add Exercise</button>
                             </div>
-                            <table class="table table-bordered bg-light  dataTable">
+                            <table class="table table-bordered bg-light  dataTable" id="companionExerciseTable">
                                 <thead class="bg-primary">
                                     <tr>
+                                        <th>S.No.</th>
                                         <th>Date</th>
                                         <th>Type of Exercise</th>
                                         <th>Given by </th>
-                                        <th>Monitored by </th>
                                         <th>Time Spent </th>
+                                        <th>Monitored by </th>
+                                        <th>Expected by </th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>01-01-2025</td>
-                                        <td>Lounging</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Riding</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Gazing</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Show Training</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td>Swimming</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -451,15 +290,18 @@
                             <div class="text-center">
                                 <button id="addGroomingBtn" class="btn bg-purple">Add Grooming</button>
                             </div>
-                            <table class="table table-bordered bg-light  dataTable">
+                            <table class="table table-bordered bg-light  dataTable" id="companionGroomingTable">
                                 <thead class="bg-purple">
                                     <tr>
+                                        <th>S.No.</th>
                                         <th>Date</th>
                                         <th>Grooming (Morning)</th>
                                         <th>Grooming (Evening)</th>
                                         <th>Administered by </th>
+                                        <th>Expected Date </th>
                                     </tr>
                                 </thead>
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -504,6 +346,26 @@
             </div>
 
 
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="m-0">Companion Log</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered" id="companionLog">
+                        <thead class="bg-secondary">
+                            <tr>
+                                <th>S.No.</th>
+                                {{-- <th>Log ID</th> --}}
+                                <th>Action</th>
+                                <th>Created By</th>
+                                <th>Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -515,10 +377,37 @@
                     <button type="button" class="btn-close btn bg-maroon" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
-                <div class="modal-body px-0 pt-2 pb-0">
+                <div class="modal-body px-0 py-2">
 
                 </div>
             </div>
         </div>
     </div>
+
+@section('script')
+    <script>
+        const addNutritionUrl = "{{ route('addCompanionNutrition', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionNutrition = "{{ route('getCompanionNutrition', ['companion_id' => $companion->companion_id]) }}";
+
+        const addCompanionSupplementView =
+            "{{ route('addCompanionSupplement', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionSupplement =
+            "{{ route('getCompanionSupplement', ['companion_id' => $companion->companion_id]) }}";
+
+        const addCompanionMedicalView = "{{ route('addCompanionMedical', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionMedical = "{{ route('getCompanionMedical', ['companion_id' => $companion->companion_id]) }}";
+
+        const addCompanionExerciseView =
+            "{{ route('addCompanionExercise', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionExercise = "{{ route('getCompanionExercise', ['companion_id' => $companion->companion_id]) }}";
+
+
+        const addCompanionGroomingView =
+            "{{ route('addCompanionGrooming', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionGrooming = "{{ route('getCompanionGrooming', ['companion_id' => $companion->companion_id]) }}";
+
+        const companionLog = "{{ route('companionLog', ['companion_id' => $companion->companion_id]) }}";
+    </script>
+    <script src="{{ url('public/dist/js/companionScript.js') }}"></script>
+@endsection
 @endsection

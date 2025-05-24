@@ -117,7 +117,7 @@
                         </div>
                         <div class="card-body">
                             <table class="table table-bordered categoryList">
-                                <thead>
+                                <thead class="bg-grey">
                                     <tr>
                                         <th>S.No.</th>
                                         <th>Category Name</th>
@@ -336,11 +336,11 @@
                                 <td>${category.category_name}</td>
                                 <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
                                 <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Inactive' : category.status === '3' ? 'Draft' : 'N/A'}</td>
-                                <td>
-                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${category.id}">
+                                <td class="py-1">
+                                    <button class="btn text-primary btn-sm border border-primary edit-btn" data-id="${category.id}">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button data-id="${category.id}" class="btn btn-danger btn-sm delete-btn">
+                                    <button data-id="${category.id}" class="btn border border-danger text-danger btn-sm delete-btn">
                                         <i class="fa fa-trash"></i>
                                     </button>
                                 </td>

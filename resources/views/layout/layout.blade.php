@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="{{ url('public/dist/css/responsive.bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url('public/dist/css/jquery.fancybox.min.css') }}">
     <link rel="stylesheet" href="{{ url('public/dist/css/lightslider.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+
     <link rel="stylesheet" href="{{ url('public/dist/css/style.css') }}">
 
     <script src="{{ url('public/plugins/jquery/jquery.min.js') }}"></script>
@@ -55,7 +57,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ url('') }}" class="nav-link">Home</a>
+                    <a href="{{ route('home') }}" class="nav-link">Home</a>
                 </li>
             </ul>
 
@@ -65,12 +67,12 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
                         role="button">
                         <i class="fas fa-gear"></i>
                     </a>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link btn btn-cream" href="{{ url('logout') }}" role="button">
                         <i class="fas fa-lock mr-2"></i> <span class="fw-bold"> LOGOUT</span>
@@ -81,20 +83,22 @@
 
 
         <aside class="main-sidebar elevation-4 sidebar-light-brown">
-            <a href="{{ url(path: '') }}" class="brand-link bg-brown">
+            <a href="{{ route('home') }}" class="brand-link bg-brown">
                 <img src="{{ url('public/dist/img/HorseLogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-1">
                 <span class="brand-text font-weight-bold text-uppercase h6">Jay Stud Farm</span>
             </a>
 
-            <div class="sidebar bg-light"> 
+            <div class="sidebar bg-light">
                 <div class="user-panel py-1 my-1 d-flex align-items-center bg-cream">
                     <div class="image">
                         <img src="{{ url('public/dist/img/user.png') }}"
                             class="img-circle elevation-1 brand-image bg-white" alt="User Image">
                     </div>
                     <div class="info h6 mb-0 text-brown">
-                        <a href="#" class="d-block"><span class="fw-bold">{{Session::get('user')->name}}</span> ({{Session::get('user')->access_name}})</a>
+                        <a href="{{ route('home') }}" class="d-block"><span
+                                class="fw-bold">{{ Session::get('user')->name }}</span>
+                            ({{ Session::get('user')->access_name }})</a>
                     </div>
                 </div>
 
@@ -115,7 +119,7 @@
                         data-widget="treeview" role="menu" data-accordion="false">
 
                         <li class="nav-item">
-                            <a href="{{ url('') }}" class="nav-link active">
+                            <a href="{{ route('home') }}" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -158,48 +162,54 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('supplement')}}" class="nav-link">
+                                    <a href="{{ route('supplement') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Supplement</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('exercise')}}" class="nav-link">
+                                    <a href="{{ route('exercise') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Exercise</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{route('medical')}}" class="nav-link">
+                                    <a href="{{ route('medical') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Medical</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>
-                                    Users
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview" style="display: none;">
-                                <li class="nav-item">
-                                    <a href="{{ route('users') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>User List</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{ route('nutrition') }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Access</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> --}}
+                        @php
+                            $access = Session::get('user')->access;
+                        @endphp
+                        @if ($access == 1)
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Users
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
+                                        <a href="{{ route('users') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>User List</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('access') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Access</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+
                     </ul>
                 </nav>
 
@@ -221,7 +231,7 @@
 
         </footer>
 
-        <aside class="control-sidebar control-sidebar-dark"></aside>
+        {{-- <aside class="control-sidebar control-sidebar-dark"></aside> --}}
     </div>
 
 
@@ -238,13 +248,18 @@
     <script src="{{ url('public/dist/js/dataTables.responsive.js') }}"></script>
     <script src="{{ url('public/dist/js/jquery.fancybox.min.js') }}"></script>
     <script src="{{ url('public/dist/js/lightslider.js') }}"></script>
-    <script src="{{ url('public/dist/js/demo.js') }}"></script>
+    <script src="{{ url('public/dist/js/moment.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
     <script src="{{ url('public/dist/js/custom.js') }}"></script>
     <script>
         new DataTable('.dataTable', {
             responsive: true
         });
     </script>
+    @yield('script')
+
+
 </body>
 
 </html>

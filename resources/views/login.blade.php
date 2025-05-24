@@ -40,6 +40,7 @@
                     <p class="error_msg error"></p>
                     @csrf
                     <div class="form-group mb-3">
+                        <label for="username" class="mb-0">Username</label>
                         <div class="input-group">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -51,15 +52,18 @@
                         <div class="username_err error"></div>
                     </div>
                     <div class="form-group mb-3">
+                        <label for="password" class="mb-0">Password</label>
                         <div class="input-group">
                             <div class="input-group-append">
                                 <div class="input-group-text">
-                                    <span class="fas fa-lock"></span>
+                                    <span type="button" id="toggle-password"><i
+                                            class="fas fa-eye"></i></span>
                                 </div>
                             </div>
-                            <input type="password" name="password" class="form-control" placeholder="Password">
+                            <input type="password" value="" name="password" id="password"
+                                class="form-control">
                         </div>
-                        <div class="password_err error"></div>
+                        <div class="error password_err"></div>
                     </div>
                     <div class="row">
                         <div class="col-12">
@@ -131,6 +135,19 @@
                 $("." + key + "_err").text(value)
             })
         }
+
+        const passwordField = document.getElementById('password');
+        const togglePasswordButton = document.getElementById('toggle-password');
+        togglePasswordButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                togglePasswordButton.innerHTML = '<i class="fas fa-eye-slash"></i>';
+            } else {
+                passwordField.type = 'password';
+                togglePasswordButton.innerHTML = '<i class="fas fa-eye"></i>';
+            }
+        });
     </script>
 
 </body>
