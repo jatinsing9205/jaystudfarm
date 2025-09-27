@@ -2,8 +2,8 @@
 
 namespace App\Models\category;
 
-use DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class categoryModel extends Model
 {

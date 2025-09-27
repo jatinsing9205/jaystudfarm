@@ -6,7 +6,7 @@
                     @csrf
                     <div class="card mb-0">
                         <div class="card-header bg-light">
-                            <h5 class="m-0 fw-bold text-primary">ADD EXERCISE</h5>
+                            <h5 class="m-0 fw-bold text-primary">ADD EXERCISE ( {{ $companionID }} )</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -45,7 +45,7 @@
                                         <label for="monitored_by">Monitored By</label>
                                         <input type="text" class="form-control" name="monitored_by"
                                             id="monitored_by">
-                                            <div class="error monitored_by_err"></div>
+                                        <div class="error monitored_by_err"></div>
                                     </div>
                                 </div>
 
@@ -54,7 +54,7 @@
                                         <label for="expected_date">Expected Date</label>
                                         <input type="text" class="form-control" name="expected_date"
                                             id="expected_date">
-                                            <div class="error expected_date_err"></div>
+                                        <div class="error expected_date_err"></div>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-4">
@@ -128,7 +128,7 @@
     function loadExercises() {
         $.ajax({
             type: "GET",
-            url: "{{ Route('getAllExercises') }}",
+            url: '{{ route('exercises.getJSON') }}',
             success: function(data) {
 
                 var input = $('select#exercise');

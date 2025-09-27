@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Access </li>
                     </ol>
                 </div>
@@ -19,7 +19,7 @@
     <div class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-5">
+                <div class="col-lg-12">
                     <div class="card">
                         <!-- Add Category Form -->
                         <form id="addAccessForm">
@@ -32,8 +32,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="">Access Name</label>
-                                            <input type="text" name="access_name" id="access_name"
-                                                class="form-control">
+                                            <input type="text" name="access_name" id="access_name" class="form-control">
                                             <div class="access_name_err error"></div>
                                         </div>
                                     </div>
@@ -71,6 +70,7 @@
                                             <div class="access_name_err error"></div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="status">Status</label>
@@ -91,7 +91,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-7">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <p class="m-0 fw-bold">Access </p>
@@ -138,7 +138,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addAccessProcess') }}",
+                    url: "{{ Route('access.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -180,7 +180,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editAccess') }}/" + AccessId,
+                    url: "{{ route('access.edit',':id') }}".replace(':id', AccessId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -212,7 +212,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateAccessProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('access.update',':id') }}".replace(':id', $(this).attr('data-id')),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -225,7 +225,7 @@
                                 icon: data.status,
                                 title: data.message
                             })
-                            loadAccesss(); 
+                            loadAccesss();
                             $("#updateAccessForm").hide();
                             $("#addAccessForm").show();
                         } else {
@@ -250,7 +250,7 @@
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteAccess') }}/" + AccessId,
+                        url: "{{ route('access.delete',':id') }}".replace(':id', AccessId),
                         success: function(data) {
                             if (data.status == "success") {
                                 loadAccesss()
@@ -277,7 +277,7 @@
             function loadAccesss() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllAccess') }}",
+                    url: "{{ Route('access.getJSON') }}",
                     success: function(data) {
 
                         var table = $('.AccessTable');

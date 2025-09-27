@@ -99,7 +99,7 @@
                         <div class="card-body">
                             <table class="table table-bordered exerciseList dataTable">
                                 <thead>
-                                    <tr>
+                                    <tr class="bg-grey">
                                         <th>S.No.</th>
                                         <th>Exercise Name</th>
                                         <th>Status</th>
@@ -138,7 +138,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addExerciseListProcess') }}",
+                    url: "{{ Route('exercises.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -180,7 +180,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editExercise') }}/" + exerciseId,
+                    url: "{{ route('exercises.edit',':id') }}".replace(':id', exerciseId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -212,7 +212,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateExerciseListProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('exercises.update',':id') }}".replace(':id', $(this).attr('data-id')),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -256,7 +256,7 @@
                     loaderIMG.show()
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteExercise') }}/" + exerciseId,
+                        url: "{{ route('exercises.delete',':id') }}".replace(':id', exerciseId),
                         success: function(data) {
                             loader.height("0vh");
                             loaderIMG.hide()
@@ -287,7 +287,7 @@
             function loadExercises() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllExercises') }}",
+                    url: "{{ Route('exercises.getJSON') }}",
                     success: function(data) {
 
                         var table = $('.exerciseList');
@@ -299,12 +299,12 @@
                                 <td>${supplement.name}</td>
                                 <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
+                                    <span class="text-primary edit-btn" data-id="${supplement.id}">
                                         <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
+                                    </span>  &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <!-- <span data-id="${supplement.id}" class="text-danger delete-btn">
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </span> -->
                                 </td>
                             </tr>`;
                             tableBody.append(row);

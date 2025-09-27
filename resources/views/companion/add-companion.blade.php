@@ -17,7 +17,7 @@
     </div>
 
     <section class="container-fluid">
-        <a href="{{ route('companions') }}"><button class="backBtn"><i class="fa-solid fa-circle-left"></i>
+        <a href="{{ route('companions.view') }}"><button class="backBtn"><i class="fa-solid fa-circle-left"></i>
                 <span>Back</span></button></a>
 
         <div class="card card-outline-brown">
@@ -251,7 +251,7 @@
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
-                    url: "{{ route('addCompanionProcess') }}",
+                    url: "{{ route('companions.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -263,7 +263,7 @@
                                 icon: data.status,
                                 title: data.message
                             }).then(() => {
-                                window.location.href = "{{ route('companions') }}"
+                                window.location.href = "{{ route('companions.view') }}"
                             })
                         } else {
                             Swal.fire({

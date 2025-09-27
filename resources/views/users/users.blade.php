@@ -21,7 +21,7 @@
             <div class="card-header py-1">
                 <h5 class="mb-0">
                     <span class="pt-1 fw-bold d-inline-block">Users List</span>
-                    <a href="{{ route('add-user') }}" class="float-right btn btn-brown"><i class="fas fa-add"></i> Create
+                    <a href="{{ route('users.add') }}" class="float-right btn btn-brown"><i class="fas fa-add"></i> Create
                         User</a>
                 </h5>
             </div>
@@ -39,7 +39,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -57,7 +57,7 @@
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('deleteUser') }}/" + userId,
+                    url: "{{ route('users.delete',':id') }}".replace(':id', userId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -89,13 +89,14 @@
         function loadUsers() {
             $.ajax({
                 type: "GET",
-                url: "{{ Route('getAllUsers') }}",
+                url: "{{ Route('users.getJSON') }}",
                 success: function(data) {
 
                     var table = $('#userTable');
                     var tableBody = table.find('tbody').html('');
                     table.DataTable().clear().destroy();
                     data.forEach(function(user, index) {
+                        var editUrl = "{{ route('users.edit', ':id') }}".replace(':id', user.id);
                         var row = `<tr>
                                         <td>${index + 1}</td>
                                         <td>${user.name}</td>
@@ -104,7 +105,7 @@
                                         <td>${user.access_name}</td>
                                         <td>${user.status === '1' ? 'Active' : user.status === '2' ? 'Inactive' : user.status === '3' ? 'Draft' : 'N/A'}</td>
                                         <td>
-                                            <a href="{{url('editUser')}}/${user.id}"><button class="btn btn-light btn-sm edit-btn border border-primary text-primary" data-id="${user.id}">
+                                            <a href="${editUrl}"><button class="btn btn-light btn-sm edit-btn border border-primary text-primary" data-id="${user.id}">
                                                 <i class="fa fa-edit"></i>
                                             </button></a>
                                             <button data-user-id="${user.id}" class="btn btn-light btn-sm delete-btn border border-danger text-danger">

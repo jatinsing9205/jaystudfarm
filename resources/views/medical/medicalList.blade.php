@@ -99,7 +99,7 @@
                         <div class="card-body">
                             <table class="table table-bordered MedicalTable dataTable">
                                 <thead>
-                                    <tr>
+                                    <tr class="bg-grey">
                                         <th>S.No.</th>
                                         <th>Medical Name</th>
                                         <th>Status</th>
@@ -138,7 +138,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addMedicalListProcess') }}",
+                    url: "{{ Route('medicals.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -180,7 +180,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editMedical') }}/" + MedicalId,
+                    url: "{{ route('medicals.edit',':id') }}".replace(':id', MedicalId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -212,7 +212,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateMedicalListProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('medicals.update',':id') }}".replace(':id', $(this).attr('data-id')),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -250,7 +250,7 @@
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteMedical') }}/" + MedicalId,
+                        url: "{{ route('medicals.delete',':id') }}".replace(':id', MedicalId),
                         success: function(data) {
                             if (data.status == "success") {
                                 loadMedicals()
@@ -277,7 +277,7 @@
             function loadMedicals() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllMedicals') }}",
+                    url: "{{ Route('medicals.getJSON') }}",
                     success: function(data) {
 
                         var table = $('.MedicalTable');
@@ -289,12 +289,12 @@
                                         <td>${Medical.name}</td>
                                         <td>${Medical.status === '1' ? 'Active' : Medical.status === '2' ? 'Inactive' : Medical.status === '3' ? 'Draft' : 'N/A'}</td>
                                         <td>
-                                            <button class="btn btn-primary btn-sm border edit-btn" data-id="${Medical.id}">
+                                            <span class="text-primary edit-btn" data-id="${Medical.id}">
                                                 <i class="fa fa-edit"></i>
-                                            </button>
-                                            <button data-id="${Medical.id}" class="btn btn-danger btn-sm delete-btn">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
+                                            </span>  &nbsp; &nbsp; &nbsp; &nbsp;
+                                            <!-- <span data-id="${Medical.id}" class="text-danger delete-btn">
+                                                <i class="fa fa-trash"></i> -->
+                                            </span>
                                         </td>
                                     </tr>`;
                             tableBody.append(row);

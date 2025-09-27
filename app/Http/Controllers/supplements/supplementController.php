@@ -48,7 +48,6 @@ class supplementController extends Controller
             'supplement'              => 'required|string|max:255',
             'measure_unit'      => 'required|string|max:50',
             'quantity'          => 'required|numeric|min:0',
-            'expected_date'     => 'string',
         ]);
 
         if ($validator->fails()) {

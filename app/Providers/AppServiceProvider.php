@@ -3,11 +3,12 @@
 namespace App\Providers;
 
 use App\Http\Middleware\loginMiddleware;
-use DB;
+use App\Http\Middleware\verifyAccess;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\ServiceProvider;
-use Log;
-use Route;
+use Illuminate\Support\ServiceProvider; 
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,9 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::middlewareGroup('login', [
-            loginMiddleware::class,
-        ]);
         DB::listen(function ($query) {
             Log::info("Executed Query: " . $query->sql, [
                 'Parameter'=>$query->bindings,

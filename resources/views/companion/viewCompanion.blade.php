@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h4 class="m-0 text-uppercase">Horse Details</h4>
+                    <h4 class="m-0 text-uppercase">{{ $companion->name }}</h4>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -18,12 +18,118 @@
 
     <section>
         <div class="container-fluid">
-            <a href="{{route('companions')}}" class="mb-2">
+            <a href="{{ route('companions.view') }}" class="mb-2">
                 <button class="backBtn">
                     <i class="fa-solid fa-circle-left"></i>
                     <span>Back</span>
                 </button>
             </a>
+
+            @php
+                $index = 1;
+                $combinedDates = collect();
+
+                foreach ($expectedDates['exercise_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Exercise',
+                        'for' => "{$item->exercise_name} | {$item->time_spent}",
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['supplements_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Supplement',
+                        'for' => "{$item->supplement_name} | {$item->quantity}{$item->unit}",
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['nutrition_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Nutrition',
+                        'for' => "{$item->nutrition_name} | {$item->quantity}{$item->unit}",
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['medical_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Medical',
+                        'for' => $item->medical_name,
+                        'expected_date' => $item->next_followup_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['grooming_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Grooming',
+                        'for' => "Morning: {$item->morning_grooming} | Evening: {$item->evening_grooming}",
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['bodyweight_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Body Weight',
+                        'for' => "{$item->body_weight}Kg",
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                foreach ($expectedDates['pregnancy_expected_date'] ?? [] as $item) {
+                    $combinedDates->push([
+                        'type' => 'Pregnancy',
+                        'for' => $item->id,
+                        'expected_date' => $item->expected_date,
+                    ]);
+                }
+
+                // Sort by expected_date
+                $sortedDates = $combinedDates->sortBy('expected_date')->values();
+
+                $allEmpty = $sortedDates->isEmpty();
+            @endphp
+
+            @if (!$allEmpty)
+                <div class="card">
+                    <div class="card-header py-2 bg-success">
+                        <div class="card-title fw-bold">Companion Expected Dates</div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-bordered text-sm">
+                            <thead>
+                                <tr class="bg-grey">
+                                    <th width="90">S.NO.</th>
+                                    <th>Type</th>
+                                    <th>For</th>
+                                    <th>Expected Date</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expected-dates-table">
+                                @foreach ($sortedDates as $entry)
+                                    <tr class="expected-row {{ $loop->iteration > 3 ? 'd-none' : '' }}">
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $entry['type'] }}</td>
+                                        <td>{{ $entry['for'] }}</td>
+                                        <td>{{ $entry['expected_date'] }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        @if ($sortedDates->count() > 3)
+                            <div class="text-center mt-2">
+                                <button id="show-more-btn" class="btn btn-sm btn-primary">Show All</button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            @endif
+
+
+
+
             <div class="card">
                 <div class="card-header">
                     <span class=""><b>Last Updated :</b>
@@ -185,8 +291,8 @@
 
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="BodyWeight-tab" data-bs-toggle="tab"
-                                data-bs-target="#BodyWeight-tab-pane" type="button" role="tab"
-                                aria-controls="BodyWeight-tab-pane" aria-selected="false">Body Weight</button>
+                                data-bs-target="#Bodyweight-tab-pane" type="button" role="tab"
+                                aria-controls="Bodyweight-tab-pane" aria-selected="false">Body Weight</button>
                         </li>
 
                         @if ($companion->sex == 'F')
@@ -208,7 +314,7 @@
                             <table class="table table-bordered bg-light dataTable" id="companionNutritionTable">
                                 <thead class="bg-warning">
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th width="80">S.No.</th>
                                         <th>Date</th>
                                         <th>Food</th>
                                         <th>Quantity</th>
@@ -216,6 +322,7 @@
                                         <th>Time of second feed</th>
                                         <th>Expected Date</th>
                                         <th>Administered by</th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -230,13 +337,14 @@
                             <table class="table table-bordered bg-light dataTable" id="companionSupplementTable">
                                 <thead class="bg-orange">
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th width="80">S.No.</th>
                                         <th>Date</th>
                                         <th>Supplements</th>
                                         <th>Quantity</th>
                                         <th>Time Given</th>
                                         <th>Expected Date</th>
                                         <th>Administered by</th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -251,13 +359,13 @@
                             <table class="table table-bordered bg-light dataTable" id="companionMedicalTable">
                                 <thead class="bg-success">
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th width="80">S.No.</th>
                                         <th>Treated For</th>
                                         <th>Date of treatment</th>
                                         <th>Medication Given </th>
                                         <th>Next follow up treatment (Remarks) </th>
                                         <th>Date of follow up treatment</th>
-                                        <th>Doctor's remarks</th>
+                                        <th>Remarks</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -272,13 +380,14 @@
                             <table class="table table-bordered bg-light  dataTable" id="companionExerciseTable">
                                 <thead class="bg-primary">
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th width="80">S.No.</th>
                                         <th>Date</th>
                                         <th>Type of Exercise</th>
                                         <th>Given by </th>
                                         <th>Time Spent </th>
                                         <th>Monitored by </th>
                                         <th>Expected by </th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -293,31 +402,36 @@
                             <table class="table table-bordered bg-light  dataTable" id="companionGroomingTable">
                                 <thead class="bg-purple">
                                     <tr>
-                                        <th>S.No.</th>
+                                        <th width="80">S.No.</th>
                                         <th>Date</th>
                                         <th>Grooming (Morning)</th>
                                         <th>Grooming (Evening)</th>
                                         <th>Administered by </th>
                                         <th>Expected Date </th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
                             </table>
                         </div>
 
-                        <div class="tab-pane fade accordion-item border-0" id="BodyWeight-tab-pane" role="tabpanel"
+                        <div class="tab-pane fade accordion-item border-0" id="Bodyweight-tab-pane" role="tabpanel"
                             aria-labelledby="BodyWeight-tab" tabindex="0">
                             <div class="text-center">
                                 <button id="addBodyWeightBtn" class="btn bg-gray">Add Body Weight</button>
                             </div>
-                            <table class="table table-bordered bg-light  dataTable">
+                            <table class="table table-bordered bg-light  dataTable" id="companionBodyweightTable">
                                 <thead class="bg-gray">
                                     <tr>
+                                        <th width="80">S.No.</th>
                                         <th>Date</th>
                                         <th>Weight</th>
                                         <th>Checked By</th>
+                                        <th>Expected Date</th>
+                                        <th>Remark</th>
                                     </tr>
                                 </thead>
+                                <tbody></tbody>
                             </table>
                         </div>
 
@@ -327,15 +441,18 @@
                                 <div class="text-center">
                                     <button id="addPregnancyBtn" class="btn bg-maroon">Add Pregnancy</button>
                                 </div>
-                                <table class="table table-bordered bg-light  dataTable">
+                                <table class="table table-bordered bg-light  dataTable" id="companionPregnancyTable">
                                     <thead class="bg-maroon">
                                         <tr>
+                                            <th width="80">S.No.</th>
                                             <th>Date</th>
-                                            <th>Stallion</th>
-                                            <th>Date of Mating</th>
-                                            <th>1st Checkup Date</th>
-                                            <th>2nd Checkup Date</th>
-                                            <th>3rd Checkup Date</th>
+                                            <th>Heat</th>
+                                            <th>Miss Heat</th>
+                                            <th>Mating</th>
+                                            <th>Mating Date</th>
+                                            <th>Companion Used</th>
+                                            <th>Expected Date</th>
+                                            <th>Remark</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -383,31 +500,42 @@
             </div>
         </div>
     </div>
-
+@endsection
 @section('script')
     <script>
         const addNutritionUrl = "{{ route('addCompanionNutrition', ['companionID' => $companion->companion_id]) }}";
         const getCompanionNutrition = "{{ route('getCompanionNutrition', ['companion_id' => $companion->companion_id]) }}";
 
-        const addCompanionSupplementView =
-            "{{ route('addCompanionSupplement', ['companionID' => $companion->companion_id]) }}";
-        const getCompanionSupplement =
-            "{{ route('getCompanionSupplement', ['companion_id' => $companion->companion_id]) }}";
+        const addCompanionSupplementView = "{{ route('addCompanionSupplement', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionSupplement = "{{ route('getCompanionSupplement', ['companion_id' => $companion->companion_id]) }}";
 
         const addCompanionMedicalView = "{{ route('addCompanionMedical', ['companionID' => $companion->companion_id]) }}";
         const getCompanionMedical = "{{ route('getCompanionMedical', ['companion_id' => $companion->companion_id]) }}";
 
-        const addCompanionExerciseView =
-            "{{ route('addCompanionExercise', ['companionID' => $companion->companion_id]) }}";
+        const addCompanionExerciseView = "{{ route('addCompanionExercise', ['companionID' => $companion->companion_id]) }}";
         const getCompanionExercise = "{{ route('getCompanionExercise', ['companion_id' => $companion->companion_id]) }}";
 
 
-        const addCompanionGroomingView =
-            "{{ route('addCompanionGrooming', ['companionID' => $companion->companion_id]) }}";
+        const addCompanionGroomingView = "{{ route('addCompanionGrooming', ['companionID' => $companion->companion_id]) }}";
         const getCompanionGrooming = "{{ route('getCompanionGrooming', ['companion_id' => $companion->companion_id]) }}";
 
-        const companionLog = "{{ route('companionLog', ['companion_id' => $companion->companion_id]) }}";
+        const addCompanionBodyWeightView =
+            "{{ route('addCompanionBodyweight', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionBodyweight =
+            "{{ route('getCompanionBodyweight', ['companion_id' => $companion->companion_id]) }}";
+
+        const addCompanionPregnancyView =
+            "{{ route('addCompanionPregnancy', ['companionID' => $companion->companion_id]) }}";
+        const getCompanionPregnancy = "{{ route('getCompanionPregnancy', ['companion_id' => $companion->companion_id]) }}";
+
+        const companionLog = "{{ route('companions.log', ['companion_id' => $companion->companion_id]) }}";
+
+        document.getElementById('show-more-btn')?.addEventListener('click', function() {
+            document.querySelectorAll('.expected-row.d-none').forEach(row => {
+                row.classList.remove('d-none');
+            });
+            this.style.display = 'none';
+        });
     </script>
     <script src="{{ url('public/dist/js/companionScript.js') }}"></script>
-@endsection
 @endsection

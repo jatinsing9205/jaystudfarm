@@ -100,7 +100,7 @@
                         <div class="card-body">
                             <table class="table table-bordered supplementList dataTable">
                                 <thead>
-                                    <tr>
+                                    <tr class="bg-grey">
                                         <th>S.No.</th>
                                         <th>Supplement Name</th>
                                         <th>Status</th>
@@ -139,7 +139,7 @@
                 loaderIMG.show();
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addSupplementListProcess') }}",
+                    url: "{{ Route('supplements.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -181,7 +181,7 @@
                 loaderIMG.show();
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editSupplement') }}/" + supplementId,
+                    url: "{{ route('supplements.edit',':id') }}".replace(':id', supplementId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide();
@@ -215,7 +215,7 @@
                 loaderIMG.show();
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateSupplementListProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('supplements.update',':id') }}".replace(':id', $(this).attr('data-id')),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -258,7 +258,7 @@
                     loaderIMG.show();
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteSupplement') }}/" + supplementId,
+                        url: "{{ route('supplements.delete',':id') }}".replace(':id', supplementId),
                         success: function(data) {
                             loader.height("0vh");
                             loaderIMG.hide();
@@ -289,7 +289,7 @@
             function loadSupplements() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllSupplements') }}",
+                    url: "{{ Route('supplements.getJSON') }}",
                     success: function(data) {
 
                         var table = $('.supplementList');
@@ -301,12 +301,12 @@
                                 <td>${supplement.name}</td>
                                 <td>${supplement.status === '1' ? 'Active' : supplement.status === '2' ? 'Inactive' : supplement.status === '3' ? 'Draft' : 'N/A'}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-sm border edit-btn" data-id="${supplement.id}">
+                                    <span class="text-primary edit-btn" data-id="${supplement.id}">
                                         <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button data-id="${supplement.id}" class="btn btn-danger btn-sm delete-btn">
+                                    </span>  &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <!-- <span data-id="${supplement.id}" class="text-danger delete-btn">
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </span> -->
                                 </td>
                             </tr>`;
                             tableBody.append(row);

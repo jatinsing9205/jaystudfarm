@@ -13,7 +13,7 @@ class groomingController extends Controller
 {
     public function addCompanionGrooming($companionID)
     {
-        return view('Grooming.addCompanionGrooming', ['companionID' => $companionID]);
+        return view('grooming.addCompanionGrooming', ['companionID' => $companionID]);
     }
     public function getCompanionGrooming($companion_id)
     {

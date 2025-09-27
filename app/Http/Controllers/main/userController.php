@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\main;
 
-use App\Http\Controllers\Controller;
-use DB;
+use App\Http\Controllers\Controller; 
 use Illuminate\Http\Request;
-use Session;
-use Validator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class userController extends Controller
 {

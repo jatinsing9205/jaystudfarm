@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-6">
-                <a href="{{route('companions')}}">
+                <a href="{{route('companions.view')}}">
                     <div class="info-box border border-warning">
                         <span class="info-box-icon bg-grey"><i class="fas fa-rectangle-list text-warning"></i></span>
                         <div class="info-box-content">
@@ -51,7 +51,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-6">
-                <a href="{{route('category')}}">
+                <a href="{{route('category.view')}}">
                     <div class="info-box border border-success">
                         <span class="info-box-icon bg-grey"><i class="fas fa-tag text-success"></i></span>
                         <div class="info-box-content">

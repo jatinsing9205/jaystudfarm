@@ -6,6 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <meta charset="utf-8">
+    <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Jay Stud Farm - Marwari Horses</title>
     <link rel="stylesheet"
@@ -27,7 +28,8 @@
     <link rel="stylesheet" href="{{ url('public/dist/css/responsive.bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url('public/dist/css/jquery.fancybox.min.css') }}">
     <link rel="stylesheet" href="{{ url('public/dist/css/lightslider.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
 
     <link rel="stylesheet" href="{{ url('public/dist/css/style.css') }}">
 
@@ -57,7 +59,7 @@
                             class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{{ route('home') }}" class="nav-link">Home</a>
+                    <a href="{{ route('home') }}" id="nav-home" class="nav-link">Home</a>
                 </li>
             </ul>
 
@@ -128,7 +130,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('companions') }}" class="nav-link">
+                            <a href="{{ route('companions.view') }}" class="nav-link">
                                 <i class="nav-icon fa-regular fa-rectangle-list"></i>
                                 <p>
                                     Our Companions
@@ -138,7 +140,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('category') }}" class="nav-link">
+                            <a href="{{ route('category.view') }}" class="nav-link">
                                 <i class="nav-icon fas fa-tag"></i>
                                 <p>
                                     Categories
@@ -156,25 +158,25 @@
                             </a>
                             <ul class="nav nav-treeview" style="display: none;">
                                 <li class="nav-item">
-                                    <a href="{{ route('nutrition') }}" class="nav-link">
+                                    <a href="{{ route('nutritions.view') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Nutrition</p>
+                                        <p>Nutritions</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('supplement') }}" class="nav-link">
+                                    <a href="{{ route('supplements.view') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Supplement</p>
+                                        <p>Supplements</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('exercise') }}" class="nav-link">
+                                    <a href="{{ route('exercises.view') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Exercise</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('medical') }}" class="nav-link">
+                                    <a href="{{ route('medicals.view') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Medical</p>
                                     </a>
@@ -182,9 +184,10 @@
                             </ul>
                         </li>
                         @php
-                            $access = Session::get('user')->access;
+                            $access = Session::get('user')->access_name;
                         @endphp
-                        @if ($access == 1)
+                        @if ($access == 'Admin')
+                        <!--
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-user"></i>
@@ -195,19 +198,20 @@
                                 </a>
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item">
-                                        <a href="{{ route('users') }}" class="nav-link">
+                                        <a href="{{ route('users.view') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>User List</p>
+                                            <p>Users List</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="{{ route('access') }}" class="nav-link">
+                                        <a href="{{ route('access.view') }}" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Access</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
+                        -->
                         @endif
 
                     </ul>
@@ -254,9 +258,24 @@
     <script src="{{ url('public/dist/js/custom.js') }}"></script>
     <script>
         new DataTable('.dataTable', {
-            responsive: true
+            responsive: true,
+            ordering: false,
         });
     </script>
+    <script>
+        function showToast(title, icon = 'success') {
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: icon,
+                title: title,
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true
+            });
+        }
+    </script>
+
     @yield('script')
 
 

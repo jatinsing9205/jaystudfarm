@@ -17,7 +17,7 @@
     </div>
 
     <div class="container-fluid">
-        <a href="{{ route('users') }}">
+        <a href="{{ route('users.view') }}">
             <button class="backBtn">
                 <i class="fa-solid fa-circle-left"></i>
                 <span>Back</span>
@@ -126,7 +126,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('user.add') }}",
+                    url: "{{ Route('users.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -138,7 +138,7 @@
                                 icon: data.status,
                                 title: data.message
                             }).then(() => {
-                                window.location.href = "{{ route('users') }}"
+                                window.location.href = "{{ route('users.view') }}"
                             })
                             form.reset();
                         } else {

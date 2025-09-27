@@ -95,7 +95,7 @@
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
-                    url: "{{Route('VerifyLogin')}}",
+                    url: "{{Route('login.verify')}}",
                     data: data,
                     processData: false,
                     contentType: false,

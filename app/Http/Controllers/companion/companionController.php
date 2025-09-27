@@ -359,12 +359,142 @@ class companionController extends Controller
         $companionModel = new companions();
         $companion = $companionModel->companionDetails($companion_id);
         $companion = $companion[0];
-        return view("companion.viewCompanion", ['companion' => $companion]);
+
+        $exercise = DB::table('t_companion_exercise')
+            ->join("t_exercise_list", "t_companion_exercise.exercise", "=", "t_exercise_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('t_companion_exercise.expected_date', 'DESC')
+            ->select('t_exercise_list.name as exercise_name', "t_companion_exercise.*")
+            ->get();
+
+        $nutrition = DB::table('t_companion_nutrition')
+            ->join("t_nutrition_list", "t_companion_nutrition.food", "=", "t_nutrition_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('t_companion_nutrition.expected_date', 'DESC')
+            ->select('t_nutrition_list.name as nutrition_name', "t_companion_nutrition.*")
+            ->get();
+
+        $supplements = DB::table('t_companion_supplements')
+            ->join("t_supplement_list", "t_companion_supplements.supplement", "=", "t_supplement_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('t_companion_supplements.expected_date', 'DESC')
+            ->select('t_supplement_list.name as supplement_name', "t_companion_supplements.*")
+            ->get();
+
+        $medical = DB::table('t_companion_medical')
+            ->join("t_medical_list", "t_companion_medical.treated_for", "=", "t_medical_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('next_followup_date')
+                    ->where('next_followup_date', '!=', '');
+            })
+            ->orderBy('t_companion_medical.next_followup_date', 'DESC')
+            ->select('t_medical_list.name as medical_name', "t_companion_medical.*")
+            ->get();
+
+        $bodyweight = DB::table('t_companion_body_weight')
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('expected_date', 'DESC')
+            ->get();
+
+        $grooming = DB::table('t_companion_grooming')
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('expected_date', 'DESC')
+            ->get();
+
+        $pregnancy = DB::table('t_companion_pregnancy')
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->orderBy('expected_date', 'DESC')
+            ->get();
+
+        $expectedDates = [
+            'exercise_expected_date'    => $exercise,
+            'nutrition_expected_date'   => $nutrition,
+            'supplements_expected_date' => $supplements,
+            'medical_expected_date'     => $medical,
+            'bodyweight_expected_date'     => $bodyweight,
+            'grooming_expected_date'     => $grooming,
+            'pregnancy_expected_date'     => $pregnancy,
+        ];
+
+        return view("companion.viewCompanion", compact('companion', 'expectedDates'));
     }
 
     public function companionLog($companion_id)
     {
-        $companionsLog = companionLogModel::where('companion_id', "=", $companion_id)->orderBy('id','DESC')->get();
+        $companionsLog = companionLogModel::where('companion_id', "=", $companion_id)->orderBy('id', 'DESC')->get();
         return $companionsLog;
+    }
+
+    public function getExpectedDates($companion_id)
+    {
+
+        $exercise = DB::table('t_companion_exercise')
+            ->join("t_exercise_list", "t_companion_exercise.exercise", "=", "t_exercise_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->select('t_exercise_list.name as exercise_name', "t_companion_exercise.*")
+            ->orderBy('t_companion_exercise.id', 'DESC')
+            ->get();
+
+        $nutrition = DB::table('t_companion_nutrition')
+            ->join("t_nutrition_list", "t_companion_nutrition.food", "=", "t_nutrition_list.id")
+            ->where('companion_id', $companion_id)
+            ->where(function ($query) {
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->select('t_nutrition_list.name as nutrition_name', "t_companion_nutrition.*")
+            ->orderBy('t_companion_nutrition.id', 'DESC')
+            ->get();
+
+        $supplements = DB::table('t_companion_supplements')
+            ->join('t_supplement_list', 't_companion_supplements.supplement','=', 't_supplement_list.id')
+            ->where('companion_id', $companion_id)
+            ->where(function($query){
+                $query->whereNotNull('expected_date')
+                    ->where('expected_date', '!=', '');
+            })
+            ->select('t_supplement_list.name as supplement_name', 't_companion_supplements.*')
+            ->orderBy('t_companion_supplements.id', 'DESC')
+            ->get();
+
+
+        $expectedDates = [
+            'exercise_expected_date'    => $exercise,
+            'nutrition_expected_date'    => $nutrition,
+            'supplement_expected_date'    => $supplements,
+        ];
+        // echo "<pre>";
+        // print_r($expectedDates);
+        // echo "</pre>";
+        return response()->json($expectedDates);
     }
 }

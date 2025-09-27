@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
 use App\Models\login\accessModel;
+use App\Models\permissionModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -19,11 +20,16 @@ class accessController extends Controller
     public function getAllAccess()
     {
         $accesss = DB::table('t_access')
-            ->where('status', '!=', 0)
-            ->where('id', '!=', 1)
+            ->where('status', '!=', 0) 
             ->get();
         return response($accesss);
 
+    }
+
+    public function addAccess()
+    {
+        $permissions = permissionModel::all();
+        return view("users.access.add",['permissions'=>$permissions]);
     }
 
     public function addAccessProcess(Request $request)

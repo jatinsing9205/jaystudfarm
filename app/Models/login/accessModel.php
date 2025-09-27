@@ -2,6 +2,7 @@
 
 namespace App\Models\login;
 
+use App\Models\permissionModel;
 use Illuminate\Database\Eloquent\Model;
 
 class accessModel extends Model
@@ -16,4 +17,5 @@ class accessModel extends Model
         'created_at',
         'updated_at',
     ];
+
 }

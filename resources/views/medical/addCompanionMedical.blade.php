@@ -6,7 +6,7 @@
                     @csrf
                     <div class="card mb-0">
                         <div class="card-header bg-light">
-                            <h5 class="m-0 fw-bold text-success">ADD Medical</h5>
+                            <h5 class="m-0 fw-bold text-success">ADD Medical ( {{ $companionID }} )</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -136,7 +136,7 @@
     function loadMedical() {
         $.ajax({
             type: "GET",
-            url: "{{ Route('getAllMedicals') }}",
+            url: '{{ route('medicals.getJSON') }}',
             success: function(data) {
                 // console.log(data);
                 var food = $('#treated_for');
@@ -150,5 +150,4 @@
         });
     }
     loadMedical();
-
 </script>

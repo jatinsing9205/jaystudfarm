@@ -6,65 +6,80 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    {{-- @vite('resources/css/app.css') --}}
-    <link rel="stylesheet" href="{{ url('public/build/assets/app-BICRPToH.css') }}">
-    <script src="{{ url('public/build/assets/app-eMHK6VFw.js ') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
 
+    <?php
+    
+    $apiKey = 'ybifcldsf dwofhwuiojkzxcadsdqeioubl'; // Replace with your OpenAI API key
+    $apiUrl = 'https://api.openai.com/v1/responses'; // The API endpoint
+    
+    $data = [
+        'model' => 'gpt-4.1',
+        'input' => 'Write a one-sentence bedtime story about a unicorn.',
+    ];
+    
+    $headers = ['Content-Type: application/json', "Authorization: Bearer $apiKey"];
+    
+    // Initialize cURL session
+    $ch = curl_init($apiUrl);
+    
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    
+    // Execute the request
+    $response = curl_exec($ch);
+    
+    // Check for errors
+    if (curl_errno($ch)) {
+        echo 'Curl error: ' . curl_error($ch);
+    } else {
+        // Print the API response
+        echo $response;
+    }
+    
+    // Close cURL session
+    curl_close($ch);
+    
+    ?>
 
-    <header class=" relative shadow-lg px-3 py-2">
-        <nav class="flex justify-between">
-            <div class="w-[130px] md:w-[200px] flex items-center">
-                <img src="https://i.postimg.cc/MZCBXb1K/logo.png" alt="LOGO" srcset="">
-            </div>
-            <div class="flex items-center gap-3">
-                <div
-                    class="navLinks duration-500 absolute md:static md:w-auto w-full md:h-auto h-[85vh] bg-white flex md:items-center gap-[1.5vw] top-[100%] left-[-100%] px-5 md:py-0 py-5 ">
-                    <ul class="flex md:flex-row flex-col md:items-center md:gap-[2vw] gap-8">
-                        <li
-                            class="relative max-w-fit pr-3 md:pr-0 py-1 after:bg-gradient-to-r from-[#2b68e0] to-[#e710ea]  after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300">
-                            <a href="#">Home</a>
-                        </li>
-                        <li
-                            class="relative max-w-fit pr-3 md:pr-0 py-1 after:bg-gradient-to-r from-[#2b68e0] to-[#e710ea]  after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300">
-                            <a href="#">Faculty</a>
-                        </li>
-                        <li
-                            class="relative max-w-fit pr-3 md:pr-0 py-1 after:bg-gradient-to-r from-[#2b68e0] to-[#e710ea]  after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300">
-                            <a href="#">Courses</a>
-                        </li>
-                        <li
-                            class="relative max-w-fit pr-3 md:pr-0 py-1 after:bg-gradient-to-r from-[#2b68e0] to-[#e710ea]  after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300">
-                            <a href="#">About Us</a>
-                        </li>
-                        <li
-                            class="relative max-w-fit pr-3 md:pr-0 py-1 after:bg-gradient-to-r from-[#2b68e0] to-[#e710ea]  after:absolute after:h-1 after:w-0 after:bottom-0 after:left-0 hover:after:w-full after:transition-all after:duration-300">
-                            <a href="#">Contact us</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button type="button"
-                        class="hover:bg-clip-text hover:text-transparent bg-gradient-to-br from-[#2b68e0] to-[#e710ea] border-solid border-2 border-[#5356e3]  font-bold text-white px-5 py-2 rounded-full ">Login</button>
-                    <ion-icon name="menu" onclick="onMenuToggle(this)"
-                        class="text-[30px] cursor-pointer md:hidden"></ion-icon>
-                </div>
-            </div>
-        </nav>
-    </header>
+    <div id="main"></div>
+
+    <script>
+        $(document).ready(function() {
+            $.ajax({
+                url: 'http://localhost/laravel/jaystudfarm/getExpectedDates/JSF0202504',
+                type: 'GET',
+                success: function(response) {
+                    const table = $(
+                        '<table cellpadding="5" cellspacing="1" border></table>');
+                    response.exercise_expected_date.forEach((exercise, index) => {
+                        console.log(exercise);
+                        table.html(
+                            `<tr>
+                                <td>${index+1}</td>
+                                <td>${exercise.exercise_name}</td>
+                                <td>${exercise.expected_date}</td>
+                                <td>${exercise.remark}</td>
+                            </tr>`
+                        );
+                    });
+                    $('#main').html(table);
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        })
+    </script>
 
 </body>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
-    function onMenuToggle(e) {
-        const navlinks = document.querySelector(".navLinks");
-        e.name = e.name === "menu" ? "close" : "menu";
-        navlinks.classList.toggle("left-[0%]");
-    }
-</script>
 
 </html>

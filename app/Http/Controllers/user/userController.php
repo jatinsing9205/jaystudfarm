@@ -26,7 +26,6 @@ class userController extends Controller
     public function addUser()
     {
         $access = accessModel::where('status', 1)
-            ->where('id', '!=', 1)
             ->get();
         return view('users.add-user', ['access' => $access]);
     }
@@ -72,8 +71,7 @@ class userController extends Controller
 
     public function editUser($uID)
     {
-        $access = accessModel::where('status', 1)
-            ->where('id', '!=', 1)
+        $access = accessModel::where('status', 1) 
             ->get();
         $user = loginModel::where('id', $uID)->first();
 

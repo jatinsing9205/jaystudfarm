@@ -8,7 +8,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Category</li>
                     </ol>
                 </div>
@@ -105,6 +105,11 @@
                                 </div>
                             </div>
                             <div class="card-footer">
+                                <a href="{{ route('category.view') }}">
+                                    <button class="btn btn-danger float-right px-4 ml-2 bg-red" type="button">
+                                        <span>CANCEL</span>
+                                    </button>
+                                </a>
                                 <button type="submit" class="btn btn-brown px-4 float-right">Update</button>
                             </div>
                         </form>
@@ -158,7 +163,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addCategoryProcess') }}",
+                    url: "{{ Route('category.add') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -200,7 +205,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editCategory') }}/" + categoryId,
+                    url: "{{ route('category.edit', ':id') }}".replace(':id', categoryId),
                     success: function(data) {
                         loader.height("0vh");
                         loaderIMG.hide()
@@ -228,6 +233,9 @@
             $("#updateCategoryForm").submit(function(e) {
                 e.preventDefault();
                 clearError();
+
+                var CID = $(this).attr('data-id');
+
                 var form = $("#updateCategoryForm")[0];
                 var data = new FormData(form);
                 var loader = $('.preloader');
@@ -236,7 +244,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateCategory') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('category.update', ':id') }}".replace(':id', CID),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -280,7 +288,7 @@
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteCategory') }}/" + categoryId,
+                        url: "{{ route('category.delete',':id') }}".replace(':id', categoryId),
                         success: function(data) {
                             loader.height("0vh");
                             loaderIMG.hide()
@@ -311,7 +319,7 @@
             function loadCategories() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllCategory') }}",
+                    url: "{{ Route('category.getJSON') }}",
                     success: function(data) {
                         var select = $('#parent_category');
                         var selectUpdate = $('.parent_category');
@@ -337,12 +345,12 @@
                                 <td>${category.parent_id ? category.parent_name : 'N/A'}</td>
                                 <td>${category.status === '1' ? 'Active' : category.status === '2' ? 'Inactive' : category.status === '3' ? 'Draft' : 'N/A'}</td>
                                 <td class="py-1">
-                                    <button class="btn text-primary btn-sm border border-primary edit-btn" data-id="${category.id}">
+                                    <span class="text-primary edit-btn" data-id="${category.id}">
                                         <i class="fa fa-edit"></i>
-                                    </button>
-                                    <button data-id="${category.id}" class="btn border border-danger text-danger btn-sm delete-btn">
+                                    </span> &nbsp; &nbsp; &nbsp; &nbsp;
+                                    <!-- <span data-id="${category.id}" class="text-danger delete-btn">
                                         <i class="fa fa-trash"></i>
-                                    </button>
+                                    </span> -->
                                 </td>
                             </tr>`;
                             tableBody.append(row);

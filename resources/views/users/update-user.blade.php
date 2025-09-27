@@ -17,7 +17,7 @@
     </div>
 
     <div class="container-fluid">
-        <a href="{{ route('users') }}">
+        <a href="{{ route('users.view') }}">
             <button class="backBtn">
                 <i class="fa-solid fa-circle-left"></i>
                 <span>Back</span>
@@ -112,7 +112,7 @@
                         <div class="card-footer">
                             <input type="hidden" name="id" value="{{ $user->id }}">
                             <button type="submit" class="float-right btn btn-brown px-5 text-uppercase"
-                                id="submitBtn">Submit Information</button>
+                                id="submitBtn">Update Information</button>
                         </div>
                     </div>
                 </form>
@@ -135,7 +135,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('user.update') }}",
+                    url: "{{ Route('users.update') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -147,7 +147,7 @@
                                 icon: data.status,
                                 title: data.message
                             }).then(() => {
-                                window.location.href = "{{ route('users') }}"
+                                window.location.href = "{{ route('users.view') }}"
                             })
                             form.reset();
                         } else {

@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <a href="{{ route('addCompanion') }}">
+                    <a href="{{ route('companions.add') }}">
                         <button class="btn btn-brown float-right">
                             <i class="fa fa-add mx-2"></i> {{ __('Add Companion') }}
                         </button>
@@ -56,7 +56,7 @@
                                         <tr>
                                             <td>{{ $index + 1 }}</td>
                                             <td>
-                                                <a href="{{ route('viewCompanion', $companion->companion_id) }}" class="fw-bold">
+                                                <a href="{{ route('companions.details', $companion->companion_id) }}" class="fw-bold">
                                                     <i class="fa fa-link"></i> {{ $companion->companion_id }}
                                                 </a>
                                             </td>
@@ -75,7 +75,7 @@
                                                 ][$companion->status] ?? __('N/A') }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('updateCompanion', $companion->companion_id) }}">
+                                                <a href="{{ route('companions.edit', $companion->companion_id) }}">
                                                     <button class="btn btn-sm btn-primary">
                                                         <i class="fa fa-edit"></i>
                                                     </button>

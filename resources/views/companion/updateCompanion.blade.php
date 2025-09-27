@@ -17,7 +17,7 @@
     </div>
 
     <section class="container-fluid">
-        <a href="{{ route('companions') }}"><button class="backBtn"><i class="fa-solid fa-circle-left"></i>
+        <a href="{{ route('companions.view') }}"><button class="backBtn"><i class="fa-solid fa-circle-left"></i>
                 <span>Back</span></button></a>
 
         <div class="card card-outline-brown">
@@ -284,8 +284,10 @@
             </form>
         </div>
     </section>
+@endsection
 
 
+@section('script')
     <script>
         $(document).ready(function() {
             $.ajaxSetup({
@@ -325,7 +327,7 @@
                 $("#submitBtn").prop("disabled", true);
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateCompanionProcess') }}/{{ $companion->companion_id }}",
+                    url: "{{ route('companions.update', $companion->companion_id) }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -338,8 +340,7 @@
                                 icon: data.status,
                                 title: data.message
                             }).then(() => {
-                                window.location.href =
-                                    "{{ url()->previous() }}"
+                                window.location.href = "{{ route('companions.view') }}";
                             })
                         } else {
                             Swal.fire({
@@ -517,7 +518,7 @@
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('deleteDamSire') }}/" + gId,
+                    url: "{{ route('companions.deleteDamSire',':id') }}".replace(':id', gId),
                     success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({
@@ -550,7 +551,7 @@
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('deleteGalleryImage') }}/" + gId,
+                    url: "{{ route('companions.deleteGalleryImage', ':id') }}".replace(':id', gId),
                     success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({
@@ -583,7 +584,7 @@
             if (isConfirmed) {
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('deleteGalleryVideo') }}/" + gId,
+                    url: "{{ route('companions.deleteGalleryVideo', ':id') }}".replace(':id', gId),
                     success: function(data) {
                         if (data.status == "success") {
                             Swal.fire({

@@ -28,8 +28,7 @@ class loginModel extends Model
     {
         return DB::table('t_user_login')
             ->leftJoin('t_access', 't_user_login.access', '=', 't_access.id')
-            ->select('t_user_login.*', 't_access.access_name')
-            ->where('t_user_login.access', '!=', 1)
+            ->select('t_user_login.*', 't_access.access_name') 
             ->where('t_user_login.status', '!=', 0)
             ->get();
     }

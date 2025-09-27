@@ -6,7 +6,7 @@
                     @csrf
                     <div class="card">
                         <div class="card-header bg-light fw-bold">
-                            <h5 class="m-0 text-orange fw-bold">ADD Supplements</h5>
+                            <h5 class="m-0 text-orange fw-bold">ADD Supplements ( {{ $companionID }} )</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -155,7 +155,7 @@
     function loadSupplements() {
         $.ajax({
             type: "GET",
-            url: "{{ Route('getAllSupplements') }}",
+            url: '{{ route('supplements.getJSON') }}',
             success: function(data) {
                 console.log(data);
                 var supplementInput = $('#supplement');
@@ -170,6 +170,4 @@
         });
     }
     loadSupplements();
-
-
 </script>

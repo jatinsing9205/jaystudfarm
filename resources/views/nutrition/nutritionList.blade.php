@@ -99,7 +99,7 @@
                         <div class="card-body">
                             <table class="table table-bordered categoryList dataTable">
                                 <thead>
-                                    <tr>
+                                    <tr class="bg-grey">
                                         <th>S.No.</th>
                                         <th>Nutrition Name</th>
                                         <th>Status</th>
@@ -140,7 +140,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ Route('addNutritionListProcess') }}",
+                    url: "{{ Route('nutritions.store') }}",
                     data: data,
                     processData: false,
                     contentType: false,
@@ -183,7 +183,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "GET",
-                    url: "{{ url('editNutrition') }}/" + nutritionId,
+                    url: "{{ route('nutritions.edit',':id') }}".replace(':id', nutritionId),
                     success: function(data) {
                         // console.log(data);
                         loader.height("0vh");
@@ -218,7 +218,7 @@
                 loaderIMG.show()
                 $.ajax({
                     type: "POST",
-                    url: "{{ url('updateNutritionListProcess') }}/" + $(this).attr('data-id'),
+                    url: "{{ route('nutritions.update',':id') }}/".replace(':id', $(this).attr('data-id')),
                     data: data,
                     processData: false,
                     contentType: false,
@@ -261,7 +261,7 @@
                 if (isConfirmed) {
                     $.ajax({
                         type: "GET",
-                        url: "{{ url('deleteNutrition') }}/" + nutritionId,
+                        url: "{{ route('nutritions.delete',':id') }}".replace(':id', nutritionId),
                         success: function(data) {
                             // console.log(data);
                             loader.height("0vh");
@@ -293,7 +293,7 @@
             function loadNutrition() {
                 $.ajax({
                     type: "GET",
-                    url: "{{ Route('getAllNutritions') }}",
+                    url: "{{ Route('nutritions.getJSON') }}",
                     success: function(data) {
                         // console.log(data);
                         var table = $('.categoryList');
@@ -307,12 +307,12 @@
                                     <td>${nutrition.name}</td>
                                     <td>${nutrition.status === '1' ? 'Active' : nutrition.status === '2' ? 'Inactive' : nutrition.status === '3' ? 'Draft' : 'N/A'}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm border edit-btn" data-id="${nutrition.id}">
+                                        <span class="text-primary edit-btn" data-id="${nutrition.id}">
                                             <i class="fa fa-edit"></i>
-                                        </button>
-                                        <button data-id="${nutrition.id}" class="btn btn-danger btn-sm delete-btn">
+                                        </span>  &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <!-- <span data-id="${nutrition.id}" class="text-danger delete-btn">
                                             <i class="fa fa-trash"></i>
-                                        </button>
+                                        </span> -->
                                     </td>
                                 </tr>
                             `;

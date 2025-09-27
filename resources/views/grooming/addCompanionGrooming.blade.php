@@ -4,9 +4,9 @@
             <div class="col-md-12">
                 <form action="" id="addGroomingForm" method="post">
                     @csrf
-                    <div class="card">
+                    <div class="card m-0">
                         <div class="card-header bg-light">
-                            <h5 class="m-0 fw-bold text-purple">ADD Grooming</h5>
+                            <h5 class="m-0 fw-bold text-purple">ADD Grooming ( {{ $companionID }} )</h5>
                         </div>
                         <div class="card-body">
                             <div class="row">

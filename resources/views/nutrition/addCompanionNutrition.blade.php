@@ -164,7 +164,7 @@
     function loadNutrition() {
         $.ajax({
             type: "GET",
-            url: "{{ Route('getAllNutritions') }}",
+            url: '{{ route("nutritions.getJSON")}}',
             success: function(data) {
                 // console.log(data);
                 var food = $('#food');
